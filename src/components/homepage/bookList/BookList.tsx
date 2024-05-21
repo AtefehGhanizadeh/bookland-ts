@@ -1,17 +1,17 @@
-import { Flex, Center, Spinner } from "@chakra-ui/react";
+import {Center, Spinner } from "@chakra-ui/react";
 import React from "react";
-import HorizontalBookItem from "./HorizontalBookItem";
+import BookItem from "./BookItem";
 import useGetBookGroups from "@/src/react-query/hooks/useGetBookGroups";
 
 
-function HorizontalBookList({searchKey}:{searchKey:string}) {
+function BookList({searchKey}:{searchKey:string}) {
   const { data:books, isSuccess } =useGetBookGroups(searchKey);
   if (isSuccess&&books) {
     const slicedBooks = books.slice(0, 4);
     return (
-      <Flex width="100%" columnGap="20px" justifyContent="center" className="md:flex-row flex-col">
+      <div className="grid grid-cols-2 grid-rows-2 gap-[20px] md:grid-cols-4 md:grid-rows-1 ">
         {slicedBooks.map((book) => (
-          <HorizontalBookItem
+          <BookItem
             id={book.id}
             key={book.id}
             bookname={book.bookname}
@@ -20,7 +20,7 @@ function HorizontalBookList({searchKey}:{searchKey:string}) {
             bookcoverimage={book.bookcoverimage}
           />
         ))}
-      </Flex>
+      </div>
     );
   } else {
     return (
@@ -29,7 +29,7 @@ function HorizontalBookList({searchKey}:{searchKey:string}) {
           thickness="4px"
           speed="1s"
           emptyColor="gray.200"
-          color="primary"
+          color="primaryBlue"
           size="xl"
         />
       </Center>
@@ -37,4 +37,4 @@ function HorizontalBookList({searchKey}:{searchKey:string}) {
   }
 }
 
-export default HorizontalBookList;
+export default BookList;

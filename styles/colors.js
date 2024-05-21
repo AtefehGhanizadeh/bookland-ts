@@ -13,6 +13,7 @@ const colors = {
     },
     primary:"#575DFB",
     error:"#D62737",
+    secondaryBlue:"#e6e7fa",
    };
    
    export default colors;

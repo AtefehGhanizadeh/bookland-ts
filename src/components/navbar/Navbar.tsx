@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SearchBox from "@/src/components/navbar/SearchBox";
-import { Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import { Container } from "@chakra-ui/react";
@@ -29,7 +29,7 @@ function Navbar() {
         w="90%"
         maxW="7xl"
         paddingX="0"
-        className="py-[10px] md:pt-[20px] md:pb-[2px] h-full"
+        className="md:pt-[20px] md:pb-[2px] h-full"
       >
         <Flex flexDir="column" gap="10px" width="full">
           <Flex
@@ -41,7 +41,7 @@ function Navbar() {
             <Link href="/" className="md:order-1">
               <Logo />
             </Link>
-            <Flex className="gap-[10px] md:gap-[35px] md:order-3">
+            <Flex className="gap-[10px] md:gap-[35px] sm:order-3" order={{sm:3}}>
               <div className="h-full">
                 <Link
                   href={tokenState ? "/user/userProfile" : "/login"}
@@ -62,9 +62,9 @@ function Navbar() {
                 </button>
               )}
             </Flex>
-            <div className="md:order-2 flex-1 min-w-[200px]">
+            <Box className="flex-1 min-w-[200px]" order={{sm:2}}>
               <SearchBox />
-            </div>
+            </Box>
           </Flex>
           <ul className="flex items-center gap-[25px] md:gap-[50px] md:pt-[15px]">
             <NavMenu />

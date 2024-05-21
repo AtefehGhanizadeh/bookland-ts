@@ -16,6 +16,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/components/homepage/bestSelling/horizontalBookList/HorizontalBookItem.tsx", "src/components/homepage/bestSelling/horizontalBookList/HorizontalBookList.js", "src/components/navbar/Navbar.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/components/homepage/bookList/BookItem.tsx", "src/components/homepage/bookList/HorizontalBookList.js", "src/components/navbar/Navbar.tsx"],
   "exclude": ["node_modules"]
 }

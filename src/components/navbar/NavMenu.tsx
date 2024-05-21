@@ -29,7 +29,7 @@ import {
 
 const NavMenu = () => {
   return (
-    <Menu>
+    <Menu offset={[0,0]} strategy='fixed'>
     {({ isOpen }) => (
       <>
         <MenuButton
@@ -42,7 +42,7 @@ const NavMenu = () => {
           fontWeight="normal"
           bg="inherit"
           _hover={{ backgroundColor: `${isOpen ? "" : "inherit"}` }}
-          _active={{ backgroundColor: "#e6e7fa" }}
+          _active={{ backgroundColor: "secondaryBlue" }}
         >
           دسته بندی ها
         </MenuButton>
@@ -52,11 +52,12 @@ const NavMenu = () => {
           outline="none"
           border="none"
           maxH="580px"
-          width="300px"
+          width={{base:"290px",md:"300px"}}
         >
           {categoryList.map((category) => (
             <MenuItem
-              _hover={{ backgroundColor: "#f2f3ff" }}
+              _hover={{ backgroundColor: "secondaryBlue" }}
+              _focus={{backgroundColor: "secondaryBlue"}}
               key={categoryList.indexOf(category)}
             >
               <Link

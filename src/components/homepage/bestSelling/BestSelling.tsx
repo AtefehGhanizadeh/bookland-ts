@@ -8,7 +8,7 @@ function BestSelling() {
 
   return (
     <div className="bg-[#382F79]">
-      <Container maxW="7xl" className="w-[90%] pt-[30px] pb-[50px]">
+      <Container maxW="7xl" w="90%" className="pt-[30px] pb-[50px]">
         <Flex flexDirection="column" gap="20px">
           <Heading
             color="white"
