@@ -5,14 +5,20 @@ import CustomInputLabel from "@/src/components/ui/login-submit/CustomInputLabel"
 import useLogin from "@/src/react-query/hooks/useLogin";
 import CustomInput from "@/src/components/ui/login-submit/CustomInput";
 
+interface FormValues{
+  emailOrUsername: string,
+        password: string,
+}
+
 function LoginForm() {
-  const { mutate, isLoading, error } = useLogin();
+  const initialValues:FormValues={
+    emailOrUsername:'',
+    password:''
+  }
+  const { mutate, error } = useLogin();
   return (
     <Formik
-      initialValues={{
-        emailOrUsername: "",
-        password: "",
-      }}
+      initialValues={initialValues}
       validationSchema={Yup.object({
         emailOrUsername: Yup.string().required("وارد کردن ایمیل اجباری است."),
         password: Yup.string().required("وارد کردن رمز عبور اجباری است."),
@@ -21,7 +27,8 @@ function LoginForm() {
         mutate({
           email_or_username: values.emailOrUsername,
           password: values.password,
-        });
+        }
+        );
         setSubmitting(false);
       }}
     >
@@ -36,7 +43,8 @@ function LoginForm() {
             <CustomInput name="password" type="password" />
           </div>
           <CustomButton type="submit" className="bg-primaryBlue">
-            {isLoading ? "Adding..." : "تایید"}
+            {/* {isLoading ? "Adding..." : "تایید"} */}
+            تایید
           </CustomButton>
         </Form>
       )}

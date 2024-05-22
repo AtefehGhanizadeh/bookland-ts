@@ -1,4 +1,4 @@
-interface Book {
+export interface Book {
     id: number;
     publisher: string;
     bookname: string;
@@ -11,3 +11,10 @@ interface Book {
     language: string;
   }
 
+
+ export interface Result{
+      error_code: string;
+      error_message: string;
+      errors: string;
+
+  }

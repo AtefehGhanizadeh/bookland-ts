@@ -19,7 +19,7 @@ function Books({ searchKey, header }: Props) {
           <Flex>
             <Link
               href={`filter/group?group=${searchKey}`}
-              className="font-normal text-[13px] md:text-[16px] leading-[25px] text-primary text-right "
+              className="font-normal text-[13px] md:text-[16px] leading-[25px] text-primaryBlue text-right "
             >
               مشاهده همه &#8598;
             </Link>

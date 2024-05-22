@@ -21,7 +21,7 @@ function CustomInput({
   error,
   propClassName,
 }: Props) {
-  const className = `h-[51px] border-[2px] border-primary rounded-2xl px-[20px] py-[16px] focus:outline-none ${propClassName} ${
+  const className = `h-[51px] border-[2px] border-primaryBlue rounded-2xl px-[10px] md:px-[20px] py-[16px] focus:outline-none ${propClassName} ${
     error && touched ? "border-red-500" : ""
   }`;
 
