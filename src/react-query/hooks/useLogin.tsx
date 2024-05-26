@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
-import { Result } from "@/src/helpers/Interfaces";
+import { Response } from "@/src/helpers/Interfaces";
 
 var inhalfHours = new Date(new Date().getTime() + 30 * 60 * 1000);
 
@@ -12,10 +12,6 @@ interface LoginFormValues {
   password: string;
 }
 
-interface Response {
-  data: string;
-  result: Result
-}
 
 interface DecodeObj {
   role_id: number;
@@ -29,11 +25,10 @@ const useLogin = () => {
   return useMutation<string, Error, LoginFormValues>({
     mutationFn: (values: LoginFormValues) =>
       axios
-        .post<Response>("http://Localhost:8000/api/auth/login", values)
+        .post<Response<string>>("http://Localhost:8000/api/auth/login", values)
         .then((res) => res.data.data),
     onSuccess: (data) => {
       const token = data;
-      console.log(data);
       Cookies.set("token", token, { expires: inhalfHours });
       const decoded: DecodeObj = jwtDecode(token);
         if(decoded.role_id===2){

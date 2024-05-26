@@ -9,37 +9,51 @@ import validatePass from "@/src/helpers/validatePass";
 import useSendPublisherSignupInfo from "@/src/react-query/hooks/useSendPublisherSignupInfo";
 import { Dispatch, SetStateAction } from "react";
 
-function GetPublisherInfoForm1({email,setStep}:{email:string|null,setStep:Dispatch<SetStateAction<number>>}) {
-  const{mutate}=useSendPublisherSignupInfo(setStep)
+interface FormValues {
+  username: string;
+  password: string;
+  passwordConf: string;
+}
+
+function GetPublisherInfoForm1({
+  email,
+  setStep,
+}: {
+  email: string | null;
+  setStep: Dispatch<SetStateAction<number>>;
+}) {
+  const initialValues: FormValues = {
+    username: "",
+    password: "",
+    passwordConf: "",
+  };
+  const { mutate } = useSendPublisherSignupInfo(setStep);
   return (
     <Formik
-      initialValues={{
-        username: "",
-        password: "",
-        passwordConf: "",
-      }}
+      initialValues={initialValues}
       validationSchema={Yup.object({
-        username: Yup.string().required("وارد کردن نام کاربری اجباری است.").min(3,"نام کاربری باید حداقل 3 کاراکتر داشته باشد.").matches(/^((?!@).)*$/,"نام کاربری نباید شامل @ باشد."),
-        password:Yup.string().required(),
-        passwordConf: Yup.string().required()
-     .oneOf([Yup.ref('password')], 'رمز عبور و تکرار آن یکسان نیستند.')
+        username: Yup.string()
+          .required("وارد کردن نام کاربری اجباری است.")
+          .min(3, "نام کاربری باید حداقل 3 کاراکتر داشته باشد.")
+          .matches(/^((?!@).)*$/, "نام کاربری نباید شامل @ باشد."),
+        password: Yup.string().required(),
+        passwordConf: Yup.string()
+          .required()
+          .oneOf([Yup.ref("password")], "رمز عبور و تکرار آن یکسان نیستند."),
       })}
       onSubmit={(values, { setSubmitting }) => {
-
-          mutate({
-            username:values.username,
-            email,
-            password:values.password,
-            password2:values.passwordConf
-          })
-          setSubmitting(false);
+        mutate({
+          username: values.username,
+          email,
+          password: values.password,
+          password2: values.passwordConf,
+        });
+        setSubmitting(false);
       }}
     >
       {(formik) => (
         <Form className="flex flex-col gap-y-[10px]">
-          <CustomInputLabel htmlFor="username">
-            نام کاربری
-          </CustomInputLabel>
+          <CustomInputLabel htmlFor="username">نام کاربری</CustomInputLabel>
           <CustomInput
             name="username"
             type="text"
@@ -57,7 +71,9 @@ function GetPublisherInfoForm1({email,setStep}:{email:string|null,setStep:Dispat
             type="password"
             validation={true}
           />
-          <CustomInputLabel htmlFor='passwordConf'>تکرار رمز عبور</CustomInputLabel>
+          <CustomInputLabel htmlFor="passwordConf">
+            تکرار رمز عبور
+          </CustomInputLabel>
           <CustomInput
             name="passwordConf"
             type="password"
@@ -65,7 +81,14 @@ function GetPublisherInfoForm1({email,setStep}:{email:string|null,setStep:Dispat
             error={formik.errors.passwordConf}
             touched={formik.touched.passwordConf}
           />
-          <CustomButton disabled={!(validatePass(formik.values.password).every(el=>el.value))} type="submit" >ادامه</CustomButton>
+          <CustomButton
+            disabled={
+              !validatePass(formik.values.password).every((el) => el.value)
+            }
+            type="submit"
+          >
+            ادامه
+          </CustomButton>
         </Form>
       )}
     </Formik>

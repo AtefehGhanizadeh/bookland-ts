@@ -1,5 +1,6 @@
 export interface Book {
     id: number;
+    book_id:number;
     publisher: string;
     bookname: string;
     authorname: string;
@@ -9,6 +10,7 @@ export interface Book {
     price: number;
     numberofpages: number;
     language: string;
+    description:string
   }
 
 
@@ -17,4 +19,9 @@ export interface Book {
       error_message: string;
       errors: string;
 
+  }
+
+  export interface Response<T>{
+    data:T,
+    result:Result
   }

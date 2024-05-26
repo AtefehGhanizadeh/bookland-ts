@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { Result } from "@/src/helpers/Interfaces";
-
+import { Response } from "@/src/helpers/Interfaces";
+import useShowToast from "@/src/components/ui/useShowToast";
 interface FormValues{
     email: string|null,
     activation_code: string|undefined,
@@ -10,19 +10,16 @@ interface FormValues{
     password2: string,
 }
 
-interface Response{
-  data:null,
-  result:Result
-}
-
 
 function useSendResetPasswordInfo() {
   const router=useRouter()
+  const showToast=useShowToast()
 
-  return useMutation<Response,Error,FormValues>({
-    mutationFn: (values)=>axios.post<Response>("http://Localhost:8000/api/auth/reset-password",values).then(res=>res.data),
+  return useMutation<Response<null>,Error,FormValues>({
+    mutationFn: (values)=>axios.post<Response<null>>("http://Localhost:8000/api/auth/reset-password",values).then(res=>res.data),
     onSuccess: (data) => {
       console.log(data)
+      showToast("رمز عبور شما با موفقیت تغییر کرد.","success")
       router.push('/login')
     },
   });

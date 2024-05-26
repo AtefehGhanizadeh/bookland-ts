@@ -2,7 +2,7 @@ import CustomButton from "@/src/components/ui/login-submit/CustomButton";
 import CustomCardContainer from "@/src/components/ui/login-submit/CustomCard/CustomCardContainer";
 import CustomCardHeader from "@/src/components/ui/login-submit/CustomCard/CustomCardHeader";
 import CustomCardParagraph from "@/src/components/ui/login-submit/CustomCard/CustomCardParagraph";
-import { PinInput, PinInputField, HStack } from "@chakra-ui/react";
+import { PinInput, PinInputField, HStack, Button } from "@chakra-ui/react";
 import useSendVerificationCode from "@/src/react-query/hooks/useSendVerificationCode";
 import useSendEmail from "@/src/react-query/hooks/useSendEmail";
 import { useRouter } from "next/router";
@@ -107,7 +107,7 @@ function EmailConfirmation(props: Props) {
           </PinInput>
         </HStack>
       </form>
-      <CustomButton
+      <Button
       _before={{
         content: "''",
         position: "absolute",
@@ -117,7 +117,7 @@ function EmailConfirmation(props: Props) {
         w: width+'%',
         backgroundColor: "primaryBlue",
       }}
-        className="relative bg-[#C0C0C0] hover:bg-[#C0C0C0]"
+        className="text-center px-[8px] py-[12px] rounded-[16px] text-white h-[49px] font-normal text-[16px] leading-[24px] overflow-hidden relative bg-[#C0C0C0] hover:bg-[#C0C0C0]"
         disabled={isDisabled}
         onClick={() => {
           if (!isDisabled) {
@@ -135,7 +135,7 @@ function EmailConfirmation(props: Props) {
         }}
       >
         <span className="z-[1]">ارسال دوباره کد</span>
-      </CustomButton>
+      </Button>
       <div className="text-right">
         <button
           onClick={props.emailEditHandler}

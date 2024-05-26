@@ -3,7 +3,7 @@ import CustomCardHeader from "@/src/components/ui/login-submit/CustomCard/Custom
 import CustomCardParagraph from "@/src/components/ui/login-submit/CustomCard/CustomCardParagraph";
 import GetPublisherInfoForm1 from "@/src/components/signup/publisherSignup/GetPublisherInfo/GetPublisherInfoForm1";
 import GetPublisherInfo2 from "@/src/components/signup/publisherSignup/GetPublisherInfo/GetPublisherInfo2";
-// import PublisherDocuments from "@/src/components/signup/publisherSignup/GetPublisherInfo/PublisherDocuments";
+import PublisherDocuments from "@/src/components/signup/publisherSignup/GetPublisherInfo/PublisherDocuments";
 import { useState } from "react";
 
 function GetPublisherInfo({email}:{email:string|null}) {
@@ -31,10 +31,10 @@ function GetPublisherInfo({email}:{email:string|null}) {
           setStep={setStep}
         />
       )}
-      {/* {step === 3 && (
+      {step === 3 && (
         <PublisherDocuments
         />
-      )} */}
+      )}
     </>
   );
 }

@@ -38,9 +38,9 @@ function LoginForm() {
             <CustomInputLabel htmlFor="emailOrUsername">
               ایمیل یا نام کاربری
             </CustomInputLabel>
-            <CustomInput name="emailOrUsername" type="text" />
+            <CustomInput name="emailOrUsername" type="text" validation={true} error={formik.errors.emailOrUsername} touched={formik.touched.emailOrUsername} />
             <CustomInputLabel htmlFor="password">رمز عبور</CustomInputLabel>
-            <CustomInput name="password" type="password" />
+            <CustomInput name="password" type="password" validation={true} error={formik.errors.password} touched={formik.touched.password} />
           </div>
           <CustomButton type="submit" className="bg-primaryBlue">
             {/* {isLoading ? "Adding..." : "تایید"} */}
