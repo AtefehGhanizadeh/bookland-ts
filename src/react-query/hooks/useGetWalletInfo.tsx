@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { API_ENDPOINTS } from "@/utils/api/endpoints";
 import axios from "axios";
-import useShowToast from "@/components/ui/useShowToast";
+import useShowToast from "@/src/components/ui/useShowToast";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 
@@ -13,7 +12,7 @@ const useGetWalletInfo = () => {
 		queryKey: ["walletinfo"],
 		queryFn: () =>
 			axios
-				.get("http://Localhost:8000" + API_ENDPOINTS.BALANCE, {
+				.get("http://Localhost:8000/api/user/wallet-balance", {
 					headers: { Authorization: "Bearer " + token },
 				})
 				.then((res) => res.data)

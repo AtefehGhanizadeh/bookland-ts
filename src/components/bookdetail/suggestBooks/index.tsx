@@ -11,13 +11,13 @@ function SuggestBooks({bookId}:{bookId:number}) {
     return (
       <CustomCardContainer pt="30px" pr="20px" pl="20px" pb="20px">
         <HStack justifyContent="space-between">
-          <Heading fontFamily="Vazirmatn" fontSize="24px" fontWeight="semibold">
+          <Heading fontFamily="Vazirmatn" fontSize={{ base: "14px", sm: "18px", md: "24px" }} fontWeight="semibold">
             کتاب های پیشنهادی
           </Heading>
           <Flex>
             <Link
               href={`/filter/category?category=${data[0]}`}
-              className="font-normal text-[16px] leading-[25px] text-primary text-right "
+              className="font-normal whitespace-pre text-[13px] md:text-[16px] leading-[25px] text-primaryBlue text-right "
             >
               مشاهده همه &#8598;
             </Link>

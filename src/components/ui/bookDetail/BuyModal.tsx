@@ -24,40 +24,47 @@ import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 
 
-function BuyModal({price,bookId}:{price:number,bookId:string}) {
-  const token = Cookies.get("token");
+function BuyModal({price,bookId}:{price:number,bookId:number}) {
+  
+  // console.log(token)
   const discountRef=useRef<HTMLInputElement>(null)
   const {data}=useGetWalletInfo()
   const[newPrice,setNewPrice]=useState(price)
-  const[discountId,setDiscountId]=useState(null)
+  const[discountId,setDiscountId]=useState<number|null>(null)
   const[percent,setDisountPercent]=useState(0)
   const { isOpen, onOpen, onClose } = useDisclosure();
   const showToast=useShowToast()
   const{mutate:calculateDiscount}=useGetDiscount(setNewPrice,setDiscountId,setDisountPercent)
   const{mutate}=useBuyBook(onClose)
   const router=useRouter()
-
-  
-  
   const discountHandler=()=>{
+    if(discountRef.current?.value)
     calculateDiscount({code:discountRef.current?.value,amount:price})
   }
   const buyHandler=()=>{
     mutate({book_Id:bookId,discount_Id:discountId})
     router.reload()
   }
+
+  const handleModalOpen=()=>{
+    const token = Cookies.get("token");
+    if(token)
+      onOpen()
+    else
+    showToast("وارد شوید.","info")
+  }
   return (
     <>
     <button
-            onClick={token?onOpen:()=>showToast("وارد شوید.","info")}
-            className="w-full h-[49px] bg-primary rounded-xl px-[44px] py-[10px] text-white text-[16px] font-medium"
+            onClick={()=>handleModalOpen()}
+            className="w-full h-[49px] bg-primaryBlue rounded-xl px-[44px] py-[10px] text-white text-[16px] font-medium"
           >
             خرید
           </button>
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
        <ModalOverlay />
-       <ModalContent py={8} px={4}>
-        <ModalHeader className="text-primary">پرداخت</ModalHeader>
+       <ModalContent py={8} px={4} w="90%">
+        <ModalHeader className="text-primaryBlue">پرداخت</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
          <VStack align="stretch" gap={4}>
@@ -92,7 +99,7 @@ function BuyModal({price,bookId}:{price:number,bookId:string}) {
           </HStack>
           <button
             onClick={buyHandler}
-            className="w-full h-[49px] bg-primary rounded-xl px-[44px] py-[10px] text-white text-[16px] font-medium"
+            className="w-full h-[49px] bg-primaryBlue rounded-xl px-[44px] py-[10px] text-white text-[16px] font-medium"
           >
             خرید
           </button>

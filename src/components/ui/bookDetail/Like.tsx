@@ -66,7 +66,7 @@ function Like({book_id}:{book_id:number}) {
             thickness="2px"
             speed="0.65s"
             emptyColor="gray.200"
-            color="primary"
+            color="primaryBlue"
             size="sm"
           />
         )}

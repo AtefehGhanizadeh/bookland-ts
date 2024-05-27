@@ -7,16 +7,18 @@ import {
   Center,
   Box,
   Spinner,
+  Flex,
 } from "@chakra-ui/react";
 import CommentList from "./CommentList";
 import Rating from "./Rating";
 import { ChevronRightIcon, ChevronLeftIcon } from "@chakra-ui/icons";
 import { useState } from "react";
-import useGetComments from "@/react-query/hooks/useGetComments";
-import useSendComments from "@/react-query/hooks/useSendComments";
-import useSendReview from "@/react-query/hooks/useSendReview";
+import useGetComments from "@/src/react-query/hooks/useGetComments";
+import useSendComments from "@/src/react-query/hooks/useSendComments";
+import useSendReview from "@/src/react-query/hooks/useSendReview";
 import Cookies from "js-cookie";
 import useShowToast from "../ui/useShowToast";
+import { MouseEvent } from "react";
 function Comment({bookId}:{bookId:number}) {
   const token = Cookies.get("token");
   const showToast = useShowToast();
@@ -27,16 +29,16 @@ function Comment({bookId}:{bookId:number}) {
   const { mutate:sendComment } = useSendComments(bookId, currentPage);
   const { mutate: sendReview } = useSendReview(bookId);
 
-  let pageButtons;
+  let pageButtons:number[]=[];
   if (isSuccess) {
-    const totalPages = data.data.count;
+    const totalPages = data.count;
     pageButtons = Array.from(
       { length: Math.min(totalPages) },
       (_, index) => index + 1
     );
   }
 
-  const submitHandler = (e) => {
+  const submitHandler = (e:MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
       if (token) {
       if (textareaRef.current?.value.trim().length === 0 && review === 0) {
@@ -46,12 +48,12 @@ function Comment({bookId}:{bookId:number}) {
         sendReview({ id: bookId, value: review });
         setReview(0)
       } else if (review === 0) {
-        sendComment({ id: bookId, value: textareaRef.current?.value });
-        textareaRef.current.value=''
+        sendComment({ id: bookId, value: textareaRef.current?.value! });
+        textareaRef.current!.value=''
       } else {
         sendReview({ id: bookId, value: review });
-        sendComment({ id: bookId, value: textareaRef.current?.value });
-        textareaRef.current.value=''
+        sendComment({ id: bookId, value: textareaRef.current?.value! });
+        textareaRef.current!.value=''
         // setReview(0)
       }
       }
@@ -66,7 +68,7 @@ function Comment({bookId}:{bookId:number}) {
     <CustomCardContainer pt="16px" pb="16px" pr="20px" pl="20px">
       <div>
         <VStack gap="16px" paddingBottom="16px">
-          <HStack justifyContent="space-between" width="100%">
+          <Flex justifyContent="space-between" width="100%" className="flex-col md:flex-row">
             <VStack alignItems="flex-start">
               <p className="text-[20px] font-medium">
                 به این کتاب چه امتیازی میدی؟
@@ -76,7 +78,7 @@ function Comment({bookId}:{bookId:number}) {
               </p>
             </VStack>
             <Rating setReview={setReview} rate={review}/>
-          </HStack>
+          </Flex>
           <form className="flex flex-col w-full gap-6" onSubmit={submitHandler}>
             <Textarea
               resize="none"
@@ -84,13 +86,13 @@ function Comment({bookId}:{bookId:number}) {
               w="full"
               borderRadius="12px"
               border="1px"
-              borderColor="primary"
+              borderColor="primaryBlue"
               placeholder="نظر من اینه که..."
               ref={textareaRef}
             />
             <button
               type="submit"
-              className="w-full bg-primary rounded-xl px-[44px] py-[10px] text-white text-[16px] font-medium"
+              className="w-full bg-primaryBlue rounded-xl px-[44px] py-[10px] text-white text-[16px] font-medium"
             >
               ثبت نظر
             </button>
@@ -98,8 +100,8 @@ function Comment({bookId}:{bookId:number}) {
         </VStack>
         {isSuccess && (
           <>
-            <CommentList commentList={data.data.data} />
-            <Center marginTop="30px">
+            <CommentList commentList={data.data} />
+            {pageButtons.length>0&&<Center marginTop="30px">
               <Box
                 dir="ltr"
                 display="flex"
@@ -149,12 +151,12 @@ function Comment({bookId}:{bookId:number}) {
                   onClick={() => {
                     setCurrentPage((prev) => prev + 1);
                   }}
-                  disabled={currentPage === data.data.count}
+                  disabled={currentPage === data.count}
                 >
                   <ChevronRightIcon style={{ color: "#575DFB" }} />
                 </button>
               </Box>
-            </Center>
+            </Center>}
           </>
         )}
         {(isError || isLoading) && (
@@ -163,7 +165,7 @@ function Comment({bookId}:{bookId:number}) {
                 thickness="4px"
                 speed="1s"
                 emptyColor="gray.200"
-                color="primary"
+                color="primaryBlue"
                 size="xl"
               />
             </Center>

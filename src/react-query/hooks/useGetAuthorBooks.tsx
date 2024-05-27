@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Response,Book } from "@/src/helpers/Interfaces";
 
-const useGetAuthorBooks = (authorName:string) => {
+const useGetAuthorBooks = (authorName:string|undefined) => {
   return useQuery<Book[]>({
     queryKey: ["author-books"],
     queryFn: () =>

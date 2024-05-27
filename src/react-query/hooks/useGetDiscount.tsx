@@ -3,11 +3,11 @@ import axios from "axios";
 import useShowToast from "@/src/components/ui/useShowToast";
 import Cookies from "js-cookie";
 import { Dispatch, SetStateAction } from "react";
-const useGetDiscount = (setNewPrice:Dispatch<SetStateAction<number>>,setDiscountId,setDisountPercent:Dispatch<SetStateAction<number>>) => {
+const useGetDiscount = (setNewPrice:Dispatch<SetStateAction<number>>,setDiscountId:Dispatch<SetStateAction<number|null>>,setDisountPercent:Dispatch<SetStateAction<number>>) => {
 const showToast = useShowToast();
   const token = Cookies.get("token");
   return useMutation({
-    mutationFn: (obj) =>
+    mutationFn: (obj:{code:string,amount:number}) =>
       axios
         .get(`http://localhost:5001/api/user/adjust-discount?code=${obj.code}&amount=${obj.amount}`,{headers: { Authorization: "Bearer " + token },}),
 

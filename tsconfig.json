@@ -16,6 +16,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/components/homepage/bookList/BookItem.tsx", "src/components/homepage/bookList/HorizontalBookList.js", "src/components/navbar/Navbar.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/components/homepage/bookList/BookItem.tsx", "src/components/homepage/bookList/HorizontalBookList.js", "src/components/navbar/Navbar.tsx", "pages/call-us/index.tsx", "pages/contact-us/index.tsx", "src/components/call-us/index.tsx", "src/components/contact-us/index.tsx"],
   "exclude": ["node_modules"]
 }

@@ -3,7 +3,7 @@ import axios from "axios";
 import { Book,Response } from "@/src/helpers/Interfaces";
 
 
-const useGetBookGroups = (key: string) => {
+const useGetBookGroups = (key: string|undefined) => {
   return useQuery<Book[], Error>({
     queryKey: ["book-groups", key],
     queryFn: () =>

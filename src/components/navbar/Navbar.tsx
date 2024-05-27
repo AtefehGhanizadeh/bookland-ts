@@ -9,8 +9,10 @@ import Logo from "@/src/components/ui/Logo";
 import UserIcon from "@/src/components/ui/UserIcon";
 import NavMenu from "@/src/components/navbar/NavMenu";
 
+
 function Navbar() {
   const [tokenState, setTokenState] = useState<string|undefined>();
+
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -18,7 +20,7 @@ function Navbar() {
   });
 
   function exitHandler() {
-    Cookies.remove("token");
+    Cookies.remove("token")
     setTokenState('');
   }
 

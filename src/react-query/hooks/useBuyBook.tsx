@@ -9,7 +9,7 @@ function useBuyBook(onClose:()=>void) {
   const showToast = useShowToast();
   const router=useRouter()
   return useMutation({
-    mutationFn: (obj:{book_Id:number,discount_Id:number}) => {
+    mutationFn: (obj:{book_Id:number,discount_Id:number|null}) => 
       axios
         .post(
           `http://Localhost:5001/api/user/purchase-book`,
@@ -28,8 +28,7 @@ function useBuyBook(onClose:()=>void) {
             router.reload()
           }
           return res.data;
-        });
-    },
+        })
   });
 }
 

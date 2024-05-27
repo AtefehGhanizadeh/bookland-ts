@@ -3,7 +3,7 @@ import React from "react";
 import BookDetailCard from "@/src/components/bookdetail/BookDetailCard";
 import BookDescription from "@/src/components/bookdetail/BookDescription";
 import Comment from "@/src/components/bookdetail/Comment";
-import BookBuy from "@/src/components/bookdetail/BookBuy";
+import BookBuyCard from "@/src/components/bookdetail/BookBuyCard";
 import BookDetail from "./BookDetail";
 import useGetBookInformation from "@/src/react-query/hooks/useGetBookInformation";
 import { useRouter } from "next/router";
@@ -28,7 +28,7 @@ function BookDetails() {
                   thickness="4px"
                   speed="0.65s"
                   emptyColor="gray.200"
-                  color="primary"
+                  color="primaryBlue"
                   size="xl"
                 />
               )}
@@ -45,17 +45,17 @@ function BookDetails() {
       <div className="w-full">
         <Navbar/>
         <div className="mx-auto w-[90%] h-full py-[50px]">
-          <Flex height="full" gap="20px" className="flex-col md:flex-row ">
-            <Flex className="flex-col md:w-[65%] gap-[46px]">
+          <Flex height="full" gap="20px" className="flex-col lg:flex-row ">
+            <Flex className="flex-col lg:w-[65%] gap-[46px]">
               <BookDetailCard book={data} />
               <BookDescription book={data} />
               <AuthorBooks author={data.authorname} />
-              <SuggestBooks bookId={data.id}/>
-              <Comment bookId={data.id} />
+              <SuggestBooks bookId={data.book_id}/>
+              <Comment bookId={data.book_id} />
             </Flex>
-            <div className="w-[35%] relative">
-              {/* <BookBuy book={data} />
-              <BookDetail book={data} /> */}
+            <div className="hidden lg:block lg:w-[35%] relative">
+              <BookBuyCard book={data} />
+              <BookDetail book={data} />
             </div>
           </Flex>
         </div>

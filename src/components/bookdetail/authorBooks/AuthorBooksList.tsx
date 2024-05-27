@@ -1,5 +1,5 @@
-import AuthorBookItem from "./AuthorBookItem";
-import { Flex, Center, Spinner } from "@chakra-ui/react";
+import AuthorBookItem from "@/src/components/bookdetail/BookItem";
+import { Grid, Center, Spinner } from "@chakra-ui/react";
 import React from "react";
 import useGetAuthorBooks from "@/src/react-query/hooks/useGetAuthorBooks";
 
@@ -8,7 +8,7 @@ function AuthorBooksList({author}:{author:string}) {
   if (isSuccess) {
     const slicedBooks = data.slice(0, 2);
     return (
-      <Flex flexDir="column" width="100%" rowGap="20px">
+      <Grid className=" gap-[20px] auto-rows-fr" width="100%">
         {slicedBooks.map((book) => (
           <AuthorBookItem
             id={book.id}
@@ -21,7 +21,7 @@ function AuthorBooksList({author}:{author:string}) {
             bookcoverimage={book.bookcoverimage}
           />
         ))}
-      </Flex>
+      </Grid>
     );
   } else {
     return(
@@ -30,7 +30,7 @@ function AuthorBooksList({author}:{author:string}) {
         thickness="4px"
         speed="1s"
         emptyColor="gray.200"
-        color="primary"
+        color="primaryBlue"
         size="xl"
       />
     </Center>

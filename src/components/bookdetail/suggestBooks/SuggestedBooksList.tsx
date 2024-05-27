@@ -1,6 +1,6 @@
-import { Flex, Center, Spinner } from "@chakra-ui/react";
+import { Grid, Center, Spinner } from "@chakra-ui/react";
 import React from "react";
-import SuggestedBookItem from "@/src/components/bookdetail/suggestBooks/SuggestedBookItem";
+import SuggestedBookItem from "@/src/components/bookdetail/BookItem";
 import useGetCategoryBooks from "@/src/react-query/hooks/useGetCategoryBooks";
 
 function SuggestedBooksList({category}:{category:string}) {
@@ -8,7 +8,7 @@ function SuggestedBooksList({category}:{category:string}) {
   if (isSuccess) {
     const slicedBooks = data.slice(0, 2);
     return (
-      <Flex width="100%" columnGap="20px" justifyContent="center">
+      <Grid className=" gap-[20px] auto-rows-fr" width="100%">
         {slicedBooks.map((book) => (
           <SuggestedBookItem
             id={book.id}
@@ -21,7 +21,7 @@ function SuggestedBooksList({category}:{category:string}) {
             bookcoverimage={book.bookcoverimage}
           />
         ))}
-      </Flex>
+      </Grid>
     );
   } else {
     return (
@@ -30,7 +30,7 @@ function SuggestedBooksList({category}:{category:string}) {
           thickness="4px"
           speed="1s"
           emptyColor="gray.200"
-          color="primary"
+          color="primaryBlue"
           size="xl"
         />
       </Center>

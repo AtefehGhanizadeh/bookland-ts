@@ -18,6 +18,8 @@ interface Props {
   authorname: string;
   bookcoverimage: string;
   price: number;
+  language?:string;
+  publisher?:string
 }
 
 function BookItem({

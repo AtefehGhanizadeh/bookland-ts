@@ -23,7 +23,7 @@ const PDFViewer = (props) => {
   });
 
   return (
-    <div className='w-[100%] flex justify-center bg-primary'>
+    <div className='w-[100%] flex justify-center bg-primaryBlue'>
 
     <div
       className="rpv-core__viewer"
