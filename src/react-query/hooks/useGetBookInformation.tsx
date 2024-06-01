@@ -12,9 +12,10 @@ const useGetBookInformation = (params: ParsedUrlQuery) => {
       axios
         .get<Response<Book[]>>(`http://Localhost:8000/api/books/${params.bookId}`)
         .then((res) => res.data.data[0])
-        .catch((err) => {
-          showToast(err.response.data.result.error_message);
-        }),
+        // .catch((err) => {
+        //   showToast(err.response.data.result.error_message);
+        // }),
+        ,
     enabled: !!params.bookId,
   });
 };

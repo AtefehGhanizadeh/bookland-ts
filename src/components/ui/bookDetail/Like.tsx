@@ -25,7 +25,7 @@ function Like({book_id}:{book_id:number}) {
   };
   return (
     <Center
-      width="48px"
+      minWidth="48px"
       height="48px"
       borderRadius="10px"
       border="1px"

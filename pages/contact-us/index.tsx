@@ -3,8 +3,10 @@ import { Flex } from "@chakra-ui/react";
 import image from "@/public/assets/images/Design.png";
 import Link from "next/link";
 import Navbar from "@/src/components/navbar/Navbar";
+import { useParams } from "next/navigation";
 
 function Rules() {
+  const params=useParams()
   return (
     <>
     <Navbar/>

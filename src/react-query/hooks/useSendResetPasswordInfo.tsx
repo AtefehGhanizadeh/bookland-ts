@@ -17,8 +17,7 @@ function useSendResetPasswordInfo() {
 
   return useMutation<Response<null>,Error,FormValues>({
     mutationFn: (values)=>axios.post<Response<null>>("http://Localhost:8000/api/auth/reset-password",values).then(res=>res.data),
-    onSuccess: (data) => {
-      console.log(data)
+    onSuccess: () => {
       showToast("رمز عبور شما با موفقیت تغییر کرد.","success")
       router.push('/login')
     },

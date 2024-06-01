@@ -15,7 +15,7 @@ function Categories() {
   return (
     <div className="w-full">
       <Navbar/>
-      <Flex flexDir="column" width="80%" marginX="auto" paddingY="50px" gap="40px">
+      <Flex flexDir="column" width="90%" marginX="auto" paddingY="50px" gap="40px">
         <Flex className="flex flex-col lg:flex-row" width="full" gap="20px">
           <div  className="hidden lg:block lg:w-[20%]">
             <FilterBox setPriceRange={setPriceRange} setPageRange={setPageRange} setLanguage={setLanguage} language={language}/>

@@ -12,8 +12,7 @@ interface Values{
 const useSendVerificationCode=(setStepfunc:Dispatch<SetStateAction<number>>)=> {
   return useMutation<Values,AxiosError<Result>,Values>({
     mutationFn: (values:Values)=>axios.post("http://Localhost:8000/api/auth/verify-email-code",values).then(res=>res.data),
-    onSuccess: (savedEmail) => {
-      console.log(savedEmail);
+    onSuccess: () => {
       setStepfunc(3);
     },
     // onError:(e)=>{

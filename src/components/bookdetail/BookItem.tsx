@@ -39,15 +39,17 @@ import {
             className="h-full items-center gap-[10px] md:flex-row md:flex-start md:justify-between md:gap-[24px]"
             >
               
+              <div className="w-40%">
                 <Image
                   src={props.bookcoverimage}
-                  className="w-[80px] h-[80px]  sm:w-[148px] sm:h-[230px]"
-                  alt="Green double couch with wooden legs"
+                  className="w-[60px] h-[90px]  sm:w-[148px] sm:h-[230px]"
+                  alt=""
                   borderRadius="12px"
                   border="0.5px"
                   borderColor="#C8C8C8"
                 />
-              <Stack spacing="3" className="gap-[5px] md:gap-[20px] h-full" flexGrow="1" >
+              </div>
+              <Stack spacing="3" className="gap-[5px] md:gap-[20px] h-full w-[60%]" flexGrow="1" >
                 <Heading
                   fontFamily="Vazirmatn"
                   fontWeight="bold"

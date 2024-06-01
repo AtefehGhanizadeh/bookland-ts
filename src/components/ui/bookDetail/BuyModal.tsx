@@ -25,8 +25,7 @@ import { useRouter } from 'next/router';
 
 
 function BuyModal({price,bookId}:{price:number,bookId:number}) {
-  
-  // console.log(token)
+
   const discountRef=useRef<HTMLInputElement>(null)
   const {data}=useGetWalletInfo()
   const[newPrice,setNewPrice]=useState(price)

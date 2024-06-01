@@ -40,5 +40,19 @@ export interface Comments{
   page_size:number
 }
 
+export interface TransactionItem{
+  id: number,
+          actiontype:"واریز"|"برداشت",
+          amount: number,
+          issuccessful: boolean,
+          description:string,
+          createddate: Date
+}
 
+export interface TransactionInformation{
+  page_size: number,
+  page_index: number,
+  count: number,
+  data: TransactionItem[]
+}
 
