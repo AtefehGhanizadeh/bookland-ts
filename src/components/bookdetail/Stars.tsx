@@ -7,7 +7,7 @@ function Stars({book_id}:{book_id:number}) {
   const{data,isSuccess}=useGetBookReviews(book_id)
   const starArray=[false,false,false,false,false]
   if (isSuccess){
-    const reviewAvg=data.reviewaverage
+    const reviewAvg=data.review_average
     let i;
     for(i=0;i<=reviewAvg;i++){
       starArray[i-1]=true
@@ -22,7 +22,7 @@ function Stars({book_id}:{book_id:number}) {
       <StarIcon color={starArray[1]?"yellow.300":"gray.200"} />
       <StarIcon color={starArray[0]?"yellow.300":"gray.200"} />
       <div>
-        <span className="text-[#C8C8C8] text-[10px] whitespace-pre">{data.reviewaverage} از {data.reviewcount} نظر</span>
+        <span className="text-[#C8C8C8] text-[10px] whitespace-pre">{data.review_average} از {data.review_count} نظر</span>
       </div>
     </HStack>
     )

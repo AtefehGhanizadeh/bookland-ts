@@ -5,11 +5,11 @@ import { Response } from "@/src/helpers/Interfaces";
 
 const useGetBookCategory = (bookId:number) => {
   const showToast = useShowToast();
-  return useQuery<string[],AxiosError>({
+  return useQuery<{id:number,name:string}[],AxiosError>({
     queryKey: ["book-category"],
     queryFn: () =>
       axios
-        .get<Response<string[]>>(`http://Localhost:8000/api/books/${bookId}/categories`)
+        .get<Response<{id:number,name:string}[]>>(`http://Localhost:8000/api/books/${bookId}/categories`)
         .then((res) => res.data.data)
         // .catch((err) => {
         //   showToast(err.response.data.result.error_message);

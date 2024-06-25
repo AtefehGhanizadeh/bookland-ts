@@ -36,7 +36,7 @@ function BookDetailCard({book}:{book:Book}) {
             {data&&data.map((cat) => (
               <div key={Math.random()} className="w-[65px] h-[27px] bg-[#575DFB1A] border-[1px] border-primary rounded-lg flex justify-center items-center ">
                 <span className="text- text-[12px] font-medium">
-                  {cat}
+                  {cat.name}
                 </span>
               </div>
             ))}
