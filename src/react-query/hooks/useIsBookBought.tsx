@@ -10,8 +10,7 @@ const useIsBookBought = (bookId: number) => {
         .get(`http://Localhost:5001/api/user/check-book/${bookId}`, {
           headers: { Authorization: "Bearer " + token },
         })
-        .then((res) => res.data)
-        .catch((err) => {}),
+        .then((res) => res.data),
     enabled: token ? true : false,
   });
 };

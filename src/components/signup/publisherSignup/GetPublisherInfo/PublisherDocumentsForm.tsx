@@ -3,6 +3,7 @@ import { Flex } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useState } from "react";
 import useSendPublisherSignupInfo2 from "@/src/react-query/hooks/useSendPublisherSignupInfo2";
 import { ChangeEvent, MouseEvent } from "react";
+import Image from "next/image";
 
 //ToDo:image validation
 
@@ -72,7 +73,8 @@ function PublisherDocumentsForm() {
           </Flex>
           {idCardImg && isValidIdImage ? (
             <div className="w-[346px] h-[346px]">
-              <img
+              <Image
+              alt=""
                 className="w-[346px] h-[346px] object-fill"
                 src={idCardImg}
               />
@@ -117,7 +119,7 @@ function PublisherDocumentsForm() {
           </p>
           {logoImg && isValidLogoImage ? (
             <div className="w-[346px] h-[346px]">
-              <img className="w-[346px] h-[346px] object-fill" src={logoImg} />
+              <Image alt="" width={346} className="w-[346px] h-[346px] object-fill" src={logoImg} />
             </div>
           ) : (
             <label

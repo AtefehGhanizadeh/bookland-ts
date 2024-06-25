@@ -1,8 +1,6 @@
 import { Card, Container, Flex } from "@chakra-ui/react";
-
 import React, { PropsWithChildren, useState } from "react";
 import Sidebar from "@/src/components/userProfile/Sidebar";
-import { useRouter } from "next/router";
 import SearchBox from "@/src/components/userProfile/SearchBox";
 
 const Layout = ({ children }: PropsWithChildren) => {
@@ -10,7 +8,7 @@ const Layout = ({ children }: PropsWithChildren) => {
   return (
     <div>
       <Container maxW="7xl" w="90%" px="0" className="pt-[30px] pb-[30px]" display="flex" justifyContent="center">
-        <Flex flexDir="row" gap="20px" alignItems="flex-start" width="full">
+        <Flex flexDir="row" gap="20px" alignItems="stretch" width="full">
           <Sidebar />
           <Flex flexDir="column" gap="20px" flexGrow="1" width="100%">
           
@@ -20,7 +18,7 @@ const Layout = ({ children }: PropsWithChildren) => {
 					padding="40px 20px"
 					borderRadius="20px"
 					background="#FAFAFA"
-
+          h="full"
 				>
 					{React.Children.map(children, (child) => {
 						return React.cloneElement(child as React.ReactElement<any>, {

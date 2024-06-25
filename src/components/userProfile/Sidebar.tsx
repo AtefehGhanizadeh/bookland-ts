@@ -10,6 +10,7 @@ import {
   CardFooter,
   Box,
   Text,
+  Skeleton,
 } from "@chakra-ui/react";
 
 import Link from "next/link";
@@ -43,7 +44,7 @@ const Sidebar = () => {
   const router = useRouter();
   const pageName = router.pathname;
 
-  const { data, isLoading, isSuccess } = useGetUserInfo();
+  const { data, isLoading,isError, isSuccess } = useGetUserInfo();
   return (
     <div className="hidden lg:block">
       <Card
@@ -75,7 +76,7 @@ const Sidebar = () => {
             alignItems="center"
           >
             <Heading style={headingStyle}>
-              {isLoading && ""}
+              {(isLoading||isError) && <Skeleton w="100px" h="20px"/>}
               {isSuccess && data.username}
             </Heading>
             <Text

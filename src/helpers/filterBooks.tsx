@@ -2,7 +2,7 @@ import { Book } from "@/src/helpers/Interfaces";
 
 function filterBooks(value:string,myBooks:Book[]) {
   return (myBooks.filter((book) =>
-    book.bookname.includes(value)
+    book.name.includes(value)
   ));
 }
 

@@ -1,14 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import useShowToast from "@/src/components/ui/useShowToast";
+import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
-import { useRouter } from "next/router";
 import { Book, Response } from "@/src/helpers/Interfaces";
 const useGetFavoriteBooks = () => {
-  const showToast = useShowToast();
+
   const token = Cookies.get("token");
-  const { push } = useRouter();
-  return useQuery({
+
+  return useQuery<Book[],AxiosError<Response<Book[]>>>({
     queryKey: ["bookmarks"],
     queryFn: () =>
       axios
@@ -16,13 +14,7 @@ const useGetFavoriteBooks = () => {
           headers: { Authorization: "Bearer " + token },
         })
         .then((res) => res.data.data)
-        // .catch((err) => {
-        //   showToast(err.response.data.result.error_message);
-        //   if (err.response.status === 401 || err.response.status === 403) {
-        //     token ? Cookies.remove("token") : "";
-        //     push("/login");
-        //   }
-        // }),
+
   });
 };
 

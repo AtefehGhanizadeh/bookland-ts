@@ -13,12 +13,12 @@ function AuthorBooksList({author}:{author:string}) {
           <AuthorBookItem
             id={book.id}
             key={book.id}
-            bookname={book.bookname}
-            authorname={book.authorname}
+            bookname={book.name}
+            authorname={book.author_name}
             price={book.price}
             language={book.language}
             publisher={book.publisher}
-            bookcoverimage={book.bookcoverimage}
+            bookcoverimage={book.book_cover_image}
           />
         ))}
       </Grid>

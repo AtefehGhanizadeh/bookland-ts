@@ -9,7 +9,7 @@ import { Book } from "@/src/helpers/Interfaces";
 import BookBuy from "./BookBuy";
 
 function BookDetailCard({book}:{book:Book}) {
-  const { data } = useGetBookCategory(book.book_id);
+  const { data } = useGetBookCategory(book.id);
   const token=Cookies.get("token")
 
   return (
@@ -19,7 +19,7 @@ function BookDetailCard({book}:{book:Book}) {
           <Image
             objectFit="fill"
             className="w-[250px] h-[300px] lg:w-[250px] lg:h-[339px]"
-            src={book.bookcoverimage}
+            src={book.book_cover_image}
           />
         </div>
         <Flex width="100%" className="lg:mr-[210px] xl:mr-[280px] lg:h-[300px]">
@@ -29,9 +29,9 @@ function BookDetailCard({book}:{book:Book}) {
               fontWeight="extrabold"
               fontSize={{base:"18px",xl:"24px"}}
             >
-              {book.bookname}
+              {book.name}
             </Heading>
-            <Stars book_id={book.book_id} />
+            <Stars book_id={book.id} />
             <HStack gap="10px">
             {data&&data.map((cat) => (
               <div key={Math.random()} className="w-[65px] h-[27px] bg-[#575DFB1A] border-[1px] border-primary rounded-lg flex justify-center items-center ">
@@ -47,18 +47,18 @@ function BookDetailCard({book}:{book:Book}) {
                 زبان:&nbsp;{book.language}
               </span>
               <span className="text-[13px] lg:text-[16px] font-medium text-[#000015]">
-                نویسنده:&nbsp;{book.authorname}
+                نویسنده:&nbsp;{book.author_name}
               </span>
               <span className="text-[13px] lg:text-[16px] font-medium text-[#000015]">
                 ناشر:&nbsp;{book.publisher}
               </span>
             </Stack>
           </Stack>
-          {token&&<Like book_id={book.book_id} />}
+          {token&&<Like book_id={book.id} />}
         </Flex>
         <Divider className="lg:hidden"/>
         <div className="w-full lg:hidden">
-          <BookBuy price={book.price} id={book.book_id}/>
+          <BookBuy price={book.price} id={book.id}/>
         </div>
         
       </Flex>

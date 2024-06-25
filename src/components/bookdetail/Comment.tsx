@@ -100,7 +100,7 @@ function Comment({bookId}:{bookId:number}) {
         </VStack>
         {isSuccess && (
           <>
-            <CommentList commentList={data.data} />
+            <CommentList comments={data} />
             {pageButtons.length>0&&<Center marginTop="30px">
               <Box
                 dir="ltr"

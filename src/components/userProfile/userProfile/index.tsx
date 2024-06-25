@@ -15,6 +15,8 @@ import * as Yup from "yup";
 import validatePass from "@/src/helpers/validatePass";
 import useChangePass from "@/src/react-query/hooks/useChangePass";
 import Navbar from "@/src/components/navbar/Navbar";
+import useShowToast from "@/src/components/ui/useShowToast";
+import Cookies from "js-cookie";
 
 const headerStyle = {
   fontSize: "20px",
@@ -74,8 +76,23 @@ interface FormValues {
 }
 
 const UserProfile = () => {
-  const { data, isLoading, isSuccess } = useGetUserInfo();
+  const { data,error:userInfoError,isLoading, isSuccess,isError } = useGetUserInfo();
   const { mutate, error } = useChangePass();
+  const showToast = useShowToast();
+	const { push } = useRouter();
+	const token = Cookies.get("token");
+  
+	if (isError) {
+	  if (userInfoError.response?.data.result?.error_message) {
+		showToast(userInfoError.response!.data.result?.error_message);
+		if (userInfoError.response?.status === 401 || userInfoError.response?.status === 403) {
+		  token ? Cookies.remove("token") : "";
+		  push("/login");
+		}
+	  } else {
+		showToast("مشکلی رخ داده است.");
+	  }
+	}
   const initialValues: FormValues = {
     oldpass: "",
     newpassword: "",
@@ -103,7 +120,7 @@ const UserProfile = () => {
                 justifyContent="flex-start"
                 alignItems="center"
                 borderRadius="16px"
-                placeholder={isLoading ? "" : isSuccess ? data.username : ""}
+                placeholder={isLoading ? "در حال جستجو":isError?"یافت نشد" : isSuccess ? data.username : ""}
                 disabled
                 _disabled={{
                   border: "1px solid #C8C8C8",
@@ -121,7 +138,7 @@ const UserProfile = () => {
                 justifyContent="flex-start"
                 alignItems="center"
                 borderRadius="16px"
-                placeholder={isLoading ? "" : isSuccess ? data.email : ""}
+                placeholder={isLoading ? "در حال جستجو":isError?"یافت نشد" : isSuccess ? data.email : ""}
                 disabled
                 _disabled={{
                   border: "1px solid #C8C8C8",
@@ -276,12 +293,12 @@ const UserProfile = () => {
                       color="white"
                       style={buttonStyle}
                       isDisabled={
-                        !validatePass(formik.values.newpassword).every(
+                        (!validatePass(formik.values.newpassword).every(
                           (el) => el.value
-                        )
+                        ))||(formik.errors.passwordConf?.length!>0)
                       }
                     >
-                      تغییر رمز
+                       تغییر رمز 
                     </Button>
                   </Form>
                   <Box

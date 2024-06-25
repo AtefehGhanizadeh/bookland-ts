@@ -1,9 +1,6 @@
 import React from "react";
 import {
   Divider,
-  HStack,
-  VStack,
-  Button,
   Center,
   Flex,
   Image,
@@ -12,20 +9,16 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import CustomCardContainer from "@/src/components/ui/bookDetail/CustomCardContainer";
-import { useState } from "react";
 import Stars from "@/src/components/bookdetail/Stars";
-import useShowToast from "@/src/components/ui/useShowToast";
+
 import useIsBookBought from "@/src/react-query/hooks/useIsBookBought";
-import BuyModal from "@/src/components/ui/bookDetail/BuyModal";
-import Link from "next/link";
+
 import Cookies from "js-cookie";
 import { Book } from "@/src/helpers/Interfaces";
 import BookBuy from "./BookBuy";
-function BookDetail({book}:{book:Book}) {
+function BookDetail({ book }: { book: Book }) {
   const token = Cookies.get("token");
-  const { data, isSuccess, isError, isLoading } = useIsBookBought(
-    book.book_id
-  );
+  const { data, isSuccess, isError, isLoading } = useIsBookBought(book.id);
   if (!token) {
     return (
       <CustomCardContainer
@@ -43,7 +36,7 @@ function BookDetail({book}:{book:Book}) {
               width="170px"
               height="250px"
               objectFit="fill"
-              src={book.bookcoverimage}
+              src={book.book_cover_image}
             />
           </div>
           <Flex width="100%">
@@ -51,17 +44,17 @@ function BookDetail({book}:{book:Book}) {
               <Heading
                 fontFamily="Vazirmatn"
                 fontWeight="extrabold"
-                fontSize={{base:"18px",xl:"20px"}}
+                fontSize={{ base: "18px", xl: "20px" }}
               >
-                {book.bookname}
+                {book.name}
               </Heading>
-              <Stars book_id={book.book_id}/>
+              <Stars book_id={book.id} />
               <Stack rowGap="20px" flexGrow="1">
                 <span className="text-[16px] font-medium text-[#000015]">
                   زبان:&nbsp;{book.language}
                 </span>
                 <span className="text-[16px] font-medium text-[#000015]">
-                  نویسنده:&nbsp;{book.authorname}
+                  نویسنده:&nbsp;{book.author_name}
                 </span>
                 <span className="text-[16px] font-medium text-[#000015]">
                   ناشر:&nbsp;{book.publisher}
@@ -71,7 +64,7 @@ function BookDetail({book}:{book:Book}) {
           </Flex>
         </Flex>
         <Divider borderBottomColor="rgb(226, 232, 240)" />
-        <BookBuy price={book.price} id={book.book_id}/>
+        <BookBuy price={book.price} id={book.id} />
       </CustomCardContainer>
     );
   }
@@ -92,7 +85,7 @@ function BookDetail({book}:{book:Book}) {
               width="170px"
               height="250px"
               objectFit="fill"
-              src={book.bookcoverimage}
+              src={book.book_cover_image}
             />
           </div>
           <Flex width="100%">
@@ -100,17 +93,17 @@ function BookDetail({book}:{book:Book}) {
               <Heading
                 fontFamily="Vazirmatn"
                 fontWeight="extrabold"
-                fontSize={{base:"18px",xl:"20px"}}
+                fontSize={{ base: "18px", xl: "20px" }}
               >
-                {book.bookname}
+                {book.name}
               </Heading>
-              <Stars book_id={book.book_id} />
+              <Stars book_id={book.id} />
               <Stack rowGap="20px" flexGrow="1">
                 <span className="text-[16px] font-medium text-[#000015]">
                   زبان:&nbsp;{book.language}
                 </span>
                 <span className="text-[16px] font-medium text-[#000015]">
-                  نویسنده:&nbsp;{book.authorname}
+                  نویسنده:&nbsp;{book.author_name}
                 </span>
                 <span className="text-[16px] font-medium text-[#000015]">
                   ناشر:&nbsp;{book.publisher}
@@ -120,7 +113,7 @@ function BookDetail({book}:{book:Book}) {
           </Flex>
         </Flex>
         <Divider borderBottomColor="rgb(226, 232, 240)" />
-        <BookBuy price={book.price} id={book.book_id}/>
+        <BookBuy price={book.price} id={book.id} />
       </CustomCardContainer>
     );
   } else if (isError || isLoading) {

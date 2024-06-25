@@ -11,6 +11,7 @@ const FavoriteCategoriesItems = ({category,imageSrc}:{category:string,imageSrc:a
   >
     <div className=" w-full h-[230px] md:h-[300px] relative rounded-2xl overflow-hidden">
       <Image
+      width={0}
       alt=""
         className="w-full h-full brightness-[0.3] absolute z-[-1]"
         src={imageSrc}

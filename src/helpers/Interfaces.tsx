@@ -1,14 +1,13 @@
 export interface Book {
   id: number;
-  book_id: number;
   publisher: string;
-  bookname: string;
-  authorname: string;
-  translatorname: string;
-  releaseddate: number;
-  bookcoverimage: string;
+  name: string;
+  author_name: string;
+  translator_name: string;
+  released_date: number;
+  book_cover_image: string;
   price: number;
-  numberofpages: number;
+  number_of_pages: number;
   language: string;
   description: string;
 }
@@ -28,7 +27,7 @@ export interface CommentItem {
   id: number;
   bookid: number;
   comment: string;
-  createddate: string;
+  created_date: string;
   username: string;
 }
 
@@ -44,9 +43,9 @@ export interface TransactionItem{
   id: number,
           actiontype:"واریز"|"برداشت",
           amount: number,
-          issuccessful: boolean,
+          is_successful: boolean,
           description:string,
-          createddate: Date
+          created_date: Date
 }
 
 export interface TransactionInformation{

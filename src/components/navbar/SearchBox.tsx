@@ -12,7 +12,7 @@ function SearchBox() {
   function inputChangeHandler(e:ChangeEvent<HTMLInputElement>) {
     if(data){
       let filteredList = data.filter((data) =>
-        data.bookname.includes(e.target.value)||data.authorname.includes(e.target.value)
+        data.name.includes(e.target.value)||data.author_name.includes(e.target.value)
       );
       setFilteredArray(filteredList)
       setSearchValue(e.target.value)
@@ -46,7 +46,7 @@ function SearchBox() {
       {filteredArray.length > 0 && searchValue && (
         <Flex width="full" position="absolute" flexDir="column" bg="#f2f2f2" borderBottomRadius="10px">
           {filteredArray.map((item) => (
-            <Link className="py-[20px] px-[25px] rtl" href={`/books/${item.id}`} key={item.id}>{`${item.bookname}(${item.authorname})`}</Link>
+            <Link className="py-[20px] px-[25px] rtl" href={`/books/${item.id}`} key={item.id}>{`${item.name}(${item.author_name})`}</Link>
           ))}
         </Flex>
       )}

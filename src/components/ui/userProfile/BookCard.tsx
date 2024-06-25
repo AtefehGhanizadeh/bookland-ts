@@ -28,9 +28,9 @@ function BookCard({book,type}:{book:Book,type:"favbooks"|"mybooks"}) {
             gap="24px"
             flexDir={{base:"column",sm:"row"}}
           >
-            <Link href={`/books/${book.book_id}`}>
+            <Link href={`/books/${book.id}`}>
               <Image
-                src={book.bookcoverimage}
+                src={book.book_cover_image}
                 minWidth="214px"
                 height="295px"
                 alt=""
@@ -42,7 +42,7 @@ function BookCard({book,type}:{book:Book,type:"favbooks"|"mybooks"}) {
             <Flex gap="20px" flexGrow="1">
             <Stack spacing="3" rowGap="20px" flexGrow="1">
               <Heading fontFamily="Vazirmatn" fontWeight="extrabold" fontSize={{base:"18px",md:"20px"}}>
-                {book.bookname}
+                {book.name}
               </Heading>
               <HStack alignItems="center">
                 <span className="text-[#000015] text-[24px]">
@@ -55,14 +55,14 @@ function BookCard({book,type}:{book:Book,type:"favbooks"|"mybooks"}) {
                   زبان:&nbsp;{book.language}
                 </span>
                 <span className="text-[16px] font-medium text-[#000015]">
-                  نویسنده:&nbsp;{book.authorname}
+                  نویسنده:&nbsp;{book.author_name}
                 </span>
                 <span className="text-[16px] font-medium text-[#000015]">
                   ناشر:&nbsp;{book.publisher}
                 </span>
               </Stack>
             </Stack>
-           {type==="favbooks"&&<Like book_id={book.book_id}/>}
+           {type==="favbooks"&&<Like book_id={book.id}/>}
             </Flex>
           </HStack>
         </CardBody>

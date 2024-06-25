@@ -18,7 +18,7 @@ function BookDescription({book}:{book:Book}) {
         <Tabs>
           <TabList>
             <Tab fontWeight="medium" w="50%" fontSize={{base:"15px",md:"17px"}} pr="0">
-              درباره {book.bookname}
+              درباره {book.name}
             </Tab>
             <Tab fontWeight="medium" fontSize={{base:"15px",md:"17px"}} flex="1" >
               مشخصات
@@ -44,7 +44,7 @@ function BookDescription({book}:{book:Book}) {
 
                         </div>
                       <Text pt="2" fontFamily="Vazirmatn" fontWeight="normal" fontSize="16px">
-                        {book.numberofpages}
+                        {book.number_of_pages}
                       </Text>
                       </HStack>
                     </Box>
@@ -56,7 +56,7 @@ function BookDescription({book}:{book:Book}) {
                       </Heading>
                       </div>
                       <Text pt="2" fontFamily="Vazirmatn" fontWeight="normal" fontSize="16px">
-                        {book.authorname}
+                        {book.author_name}
                       </Text>
                       </HStack>
                     </Box>
@@ -92,7 +92,7 @@ function BookDescription({book}:{book:Book}) {
                       </Heading>
                       </div>
                       <Text pt="2" fontFamily="Vazirmatn" fontWeight="normal" fontSize="16px">
-                        {book.releaseddate}
+                        {book.released_date}
                       </Text>
                       </HStack>
                     </Box>

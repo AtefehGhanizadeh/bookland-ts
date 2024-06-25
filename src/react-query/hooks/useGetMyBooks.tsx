@@ -1,28 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import useShowToast from "@/src/components/ui/useShowToast";
+import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
-import { useRouter } from "next/router";
+import { Book,Response } from "@/src/helpers/Interfaces";
 
 const useGetMyBooks = () => {
-  const { push } = useRouter();
-  const showToast = useShowToast();
+
   const token = Cookies.get("token");
-  return useQuery({
+  return useQuery<Book[],AxiosError<Response<Book[]>>>({
     queryKey: ["userbooks"],
     queryFn: () =>
       axios
         .get("http://Localhost:8000/api/user/books", {
           headers: { Authorization: "Bearer " + token },
         })
-        .then((res) => res.data)
-        .catch((err) => {
-          showToast(err.response.data.result.error_message);
-          if (err.response.status === 401 || err.response.status === 403) {
-            token ? Cookies.remove("token") : "";
-            push("/login");
-          }
-        }),
+        .then((res) => res.data.data)
   });
 };
 

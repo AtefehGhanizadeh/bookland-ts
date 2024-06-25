@@ -1,16 +1,44 @@
 import Layout from "@/src/components/userProfile/Layout";
-import { Box, Center, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Spinner,
+  Table,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { ChevronRightIcon, ChevronLeftIcon } from "@chakra-ui/icons";
 import useTransaction from "@/src/react-query/hooks/useTransaction";
 import Navbar from "@/src/components/navbar/Navbar";
+import useShowToast from "@/src/components/ui/useShowToast";
+import Cookies from "js-cookie";
 
 const TransactionHistory = () => {
-  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
-  const { data, isLoading, isError, isSuccess } = useTransaction(currentPage);
-  let pageButtons:number[];
+  const { data, isLoading, isError, isSuccess, error } =
+    useTransaction(currentPage);
+  const showToast = useShowToast();
+  const { push } = useRouter();
+  const token = Cookies.get("token");
+  let pageButtons: number[] = [1];
+
+  if (isError) {
+    console.log(error);
+    if (error.response?.data.result?.error_message) {
+      showToast(error.response!.data.result?.error_message);
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        token ? Cookies.remove("token") : "";
+        push("/login");
+      }
+    } else {
+      showToast("مشکلی رخ داده است.");
+    }
+  }
 
   if (isSuccess) {
     const totalPages = data.count;
@@ -21,12 +49,11 @@ const TransactionHistory = () => {
     );
   }
 
-
   const tableHeadStyle = {
     fontSize: "16px",
     fontWeight: "600",
     color: "#515457",
-	whiteSpace:"pre"
+    whiteSpace: "pre",
   };
 
   const tableDataStyle = {
@@ -37,36 +64,25 @@ const TransactionHistory = () => {
   if (isLoading) {
     return (
       <Layout>
-        <div
-          style={{
-            height: "293px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <p>
-            در حال بارگذاری اطلاعات ...
-            <br /> از صبر و شکیبایی شما سپاسگذاریم.
-          </p>
-        </div>
+        <Center alignItems="center" h="full">
+          <Spinner
+            thickness="4px"
+            speed="1s"
+            emptyColor="gray.200"
+            color="primaryBlue"
+            size="xl"
+          />
+        </Center>
       </Layout>
     );
   }
 
+
   if (isError) {
     return (
-      <div
-        style={{
-          height: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          color: "red",
-        }}
-      >
-        خطا در بارگذاری اطلاعات
-      </div>
+      <Layout>
+        
+      </Layout>
     );
   }
 
@@ -75,7 +91,7 @@ const TransactionHistory = () => {
       <>
         <Navbar />
         <Layout>
-          <div className="overflow-x-scroll" >
+          <div className="overflow-x-scroll flex-1">
             <Table>
               <Thead>
                 <Tr>
@@ -90,7 +106,7 @@ const TransactionHistory = () => {
                   <Tr key={row.id}>
                     <Td style={tableDataStyle}>{row.amount}</Td>
                     <Td style={tableDataStyle}>
-                      {new Date(row.createddate).toLocaleDateString("fa-IR")}
+                      {new Date(row.created_date).toLocaleDateString("fa-IR")}
                     </Td>
                     <Td
                       style={{
@@ -102,68 +118,69 @@ const TransactionHistory = () => {
                     >
                       {row.actiontype}
                     </Td>
-                    <Td style={tableDataStyle} className="whitespace-pre">{row.description}</Td>
+                    <Td style={tableDataStyle} className="whitespace-pre">
+                      {row.description}
+                    </Td>
                   </Tr>
                 ))}
               </Tbody>
             </Table>
           </div>
-            <Center marginTop="30px">
-              <Box
-                dir="ltr"
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                gap="16px"
+          <Center marginTop="30px">
+            <Box
+              dir="ltr"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              gap="16px"
+            >
+              <button
+                style={{
+                  background: "rgba(87, 93, 251, 0.11)",
+                  width: "24px",
+                  height: "24px",
+                  borderRadius: "50%",
+                }}
+                onClick={() => setCurrentPage((prev) => prev - 1)}
+                disabled={currentPage === 1}
               >
+                <ChevronLeftIcon style={{ color: "#575DFB" }} />
+              </button>
+
+              {pageButtons.map((page) => (
                 <button
                   style={{
-                    background: "rgba(87, 93, 251, 0.11)",
-                    width: "24px",
-                    height: "24px",
-                    borderRadius: "50%",
+                    fontSize: "16px",
+                    fontWeight: "400",
+                    textDecoration: currentPage === page ? "underline" : "none",
+                    color: "#575DFB",
                   }}
-                  onClick={() => setCurrentPage((prev) => prev - 1)}
-                  disabled={currentPage === 1}
-                >
-                  <ChevronLeftIcon style={{ color: "#575DFB" }} />
-                </button>
-
-                {/* {pageButtons.map((page) => (
-                  <button
-                    style={{
-                      fontSize: "16px",
-                      fontWeight: "400",
-                      textDecoration:
-                        currentPage === page ? "underline" : "none",
-                      color: "#575DFB",
-                    }}
-                    key={page}
-                    onClick={() => {
-                      setCurrentPage(page);
-                    }}
-                    disabled={currentPage === page}
-                  >
-                    {page}
-                  </button>
-                ))} */}
-
-                <button
-                  style={{
-                    background: "rgba(87, 93, 251, 0.11)",
-                    width: "24px",
-                    height: "24px",
-                    borderRadius: "50%",
-                  }}
+                  key={page}
                   onClick={() => {
-                    setCurrentPage((prev) => prev + 1);
+                    setCurrentPage(page);
                   }}
-                  disabled={currentPage === data.count}
+                  disabled={currentPage === page}
                 >
-                  <ChevronRightIcon style={{ color: "#575DFB" }} />
+                  {page}
                 </button>
-              </Box>
-            </Center>
+              ))}
+
+              <button
+                style={{
+                  background: "rgba(87, 93, 251, 0.11)",
+                  width: "24px",
+                  height: "24px",
+                  borderRadius: "50%",
+                }}
+                onClick={() => {
+                  setCurrentPage((prev) => prev + 1);
+                }}
+                disabled={currentPage === data.count}
+              >
+                <ChevronRightIcon style={{ color: "#575DFB" }} />
+              </button>
+            </Box>
+          </Center>
         </Layout>
       </>
     );

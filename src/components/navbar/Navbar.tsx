@@ -79,7 +79,7 @@ function Navbar() {
                             as={Button}
                             rightIcon={<ChevronDownIcon />}
                             padding="0"
-                            fontSize={{ base: "13px", md: "18px" }}
+                            fontSize="13px"
                             fontFamily="Vazirmatn"
                             fontWeight="normal"
                             bg="inherit"

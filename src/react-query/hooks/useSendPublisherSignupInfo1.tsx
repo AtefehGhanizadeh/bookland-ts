@@ -34,9 +34,6 @@ function useSendPublisherSignupInfo1(
     onSuccess: () => {
       setStepfunc(3);
     },
-    onError:(e)=>{
-      console.log(e)
-    }
   });
 }
 

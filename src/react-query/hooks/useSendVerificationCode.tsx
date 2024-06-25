@@ -15,10 +15,7 @@ const useSendVerificationCode=(setStepfunc:Dispatch<SetStateAction<number>>)=> {
     onSuccess: () => {
       setStepfunc(3);
     },
-    // onError:(e)=>{
-    //   console.log(e.response.data.result.error_message
-    //     )
-    // }
+
   });
 }
 

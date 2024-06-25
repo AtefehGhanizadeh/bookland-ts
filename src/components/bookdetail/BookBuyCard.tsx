@@ -20,7 +20,7 @@ import BookBuy from "@/src/components/bookdetail/BookBuy";
 function BookBuyCard({book}:{book:Book}) {
   const token = Cookies.get("token");
   const { data, isSuccess, isError, isLoading } = useIsBookBought(
-    book.book_id
+    book.id
   );
 
   if (!token) {
@@ -32,7 +32,7 @@ function BookBuyCard({book}:{book:Book}) {
         pr="16px"
         pl="16px"
       >
-        <BookBuy price={book.price} id={book.book_id} />
+        <BookBuy price={book.price} id={book.id} />
       </CustomCardContainer>
     );
   } else if (isSuccess) {
@@ -46,7 +46,7 @@ function BookBuyCard({book}:{book:Book}) {
             pr="16px"
             pl="16px"
           >
-           <BookBuy price={book.price} id={book.book_id}/>
+           <BookBuy price={book.price} id={book.id}/>
           </CustomCardContainer>
         )}
         {data.data && (

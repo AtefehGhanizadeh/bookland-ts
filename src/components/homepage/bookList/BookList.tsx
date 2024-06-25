@@ -14,10 +14,10 @@ function BookList({searchKey}:{searchKey:string}) {
           <BookItem
             id={book.id}
             key={book.id}
-            bookname={book.bookname}
-            authorname={book.authorname}
+            bookname={book.name}
+            authorname={book.author_name}
             price={book.price}
-            bookcoverimage={book.bookcoverimage}
+            bookcoverimage={book.book_cover_image}
           />
         ))}
       </div>

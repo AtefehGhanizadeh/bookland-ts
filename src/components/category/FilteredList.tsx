@@ -30,7 +30,7 @@ function FilteredList(props: Props) {
     }
     if (props.pageRange) {
       filteredGroupData = filteredGroupData.filter(
-        (data) => data.numberofpages <= props.pageRange!
+        (data) => data.number_of_pages <= props.pageRange!
       );
     }
 
@@ -45,12 +45,12 @@ function FilteredList(props: Props) {
           <BookItem
             id={book.id}
             key={book.id}
-            bookname={book.bookname}
-            authorname={book.authorname}
+            bookname={book.name}
+            authorname={book.author_name}
             price={book.price}
             language={book.language}
             publisher={book.publisher}
-            bookcoverimage={book.bookcoverimage}
+            bookcoverimage={book.book_cover_image}
           />
         ))}
       </div>
@@ -65,7 +65,7 @@ function FilteredList(props: Props) {
     }
     if (props.pageRange) {
       filteredCategoryData = filteredCategoryData.filter(
-        (data) => data.numberofpages <= props.pageRange!
+        (data) => data.number_of_pages <= props.pageRange!
       );
     }
     if (props.language) {
@@ -79,12 +79,12 @@ function FilteredList(props: Props) {
           <BookItem
             id={book.id}
             key={book.id}
-            bookname={book.bookname}
-            authorname={book.authorname}
+            bookname={book.name}
+            authorname={book.author_name}
             price={book.price}
             language={book.language}
             publisher={book.publisher}
-            bookcoverimage={book.bookcoverimage}
+            bookcoverimage={book.book_cover_image}
           />
         ))}
       </div>
@@ -99,7 +99,7 @@ function FilteredList(props: Props) {
     }
     if (props.pageRange) {
       filteredAuthorData = filteredAuthorData.filter(
-        (data) => data.numberofpages <= props.pageRange!
+        (data) => data.number_of_pages <= props.pageRange!
       );
     }
     if (props.language) {
@@ -113,12 +113,12 @@ function FilteredList(props: Props) {
           <BookItem
             id={book.id}
             key={book.id}
-            bookname={book.bookname}
-            authorname={book.authorname}
+            bookname={book.name}
+            authorname={book.author_name}
             price={book.price}
             language={book.language}
             publisher={book.publisher}
-            bookcoverimage={book.bookcoverimage}
+            bookcoverimage={book.book_cover_image}
           />
         ))}
       </div>

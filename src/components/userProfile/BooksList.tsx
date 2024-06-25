@@ -21,7 +21,7 @@ function BooksList({
   return (
     <Flex flexDir="column" width="100%" rowGap="20px">
       {filteredBooks.map((book) => (
-        <BookCard book={book} key={book.book_id} type={type} />
+        <BookCard book={book} key={book.id} type={type} />
       ))}
     </Flex>
   );

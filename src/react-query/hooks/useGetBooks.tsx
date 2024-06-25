@@ -9,9 +9,6 @@ const useGetBooks = (bookName:string|null) => {
       axios
         .get<Response<Book[]>>(`http://localhost:7000/api/search/books?bookName=${bookName}`)
         .then((res) => res.data.data)
-        // .catch((err) => {
-          
-        // }),
   });
 };
 

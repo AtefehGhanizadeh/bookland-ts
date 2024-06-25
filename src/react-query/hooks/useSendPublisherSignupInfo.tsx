@@ -27,9 +27,6 @@ function useSendPublisherSignupInfo(setStepfunc:Dispatch<SetStateAction<number>>
       Cookies.set("token", token, { expires: inhalfHours });
       setStepfunc(2);
     },
-    // onError:(err)=>{
-    //   console.log(err)
-    // }
   });
 }
 
