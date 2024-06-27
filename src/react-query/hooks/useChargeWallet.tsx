@@ -24,6 +24,7 @@ const useChargeWallet = (amount:number) => {
 			const paymentUrl = data.data;
 			const parsedUrl = new URL(paymentUrl);
 			const id=parsedUrl.search
+			console.log(parsedUrl)
 			localStorage.setItem("id",id)
 			router.push(paymentUrl);
 		},

@@ -1,16 +1,15 @@
-// import useGetPublisherBalance from "@/src/react-query/hooks/usePublisherBalance";
+import useGetPublisherBalance from "@/src/react-query/hooks/useGetPublisherBalance";
 import {
 	Box,
 	CircularProgress,
 	CircularProgressLabel,
 	Flex,
 	Text,
-	data,
 } from "@chakra-ui/react";
 
 const DoughnutChart = () => {
-	// const { data, refetch, isSuccess, isLoading, isError } =
-	// 	useGetPublisherBalance();
+	const { data, refetch, isSuccess, isLoading, isError } =
+		useGetPublisherBalance();
 	if (isLoading) {
 		return <p>Loading...</p>;
 	}
@@ -26,7 +25,7 @@ const DoughnutChart = () => {
 				value={80}
 				thickness={6}
 				color="#c2efea"
-				variant="vision"
+				// variant="vision"
 				trackColor="#fff"
 				bg="#4fd1c5"
 			>
@@ -41,8 +40,8 @@ const DoughnutChart = () => {
 							fontWeight="semibold"
 							mb="4px"
 						>
-							{isSuccess &&
-								data.data.deposit - data.data.withdraw}
+							{isSuccess && data.deposit
+}
 						</Text>
 						<Text color="#fff" fontSize="sm">
 							تومان

@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import useShowToast from "@/components/ui/useShowToast";
+import useShowToast from "@/src/components/ui/useShowToast";
 
-const useGetReview = (id) => {
+const useGetReview = (id:number) => {
 	const showToast = useShowToast();
 	return useQuery({
 		queryKey: ["bookReview"],

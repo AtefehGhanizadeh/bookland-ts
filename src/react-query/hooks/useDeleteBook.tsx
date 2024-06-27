@@ -1,9 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import { API_ENDPOINTS } from "@/utils/api/endpoints";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const useDelete = (book_id) => {
+const useDelete = (book_id:number) => {
 	const token = Cookies.get("token");
 	return useMutation({
 		mutationFn: () =>

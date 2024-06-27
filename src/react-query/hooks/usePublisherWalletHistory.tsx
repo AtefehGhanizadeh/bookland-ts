@@ -1,34 +1,23 @@
 import { useRouter } from "next/router";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
 import useShowToast from "@/src/components/ui/useShowToast";
 import { useQuery } from "@tanstack/react-query";
+import { TransactionItem ,Response} from "@/src/helpers/Interfaces";
 
 const usePublisherWalletHistory = () => {
-	const showToast = useShowToast();
 	const token = Cookies.get("token");
-	const { push } = useRouter();
-	return useQuery({
+	return useQuery<TransactionItem[],AxiosError<Response<TransactionItem[]>>>({
 		queryKey: ["PublisherWallet"],
 		queryFn: () =>
 			axios
-				.get(
+				.get<Response<TransactionItem[]>>(
 					`http://Localhost:8000/api/publisher/wallet-history`,
 					{
 						headers: { Authorization: "Bearer " + token },
 					}
 				)
-				.then((res) => res.data)
-				.catch((err) => {
-					showToast(err.response.data.result.error_message);
-					if (
-						err.response.status === 401 ||
-						err.response.status === 403
-					) {
-						token ? Cookies.remove("token") : "";
-						push("/login");
-					}
-				}),
+				.then((res) => res.data.data)
 	});
 };
 

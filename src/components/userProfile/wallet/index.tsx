@@ -41,15 +41,13 @@ const Wallet = () => {
   const { mutate } = useChargeWallet(inputValue);
   const showToast = useShowToast();
   const router = useRouter();
-  const pageName = router.pathname;
   const token = Cookies.get("token");
 
   useEffect(() => {
     if (router.query.Status && router.query.Status === "OK") {
-      showToast("شارژ کیف پول شما با موفقیت انجام شد", "success");
       axios
         .put(
-          `http://Localhost:5000/api/wallet/UpdateUserWallet${localStorage.getItem(
+          `http://Localhost:3000/api/wallet/UpdateUserWallet${localStorage.getItem(
             "id"
           )}`,
           {},
@@ -61,10 +59,13 @@ const Wallet = () => {
         )
         .then((res) => {
           if (res.status === 200) {
+            showToast("شارژ کیف پول شما با موفقیت انجام شد", "success");
             refetch();
           }
+        }).catch((err)=>{
+          showToast("مشکلی در شارژ کیف پول بوجود آمده،لطفا دوباره تلاش کنید");
+
         })
-        .catch((err) => console.log(err));
       router.replace("/wallet");
     }
     if (router.query.Status && router.query.Status === "NOK") {
@@ -83,11 +84,11 @@ const Wallet = () => {
       <Navbar />
       <Layout>
         <Box display="flex" flexDir="row" marginBottom="32px">
-          <Text fontWeight="700" display="flex" alignItems="center" whiteSpace="pre">
+          <Box fontWeight="700" display="flex" alignItems="center" whiteSpace="pre">
             <span className="text-[18px]">دارایی حساب شما:</span>
-            {/* {walletInfoIsLoading && (
+            {walletInfoIsLoading && (
 							<span> درحال بارگیری اطلاعات...</span>
-						)} */}
+						)}
             {isSuccess && (
               <>
                 <span className="text-[23px]" >&nbsp;{data.data}</span>
@@ -102,7 +103,7 @@ const Wallet = () => {
                 </span>
               </>
             )}
-          </Text>
+          </Box>
         </Box>
         <Text fontSize="16px" fontWeight="500" className="hidden md:block">
           لطفا میزان شارژ کیف پول خود را انتخاب کنید:

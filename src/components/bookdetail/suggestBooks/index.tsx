@@ -24,7 +24,7 @@ function SuggestBooks({bookId}:{bookId:number}) {
           </Flex>
         </HStack>
         <Divider borderBottomColor="rgb(226, 232, 240)" />
-        <SuggestedBooksList category={data[0]} />
+        <SuggestedBooksList category={data[0].name} />
       </CustomCardContainer>
     );
   }

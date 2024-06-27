@@ -25,7 +25,7 @@ function BookList({searchKey}:{searchKey:string}) {
   } else {
     return (
       <div className="grid grid-cols-2 grid-rows-2 gap-[20px] md:grid-cols-4 md:grid-rows-1 ">
-        {[1,1,1,1].map(item=><Skeleton className=" max-w-[220px] w-[120px] h-[150px] sm:w-[200px] sm:h-[200px] md:w-[220px] md:h-[200px]" key={Math.random()}/>)}
+        {[1,1,1,1].map(item=><Skeleton className=" max-w-[220px] w-[120px] h-[150px] sm:w-[200px] sm:h-[200px] md:w-[150px] md:h-[200px] lg:w-[210px] " key={Math.random()}/>)}
       </div>
     );
   }

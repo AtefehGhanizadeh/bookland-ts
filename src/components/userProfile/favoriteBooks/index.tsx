@@ -14,18 +14,6 @@ function MyBookmarks({ searchValue }: { searchValue: string }) {
   const { push } = useRouter();
   const token = Cookies.get("token");
 
-  if (isError) {
-    if (error.response?.data.result?.error_message) {
-      showToast(error.response!.data.result?.error_message);
-      if (error.response?.status === 401 || error.response?.status === 403) {
-        token ? Cookies.remove("token") : "";
-        push("/login");
-      }
-    } else {
-      showToast("مشکلی رخ داده است.");
-    }
-  }
-
   if (isLoading) {
     return (
       <Layout>
@@ -41,11 +29,27 @@ function MyBookmarks({ searchValue }: { searchValue: string }) {
       </Layout>
     );
   }
+
   if (isError) {
+    if (error.response?.data.result?.error_message) {
+      showToast(error.response!.data.result?.error_message);
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        token ? Cookies.remove("token") : "";
+        push("/login");
+      }
+    } else {
+      showToast("مشکلی رخ داده است.");
+    }
     return (
-      <Layout/>
+      <>
+      <Navbar/>
+      <Layout/> 
+      {/* ?? */}
+      </>
     );
   }
+
+
 
   return (
     <>

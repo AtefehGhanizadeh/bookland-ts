@@ -1,5 +1,5 @@
 // Chakra imports
-import { Button, Flex, Text, useColorModeValue } from "@chakra-ui/react";
+import { Button, Flex, Text, useColorModeValue,Image } from "@chakra-ui/react";
 // Custom components
 import Card from "../../../components/Card/Card";
 import CardBody from "../../../components/Card/CardBody";
@@ -7,16 +7,16 @@ import CardHeader from "../../../components/Card/CardHeader";
 import React, { useState } from "react";
 import { EditIcon } from "@/pages/Publisher/components/Icons/Icons";
 import EditModal from "./EditModal";
-import Image from "next/image";
+// import Image from "next/image";
+
 
 const ProfileInformation = ({
 	title,
-	pass,
 	address,
 	phoneNo1,
 	phoneNo2,
 	logo,
-}) => {
+}:{title:string,address:string|null,phoneNo1:string,phoneNo2:string|null,logo:string}) => {
 	// Chakra color mode
 	const textColor = useColorModeValue("gray.700", "white");
 
@@ -35,7 +35,7 @@ const ProfileInformation = ({
 			</CardHeader>
 			<CardBody px="5px">
 				<Flex direction="column">
-					<Flex align="center" mb="18px">
+					{/* <Flex align="center" mb="18px">
 						<Text
 							fontSize="md"
 							color={textColor}
@@ -58,7 +58,7 @@ const ProfileInformation = ({
 						<Text fontSize="md" color="gray.500" fontWeight="400">
 							{pass}
 						</Text>
-					</Flex>
+					</Flex> */}
 					<EditModal
 						isOpen={isOpenPass}
 						onClose={() => setOpenPass(false)}

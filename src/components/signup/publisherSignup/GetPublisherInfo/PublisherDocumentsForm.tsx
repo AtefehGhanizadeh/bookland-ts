@@ -57,6 +57,7 @@ function PublisherDocumentsForm() {
         formData.append("publications_image", logoImage);
         formData.append("identity_image", idCardImage);
       }
+      console.log(formData)
       mutate({ formData });
     }
   }

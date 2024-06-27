@@ -42,7 +42,7 @@ function BuyModal({price,bookId}:{price:number,bookId:number}) {
   }
   const buyHandler=()=>{
     mutate({book_Id:bookId,discount_Id:discountId})
-    router.reload()
+    // router.reload()
   }
 
   const handleModalOpen=()=>{

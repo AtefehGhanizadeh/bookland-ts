@@ -25,7 +25,7 @@ function useBuyBook(onClose:()=>void) {
           if (res.data.result.http_status_code === 200) {
             onClose()
             showToast("خرید شما با موفقیت انجام شد.", "success");
-            router.reload()
+            // router.reload()
           }
           return res.data;
         })

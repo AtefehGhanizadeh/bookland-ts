@@ -4,7 +4,6 @@ import useGetBookGroups from "@/src/react-query/hooks/useGetBookGroups";
 import useGetCategoryBooks from "@/src/react-query/hooks/useGetCategoryBooks";
 import { useRouter } from "next/router";
 import React from "react";
-import { Flex } from "@chakra-ui/react";
 
 interface Props {
   language: string | null;

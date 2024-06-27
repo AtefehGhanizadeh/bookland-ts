@@ -15,12 +15,13 @@ import {
 import Card from "../../../components/Card/Card.js";
 import CardBody from "../../../components/Card/CardBody.js";
 import CardHeader from "../../../components/Card/CardHeader.js";
-import TablesTableRow from "./TablesTableRow.js";
+import TablesTableRow from "@/pages/Publisher/views/Books/components/TablesTableRow";
 import { FaPlus } from "react-icons/fa";
 import { Seperator } from "@/pages/Publisher/components/Seperator/Seperator.js";
 import { useRouter } from "next/router.js";
+import { Book } from "@/src/helpers/Interfaces.jsx";
 
-const BookList = ({ title, captions, data, issuccess }) => {
+const BookList = ({ title, captions, data }:{title:string,captions:string[],data:Book[]}) => {
 	const textColor = useColorModeValue("gray.700", "white");
 
 	const router = useRouter();
@@ -86,15 +87,15 @@ const BookList = ({ title, captions, data, issuccess }) => {
 					<Tbody>
 						{data.map((row) => (
 							<TablesTableRow
-								key={`${row.author}-${row.bookname}`}
+								key={row.id}
 								id={row.id}
-								logo={row.bookcoverimage}
-								bookname={row.bookname}
-								author={row.authorname}
-								translatorname={row.translatorname}
-								date={row.releaseddate}
+								logo={row.book_cover_image}
+								bookname={row.name}
+								author={row.author_name}
+								translatorname={row.translator_name}
+								date={row.released_date}
 								language={row.language}
-								numberofpages={row.numberofpages}
+								numberofpages={row.number_of_pages}
 							/>
 						))}
 					</Tbody>

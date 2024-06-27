@@ -10,7 +10,7 @@ import {
 import React from "react";
 
 const Header = ({
-	backgroundHeader,
+	// backgroundHeader,
 	backgroundProfile,
 	avatarImage,
 	name,
@@ -33,7 +33,7 @@ const Header = ({
 			align="center"
 		>
 			<Box
-				bgImage={backgroundHeader}
+				bgImage={backgroundProfile}
 				w="100%"
 				h="300px"
 				borderRadius="25px"

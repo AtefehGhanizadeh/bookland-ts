@@ -15,10 +15,9 @@ import Navbar from "@/src/components/navbar/Navbar";
 
 function BookDetails() {
   const router=useRouter();
-  const { data, isLoading, isSuccess, isError,error } = useGetBookInformation(router.query);
+  const { data, isLoading, isSuccess, isError } = useGetBookInformation(router.query);
 
   if (isLoading || isError) {
-    console.log(error)
     return (
       <div className="w-full min-h-screen">
         <div className="mx-auto w-[90%] h-screen py-[50px]">
@@ -51,7 +50,7 @@ function BookDetails() {
               <BookDetailCard book={data} />
               <BookDescription book={data} />
               <AuthorBooks author={data.author_name} />
-              {/* <SuggestBooks bookId={data.id}/> */}
+              <SuggestBooks bookId={data.id}/>
               {/* <Comment bookId={data.id} /> */}
             </Flex>
             <div className="hidden lg:block lg:w-[35%] relative">

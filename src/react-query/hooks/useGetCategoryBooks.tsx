@@ -9,7 +9,10 @@ const useGetCategoryBooks = (category:string|undefined) => {
     queryFn: () =>
       axios
         .get<Response<Book[]>>(`http://localhost:7000/api/search/books?category=${category}`)
-        .then((res) => res.data.data),
+        .then((res) => {
+          console.log(res.data)
+          return res.data.data
+        }),
         
     enabled:category?true:false
   });

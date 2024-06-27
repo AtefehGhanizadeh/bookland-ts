@@ -5,13 +5,13 @@ import avatar4 from "../../assets/img/avatars/avatar4.png";
 import React from "react";
 import Header from "./components/Header";
 import ProfileInformation from "./components/ProfileInformation";
-// import usePublisherProfile from "@/src/react-query/hooks/usePublisherProfile";
+import usePublisherProfile from "@/src/react-query/hooks/usePublisherProfile";
 
 const Profile = () => {
 	const router = useRouter();
 	const pageName = router.pathname;
 
-	// const { data, isError, isSuccess, isLoading } = usePublisherProfile();
+	const { data, isError, isSuccess, isLoading } = usePublisherProfile();
 
 	const bgProfile = useColorModeValue(
 		"hsla(0,0%,100%,.8)",
@@ -20,7 +20,7 @@ const Profile = () => {
 
 	return (
 		<Sidebar pageName={pageName}>
-			<div display="flex" w="1200px" justifyContent="center">
+			<div className="flex justify-center">
 				<Flex alignItems="center" direction="column" mt="10px">
 					<Flex
 						mt="60px"
@@ -32,22 +32,22 @@ const Profile = () => {
 						<Box background="#4fd1c5" borderRadius="30px">
 							{isSuccess && (
 								<Header
-									border="1px solid blue"
+									// border="1px solid blue"
 									backgroundProfile={bgProfile}
 									avatarImage={avatar4}
-									name={data.data.username}
-									email={data.data.email}
+									name={data.username}
+									email={data.email}
 								/>
 							)}
 						</Box>
 						<Grid templateColumns="1fr" gap="22px">
 							{isSuccess && (
 								<ProfileInformation
-									title={"تغییر اطلاعات کاربری"}
-									address={data.data.address}
-									phoneNo1={data.data.phonenumber}
-									phoneNo2={data.data.phonenumber2}
-									logo={data.data.publicationsimage}
+									title="تغییر اطلاعات کاربری"
+									address={data.address}
+									phoneNo1={data.phone_number}
+									phoneNo2={data.phone_number2}
+									logo={data.publications_image}
 								/>
 							)}
 						</Grid>

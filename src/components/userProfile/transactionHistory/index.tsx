@@ -26,9 +26,24 @@ const TransactionHistory = () => {
   const { push } = useRouter();
   const token = Cookies.get("token");
   let pageButtons: number[] = [1];
+  
+  if (isLoading) {
+    return (
+      <Layout>
+        <Center alignItems="center" h="full">
+          <Spinner
+            thickness="4px"
+            speed="1s"
+            emptyColor="gray.200"
+            color="primaryBlue"
+            size="xl"
+          />
+        </Center>
+      </Layout>
+    );
+  }
 
   if (isError) {
-    console.log(error);
     if (error.response?.data.result?.error_message) {
       showToast(error.response!.data.result?.error_message);
       if (error.response?.status === 401 || error.response?.status === 403) {
@@ -38,6 +53,12 @@ const TransactionHistory = () => {
     } else {
       showToast("مشکلی رخ داده است.");
     }
+    return(
+      <>
+      <Navbar/>
+      <Layout/>
+      </>
+    )
   }
 
   if (isSuccess) {
@@ -61,30 +82,7 @@ const TransactionHistory = () => {
     fontWeight: "400",
   };
 
-  if (isLoading) {
-    return (
-      <Layout>
-        <Center alignItems="center" h="full">
-          <Spinner
-            thickness="4px"
-            speed="1s"
-            emptyColor="gray.200"
-            color="primaryBlue"
-            size="xl"
-          />
-        </Center>
-      </Layout>
-    );
-  }
 
-
-  if (isError) {
-    return (
-      <Layout>
-        
-      </Layout>
-    );
-  }
 
   if (isSuccess) {
     return (

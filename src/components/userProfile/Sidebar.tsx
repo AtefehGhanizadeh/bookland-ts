@@ -15,12 +15,14 @@ import {
 
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { ReactNode } from "react";
+import React from "react";
 import { CiUser } from "react-icons/ci";
 import { FaHistory } from "react-icons/fa";
 import { GiBookshelf } from "react-icons/gi";
 import { GoBookmarkFill } from "react-icons/go";
 import { IoWalletOutline } from "react-icons/io5";
+import useShowToast from "../ui/useShowToast";
+import Cookies from "js-cookie";
 
 const listItemStyle = {
   fontSize: "16px",
@@ -41,10 +43,25 @@ const headingStyle = {
 };
 
 const Sidebar = () => {
-  const router = useRouter();
-  const pageName = router.pathname;
+  const { pathname } = useRouter();
+  const pageName = pathname;
+  const showToast = useShowToast();
+  const { push } = useRouter();
+  const token = Cookies.get("token");
 
-  const { data, isLoading,isError, isSuccess } = useGetUserInfo();
+  const { data, isLoading, isError, isSuccess, error } = useGetUserInfo();
+
+  if (isError) {
+    if (error.response?.data.result?.error_message) {
+      showToast(error.response!.data.result?.error_message);
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        token ? Cookies.remove("token") : "";
+        push("/login");
+      }
+    } else {
+      showToast("مشکلی رخ داده است.");
+    }
+  }
   return (
     <div className="hidden lg:block">
       <Card
@@ -76,7 +93,7 @@ const Sidebar = () => {
             alignItems="center"
           >
             <Heading style={headingStyle}>
-              {(isLoading||isError) && <Skeleton w="100px" h="20px"/>}
+              {isLoading && <Skeleton w="100px" h="20px" />}
               {isSuccess && data.username}
             </Heading>
             <Text
@@ -104,7 +121,7 @@ const Sidebar = () => {
           paddingTop="16px"
           paddingBottom="16px"
         >
-          <Box >
+          <Box>
             <Link
               className={`flex flex-row items-center font-SemiBold text-${
                 pageName === "/wallet" ? "primaryBlue" : "black"
@@ -147,7 +164,7 @@ const Sidebar = () => {
             }`}
             href="/myBooks"
           >
-            <GiBookshelf className="w-[20px] h-[20px] p-0"/> &nbsp; کتابخانه من
+            <GiBookshelf className="w-[20px] h-[20px] p-0" /> &nbsp; کتابخانه من
           </Link>
           <Link
             style={{
@@ -158,7 +175,8 @@ const Sidebar = () => {
             }`}
             href="/myBookmarks"
           >
-            <GoBookmarkFill className="w-[20px] h-[20px] p-0"/> &nbsp; فهرست علاقه‌مندی‌ها
+            <GoBookmarkFill className="w-[20px] h-[20px] p-0" /> &nbsp; فهرست
+            علاقه‌مندی‌ها
           </Link>
           <Link
             style={{
@@ -169,7 +187,8 @@ const Sidebar = () => {
             }`}
             href="/transactionHistory"
           >
-            <FaHistory className="w-[20px] h-[20px] p-0"/> &nbsp; تاریخچه تراکنش‌ها
+            <FaHistory className="w-[20px] h-[20px] p-0" /> &nbsp; تاریخچه
+            تراکنش‌ها
           </Link>
         </CardFooter>
       </Card>
