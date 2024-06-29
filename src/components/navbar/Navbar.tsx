@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
 import SearchBox from "@/src/components/navbar/SearchBox";
-import { Flex } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+} from "@chakra-ui/react";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import { Container } from "@chakra-ui/react";
@@ -8,9 +16,16 @@ import { Container } from "@chakra-ui/react";
 import Logo from "@/src/components/ui/Logo";
 import UserIcon from "@/src/components/ui/UserIcon";
 import NavMenu from "@/src/components/navbar/NavMenu";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+import { CiUser } from "react-icons/ci";
+import { GoBookmarkFill } from "react-icons/go";
+import { GiBookshelf } from "react-icons/gi";
+import { FaHistory } from "react-icons/fa";
+import { IoWalletOutline } from "react-icons/io5";
 
 function Navbar() {
-  const [tokenState, setTokenState] = useState<string|undefined>();
+  const [tokenState, setTokenState] = useState<string | undefined>();
+  const [state, setState] = useState(false);
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -19,8 +34,12 @@ function Navbar() {
 
   function exitHandler() {
     Cookies.remove("token");
-    setTokenState('');
+    setTokenState("");
   }
+
+  const clickHandler = () => {
+    setState((prevState) => !prevState);
+  };
 
   return (
     <nav className=" w-full bg-white sticky top-0 z-[80]  shadow-lg">
@@ -29,7 +48,7 @@ function Navbar() {
         w="90%"
         maxW="7xl"
         paddingX="0"
-        className="py-[10px] md:pt-[20px] md:pb-[2px] h-full"
+        className="md:pt-[20px] md:pb-[2px] h-full"
       >
         <Flex flexDir="column" gap="10px" width="full">
           <Flex
@@ -41,18 +60,142 @@ function Navbar() {
             <Link href="/" className="md:order-1">
               <Logo />
             </Link>
-            <Flex className="gap-[10px] md:gap-[35px] md:order-3">
+            <Flex
+              className="gap-[10px] md:gap-[35px] sm:order-3"
+              order={{ sm: 3 }}
+            >
               <div className="h-full">
-                <Link
-                  href={tokenState ? "/user/userProfile" : "/login"}
-                  className="border-[0.5px] border-[#C8C8C8] flex p-[5px] rounded-[10px] gap-[2px] items-center h-[30px] md:h-[44px]"
-                >
-                  <UserIcon />
-                  <div className="text-[#515457] text-[13px] font-normal">
-                    {tokenState ? "پروفایل من" : "ورود/ثبت نام"}
+                {tokenState && (
+                  <div className="border-[0.5px] border-[#C8C8C8] flex p-[5px] rounded-[10px] gap-[2px] items-center h-[30px] md:h-[44px]">
+                    <UserIcon />
+                    <Menu
+                      offset={[138, 10]}
+                      strategy="fixed"
+                      autoSelect={false}
+                    >
+                      {({ isOpen }) => (
+                        <>
+                          <MenuButton
+                            as={Button}
+                            rightIcon={<ChevronDownIcon />}
+                            padding="0"
+                            fontSize="13px"
+                            fontFamily="Vazirmatn"
+                            fontWeight="normal"
+                            bg="inherit"
+                            _hover={{
+                              backgroundColor: "inherit",
+                            }}
+                            _active={{ backgroundColor: "inherit" }}
+                            onClick={clickHandler}
+                          >
+                            پروفایل من
+                          </MenuButton>
+                          <MenuList
+                            zIndex="60"
+                            marginTop="0px"
+                            borderRadius="10px"
+                            maxH="580px"
+                            width={{ base: "250px", md: "250px" }}
+                            overflow="hidden"
+                            padding="10px"
+                            display="flex"
+                            flexDir="column"
+                            gap="20px"
+                          >
+                            <Link href="/userProfile" onClick={clickHandler}>
+                              <MenuItem
+                                icon={
+                                  <CiUser className="w-[20px] h-[20px] p-0" />
+                                }
+                                _hover={{
+                                  backgroundColor: "white",
+                                }}
+                                _active={{ backgroundColor: "white" }}
+                              >
+                                اطلاعات کاربر
+                              </MenuItem>
+                            </Link>
+                            <Link href="/myBooks" onClick={clickHandler}>
+                              <MenuItem
+                                icon={
+                                  <GiBookshelf className="w-[20px] h-[20px] p-0" />
+                                }
+                                _hover={{
+                                  backgroundColor: "white",
+                                }}
+                                _active={{ backgroundColor: "white" }}
+                              >
+                                کتابخانه من{" "}
+                              </MenuItem>
+                            </Link>
+                            <Link href="/myBookmarks" onClick={clickHandler}>
+                              <MenuItem
+                                icon={
+                                  <GoBookmarkFill className="w-[20px] h-[20px] p-0" />
+                                }
+                                _hover={{
+                                  backgroundColor: "white",
+                                }}
+                                _active={{ backgroundColor: "white" }}
+                              >
+                                علاقه مندی ها
+                              </MenuItem>
+                            </Link>
+                            <Link
+                              href="/transactionHistory"
+                              onClick={clickHandler}
+                            >
+                              <MenuItem
+                                icon={
+                                  <FaHistory className="w-[20px] h-[20px] p-0" />
+                                }
+                                _hover={{
+                                  backgroundColor: "white",
+                                }}
+                                _active={{ backgroundColor: "white" }}
+                              >
+                                تاریخچه تراکنش ها
+                              </MenuItem>
+                            </Link>
+                            <Link href="/wallet" onClick={clickHandler}>
+                              <MenuItem
+                                icon={
+                                  <IoWalletOutline className="w-[20px] h-[20px] p-0" />
+                                }
+                                _hover={{
+                                  backgroundColor: "white",
+                                }}
+                                _active={{ backgroundColor: "white" }}
+                              >
+                                کیف پول
+                              </MenuItem>
+                            </Link>
+                          </MenuList>
+                        </>
+                      )}
+                    </Menu>
+                    {state && (
+                      <div
+                        className="w-screen h-screen bg-none fixed top-0 left-0 z-50"
+                        onClick={clickHandler}
+                      ></div>
+                    )}
                   </div>
-                </Link>
+                )}
+                {!tokenState && (
+                  <Link
+                    href="/login"
+                    className="border-[0.5px] border-[#C8C8C8] flex p-[5px] rounded-[10px] gap-[2px] items-center h-[30px] md:h-[44px]"
+                  >
+                    <UserIcon />
+                    <div className="text-[#515457] text-[13px] font-normal">
+                      ورود/ثبت نام
+                    </div>
+                  </Link>
+                )}
               </div>
+
               {tokenState && (
                 <button
                   onClick={() => exitHandler()}
@@ -62,9 +205,9 @@ function Navbar() {
                 </button>
               )}
             </Flex>
-            <div className="md:order-2 flex-1 min-w-[200px]">
+            <Box className="flex-1 min-w-[200px]" order={{ sm: 2 }}>
               <SearchBox />
-            </div>
+            </Box>
           </Flex>
           <ul className="flex items-center gap-[25px] md:gap-[50px] md:pt-[15px]">
             <NavMenu />

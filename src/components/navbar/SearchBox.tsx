@@ -1,27 +1,30 @@
-// import useGetBookByName from "@/react-query/hooks/useGetBookByName";
-import React, { useState } from "react";
+import useGetBooks from "@/src/react-query/hooks/useGetBooks";
+import React, { ChangeEvent, useState } from "react";
 import { Flex } from "@chakra-ui/react";
 import Link from "next/link";
+import { Book } from "@/src/helpers/Interfaces";
 
 function SearchBox() {
-//   const { data, isSuccess, isLoading, isError } = useGetBookByName(" ");
-  const[filteredArray,setFilteredArray]=useState([])
-  const[searchValue,setSearchValue]=useState()
+  const { data, isSuccess, isLoading, isError } = useGetBooks('');
+  const[filteredArray,setFilteredArray]=useState<Book[]>([])
+  const[searchValue,setSearchValue]=useState<string>()
 
-//   function inputChangeHandler(e) {
-//     let filteredList = data.data.filter((data) =>
-//       data.bookname.includes(e.target.value)
-//     );
-//     setFilteredArray(filteredList)
-//     setSearchValue(e.target.value)
-//   }
+  function inputChangeHandler(e:ChangeEvent<HTMLInputElement>) {
+    if(data){
+      let filteredList = data.filter((data) =>
+        data.name.includes(e.target.value)||data.author_name.includes(e.target.value)
+      );
+      setFilteredArray(filteredList)
+      setSearchValue(e.target.value)
+    }
+  }
   return (
     <div className="flex-grow h-full relative">
       <form>
         <input
           className={`flex pr-[35px] md:pr-[50px] ${filteredArray.length>0 && searchValue?"rounded-b-none rounded-t-[10px]":"rounded-[10px]"} gap-[2px] items-center bg-[#e4e4e4] w-full md:h-[44px] placeholder:text-[10px] md:placeholder:text-[16px] focus:outline-none`}
           placeholder="جست‌وجو از بین صدها کتاب متنی..."
-        //   onChange={(e) => inputChangeHandler(e)}
+          onChange={(e) => inputChangeHandler(e)}
         />
       </form>
       <div className="absolute top-[0.25px] right-2 md:top-2.5 md:right-4">
@@ -42,9 +45,9 @@ function SearchBox() {
       </div>
       {filteredArray.length > 0 && searchValue && (
         <Flex width="full" position="absolute" flexDir="column" bg="#f2f2f2" borderBottomRadius="10px">
-          {/* {filteredArray.map((item) => (
-            // <Link className="py-[20px] px-[25px] rtl" href={`/books/${item.id}`} key={item.id}>{`${item.bookname}(${item.authorname})`}</Link>
-          ))} */}
+          {filteredArray.map((item) => (
+            <Link className="py-[20px] px-[25px] rtl" href={`/books/${item.id}`} key={item.id}>{`${item.name}(${item.author_name})`}</Link>
+          ))}
         </Flex>
       )}
     </div>

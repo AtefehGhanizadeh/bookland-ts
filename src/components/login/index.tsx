@@ -1,15 +1,12 @@
-// import CustomCardContainer from "@/components/ui/login-submit/CustomCard/CustomCardContainer";
-// import CustomCardHeader from "@/components/ui/login-submit/CustomCard/CustomCardHeader";
-// import CustomCardLink from "@/components/ui/login-submit/CustomCard/CustomCardLink";
-// import LoginForm from "./LoginForm";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import CustomCardContainer from "@/src/components/ui/login-submit/CustomCard/CustomCardContainer";
+import CustomCardHeader from "@/src/components/ui/login-submit/CustomCard/CustomCardHeader";
+import CustomCardLink from "@/src/components/ui/login-submit/CustomCard/CustomCardLink";
+import LoginForm from "@/src/components/login/LoginForm";
 
-function Login(props:any) {
-
-
+function Login() {
   return (
     <main className={`flex min-h-screen flex-col items-center justify-center`}>
-      {/* <CustomCardContainer roundedTop="20px">
+      <CustomCardContainer roundedTop="20px">
         <CustomCardHeader>
           <p> بوکلندی عزیز خوش اومدی :)</p>
         </CustomCardHeader>
@@ -20,7 +17,7 @@ function Login(props:any) {
         <CustomCardLink href={"/signup"}>
           حساب کاربری ندارم
         </CustomCardLink>
-      </CustomCardContainer> */}
+      </CustomCardContainer>
     </main>
   );
 }

@@ -11,8 +11,9 @@ const colors = {
      800: "#052d90",
      900: "#031f6c",
     },
-    primary:"#575DFB",
+    primaryBlue:"#575DFB",
     error:"#D62737",
+    secondaryBlue:"#e6e7fa",
    };
    
    export default colors;
