@@ -51,7 +51,7 @@ function BookDetails() {
               <BookDescription book={data} />
               <AuthorBooks author={data.author_name} />
               <SuggestBooks bookId={data.id}/>
-              {/* <Comment bookId={data.id} /> */}
+              <Comment bookId={data.id} />
             </Flex>
             <div className="hidden lg:block lg:w-[35%] relative">
               <BookBuyCard book={data} />
