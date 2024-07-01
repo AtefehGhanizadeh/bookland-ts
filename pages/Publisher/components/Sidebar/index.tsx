@@ -49,11 +49,11 @@ const Sidebar = ({
           <MainPanel
             backgroundColor="#ffffff"
             display="flex"
-            w="1800px"
+            w="1000px"
             mr="270px"
           >
-            <PanelContent>
-              <PanelContainer>
+            <PanelContent className="flex-1">
+              <PanelContainer className="w-full h-full">
                 {React.Children.map(children, (child) => {
                   return React.cloneElement(child as React.ReactElement<any>);
                 })}

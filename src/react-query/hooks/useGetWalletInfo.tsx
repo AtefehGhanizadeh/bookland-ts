@@ -1,31 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import useShowToast from "@/src/components/ui/useShowToast";
+import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
-import { useRouter } from "next/router";
+import { Response } from "@/src/helpers/Interfaces";
+
+interface Values{
+	data:number
+}
 
 const useGetWalletInfo = () => {
-	const showToast = useShowToast();
 	const token = Cookies.get("token");
-	const { push } = useRouter();
-	return useQuery({
+	return useQuery<Values,AxiosError<Response<Values>>>({
 		queryKey: ["walletinfo"],
 		queryFn: () =>
 			axios
-				.get("http://Localhost:8000/api/user/wallet-balance", {
+				.get<Response<Values>>("http://Localhost:8000/api/user/wallet-balance", {
 					headers: { Authorization: "Bearer " + token },
 				})
-				.then((res) => res.data)
-				.catch((err) => {
-					showToast(err.response.data.result.error_message);
-					if (
-						err.response.status === 401 ||
-						err.response.status === 403
-					) {
-						token ? Cookies.remove("token") : "";
-						push("/login");
-					}
-				}),
+				.then((res) => res.data.data),
+
 		enabled:token?true:false
 	});
 };

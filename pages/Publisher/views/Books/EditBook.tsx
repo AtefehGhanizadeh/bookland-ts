@@ -22,12 +22,12 @@ import Link from "next/link";
 import Sidebar from "../../components/Sidebar";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import useEditBook from "@/react-query/hooks/useEditBook";
+import useEditBook from "@/src/react-query/hooks/useEditBook";
 
 const AddBook = () => {
 	const router = useRouter();
 	const { id, bookname } = router.query;
-	const { mutate, isLoading, error } = useEditBook(id);
+	const { mutate, isLoading, error } = useEditBook();
 
 	const [coverImg, setCoverImg] = useState("");
 	const [orgFile, setOrgFile] = useState("");
@@ -175,7 +175,7 @@ const AddBook = () => {
 	return (
 		<>
 			<Sidebar pageName={"Books"}>
-				<div display="flex" w="1200px" justifyContent="center">
+				<div className="flex justify-center">
 					<Flex w="1000px" direction="column" mt="70px">
 						<Flex justifyContent="center" alignItems="center">
 							<Card width="900px" minHeight="430px">

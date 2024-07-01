@@ -6,6 +6,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Spinner,
   Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -34,6 +35,8 @@ const Wallet = () => {
     data,
     isLoading: walletInfoIsLoading,
     isSuccess,
+    error:dataError,
+    isError,
     refetch,
   } = useGetWalletInfo();
   const [inputValue, setInputValue] = useState(0);
@@ -42,6 +45,18 @@ const Wallet = () => {
   const showToast = useShowToast();
   const router = useRouter();
   const token = Cookies.get("token");
+
+  if (isError) {
+	  if (dataError.response?.data.result?.error_message) {
+		showToast(dataError.response!.data.result?.error_message);
+		if (dataError.response?.status === 401 || dataError.response?.status === 403) {
+		  token ? Cookies.remove("token") : "";
+		  router.push("/login");
+		}
+	  } else {
+		showToast("مشکلی رخ داده است.");
+	  }
+	}
 
   useEffect(() => {
     if (router.query.Status && router.query.Status === "OK") {
@@ -87,8 +102,9 @@ const Wallet = () => {
           <Box fontWeight="700" display="flex" alignItems="center" whiteSpace="pre">
             <span className="text-[18px]">دارایی حساب شما:</span>
             {walletInfoIsLoading && (
-							<span> درحال بارگیری اطلاعات...</span>
+							<Spinner/>
 						)}
+            {isError&&"یافت نشد"}
             {isSuccess && (
               <>
                 <span className="text-[23px]" >&nbsp;{data.data}</span>

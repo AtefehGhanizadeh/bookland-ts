@@ -5,6 +5,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Spinner,
   Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -18,7 +19,6 @@ import image2 from "/public/assets/images/Artboard 26 copy.png";
 import image3 from "/public/assets/images/Artboard 26 copy 2.png";
 import { MouseEvent } from "react";
 import Image from "next/image";
-import { Center, Spinner } from "@chakra-ui/react";
 import useGetPublisherBalance from "@/src/react-query/hooks/useGetPublisherBalance";
 
 const coinStyle = {
@@ -33,11 +33,32 @@ const Wallet = () => {
   const router = useRouter();
   const [error, setError] = useState(false);
   const [inputValue, setInputValue] = useState(0);
-
   const { mutate } = useChargePublisherWallet(inputValue);
   const showToast = useShowToast();
   const token = Cookies.get("token");
-  const { data,refetch, isSuccess, isLoading, isError } = useGetPublisherBalance();
+  const { push } = useRouter();
+  const {
+    data,
+    error: dataError,
+    refetch,
+    isSuccess,
+    isLoading,
+    isError,
+  } = useGetPublisherBalance();
+  if (isError) {
+    if (dataError.response?.data.result?.error_message) {
+      showToast(dataError.response!.data.result?.error_message);
+      if (
+        dataError.response?.status === 401 ||
+        dataError.response?.status === 403
+      ) {
+        token ? Cookies.remove("token") : "";
+        push("/login");
+      }
+    } else {
+      showToast("مشکلی رخ داده است.");
+    }
+  }
 
   useEffect(() => {
     if (router.query.Status && router.query.Status === "OK") {
@@ -55,12 +76,10 @@ const Wallet = () => {
           }
         )
         .then((res) => {
-			console.log(res)
           if (res.status === 200) {
             refetch();
           }
-        })
-        .catch((err) => console.log(err));
+        });
       router.replace("/Publisher/views/ChargeWallet");
     }
     if (router.query.Status && router.query.Status === "NOK") {
@@ -68,24 +87,6 @@ const Wallet = () => {
       router.replace("/Publisher/views/ChargeWallet");
     }
   }, [router, showToast, token]);
-
-  if (isLoading) {
-    return (
-      <Center alignItems="center" h="full">
-        <Spinner
-          thickness="4px"
-          speed="0.65s"
-          emptyColor="gray.200"
-          color="primary"
-          size="xl"
-        />
-      </Center>
-    );
-  }
-
-  if (isError) {
-    return <p>Error loading data.</p>;
-  }
 
   const submitHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -95,24 +96,32 @@ const Wallet = () => {
   return (
     <div>
       <Box display="flex" flexDir="row" marginBottom="32px">
-        <Text
+        <Box
           fontWeight="700"
           display="flex"
           alignItems="center"
           whiteSpace="pre"
         >
           <span className="text-[18px]">دارایی حساب شما:</span>
-          <span className="text-[23px]">&nbsp;0</span>
-          <span
-            style={{
-              fontSize: "20px",
-              color: "#C8C8C8",
-            }}
-          >
-            {" "}
-            تومان
-          </span>
-        </Text>
+          {isLoading && <Spinner />}
+          {isError && "یافت نشد"}
+          {isSuccess && (
+            <>
+              <span className="text-[23px]">
+                &nbsp;{data.deposit - data.withdraw}
+              </span>
+              <span
+                style={{
+                  fontSize: "20px",
+                  color: "#C8C8C8",
+                }}
+              >
+                {" "}
+                تومان
+              </span>
+            </>
+          )}
+        </Box>
       </Box>
       <Text fontSize="16px" fontWeight="500" className="hidden md:block">
         لطفا میزان شارژ کیف پول خود را انتخاب کنید:

@@ -1,12 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
-import { API_ENDPOINTS } from "@/utils/api/endpoints";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const useEditBook = (book_id) => {
+const useEditBook = () => {
 	const token = Cookies.get("token");
 	return useMutation({
-		mutationFn: () =>
+		mutationFn: (book_id:number) =>
 			axios.put(
 				`http://Localhost:8000/api/publisher/books/${book_id}`,
 

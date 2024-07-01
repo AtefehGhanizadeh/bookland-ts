@@ -9,10 +9,10 @@ import {
 	ModalOverlay,
 	Text,
 } from "@chakra-ui/react";
-// import useGetReview from "@/react-query/hooks/useGetReview";
+import useGetReview from "@/src/react-query/hooks/useGetReview";
 
 const Review = ({ isModalOpen, closeModal, clickedRow, id }) => {
-	// const { data } = useGetReview(id);
+	const { data } = useGetReview(id);
 
 	console.log(`point is ${data}`);
 	console.log(`point2 for id ${id} is ${data?.data}`);

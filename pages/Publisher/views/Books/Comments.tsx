@@ -2,19 +2,19 @@ import { Card, CardBody, CardHeader, Flex, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import Sidebar from "../../components/Sidebar";
 import { useRouter } from "next/router";
-// import useGetPublisherComments from "@/react-query/hooks/useGetPublisherComment";
+import useGetPublisherComments from "@/src/react-query/hooks/useGetPublisherComment";
 
 const Comments = () => {
 	const router = useRouter();
 
 	const { id, bookname } = router.query;
 
-	// const { data } = useGetPublisherComments(id);
+	const { data } = useGetPublisherComments(+id!);
 
 	return (
 		<>
 			<Sidebar pageName={"Books"}>
-				<div display="flex" w="1200px" justifyContent="center">
+				<div className="flex justify-center">
 					<Flex w="1000px" direction="column" mt="70px">
 						<Flex justifyContent="center" alignItems="center">
 							<Card width="900px" minHeight="430px">

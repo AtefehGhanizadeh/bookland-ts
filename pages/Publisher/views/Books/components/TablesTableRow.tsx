@@ -41,18 +41,18 @@ function TablesTableRow(props:Props) {
 
   const textColor = useColorModeValue("gray.700", "white");
 
-  const { mutate } = useDelete(props.id);
+  const { mutate } = useDelete();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [clickedRow, setClickedRow] = useState(null);
+  const [clickedRow, setClickedRow] = useState<{bookname:string}|null>(null);
 
   const { data } = useGetReview(props.id);
 
   const point = data?.data;
   const openModal = () => {
     setIsModalOpen(true);
-    // setClickedRow({ props.bookname, props.author, props.date, point });
+    setClickedRow({ bookname:props.bookname });
   };
 
   const closeModal = () => {
@@ -170,7 +170,7 @@ function TablesTableRow(props:Props) {
             p="0px"
             bg="transparent"
             variant="no-hover"
-            // onClick={() => mutate(props.id)}
+            onClick={() => mutate(props.id)}
           >
             <Text
               fontSize="md"
@@ -182,10 +182,10 @@ function TablesTableRow(props:Props) {
             </Text>
           </Button>
         </Td>
-        {/* <Td>
+        <Td>
 					<Button p="0px" bg="transparent" variant="no-hover">
 						<Link
-							href={`./Books/EditBook?id=${id}&bookname=${bookname}`}
+							href={`./Books/EditBook?id=${props.id}&bookname=${props.bookname}`}
 						>
 							<Text
 								fontSize="md"
@@ -197,7 +197,7 @@ function TablesTableRow(props:Props) {
 							</Text>
 						</Link>
 					</Button>
-				</Td> */}
+				</Td>
         <Td>
           <Popover>
             <PopoverTrigger>
@@ -230,7 +230,7 @@ function TablesTableRow(props:Props) {
           <ModalBody>
             <Text fontWeight="400" fontSize="18px">
               کتاب
-              {/* <span className="text-primary"> {clickedRow?.bookname}</span> */}
+              <span className="text-primary"> {clickedRow?.bookname}</span>
               {" : "}
               <Text mt="15px" fontWeight="500" textAlign="center">
                 {point ? (
@@ -240,7 +240,7 @@ function TablesTableRow(props:Props) {
                     <Text>امتیازی برای این کتاب ثبت نشده است.</Text>
                   </>
                 )}
-                {/* {data ? (
+                {data ? (
 									<>{data}</>
 								) : (
 									<>
@@ -248,7 +248,7 @@ function TablesTableRow(props:Props) {
 											امتیازی برای این کتاب ثبت نشده است.
 										</Text>
 									</>
-								)} */}
+								)}
               </Text>
             </Text>
           </ModalBody>

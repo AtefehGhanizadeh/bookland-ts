@@ -5,6 +5,7 @@ import {
   Flex,
   IconProps,
   Spacer,
+  Spinner,
   Text,
 } from "@chakra-ui/react";
 // Custom components
@@ -13,14 +14,29 @@ import CardBody from "../../../components/Card/CardBody.js";
 import React, { useState } from "react";
 import BackgroundCard from "../../../assets/img/BackgroundCard1.png";
 import usePublisherProfile from "@/src/react-query/hooks/usePublisherProfile";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router.js";
+import useShowToast from "@/src/components/ui/useShowToast";
 
 const CreditCard = () => {
-  const { data, isError, isSuccess, isLoading } = usePublisherProfile();
+  const { data,error, isError, isSuccess, isLoading } = usePublisherProfile();
+  const showToast = useShowToast();
+  const {push} = useRouter();
+  const token = Cookies.get("token");
+
+  if(isError){
+    if (error.response?.data.result?.error_message) {
+      showToast(error.response!.data.result?.error_message);
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        token ? Cookies.remove("token") : "";
+        push("/login");
+      }
+      } else {
+      showToast("مشکلی رخ داده است.");
+      }
+  }
 
   const DisplayCardNumber = (cardnumber: string) => {
-    if (!cardnumber) {
-      return "شماره کارت پیدا نشد";
-    }
 
     const visibleDigits = 4;
     const hiddenDigits = cardnumber.length - visibleDigits * 2;
@@ -40,9 +56,6 @@ const CreditCard = () => {
   };
 
   const DisplayCardIcon = (cardnumber: string) => {
-    if (!cardnumber || cardnumber.length < 16) {
-      return "بانک نامشخص";
-    }
 
     const firstSegment = cardnumber.substring(0, 6);
     let title;
@@ -91,17 +104,6 @@ const CreditCard = () => {
     }
     return title;
   };
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
-  if (isError) {
-    return <p>Error loading data.</p>;
-  }
-
-  if (isSuccess) {
-	console.log(data)
-    const cardNumber = data.card_number;
     return (
       <Card
         style={{
@@ -125,7 +127,7 @@ const CreditCard = () => {
           >
             <Flex justify="space-around" align="center" gap="20">
               <Text fontSize="md" fontWeight="bold">
-                {DisplayCardIcon(cardNumber)}
+                {isSuccess?DisplayCardIcon(data.card_number):""}
               </Text>
               <Text fontSize="md" fontWeight="bold">
                 {/* {icon} */}
@@ -138,20 +140,22 @@ const CreditCard = () => {
               justifyContent="center"
               height="100%"
             >
-              <Text
+              {
+                isSuccess&&<Text
                 fontSize="xl"
                 letterSpacing="2px"
                 fontWeight="bold"
                 dir="ltr"
-              >
-                {DisplayCardNumber(cardNumber)}
-              </Text>
+              >{DisplayCardNumber(data.card_number)}</Text>
+              }
+              {isLoading&&<Spinner/>}
+              {isError&&"یافت نشد"}
             </Flex>
           </Flex>
         </CardBody>
       </Card>
     );
   }
-};
+
 
 export default CreditCard;
