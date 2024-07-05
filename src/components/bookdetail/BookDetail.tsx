@@ -16,9 +16,26 @@ import useIsBookBought from "@/src/react-query/hooks/useIsBookBought";
 import Cookies from "js-cookie";
 import { Book } from "@/src/helpers/Interfaces";
 import BookBuy from "./BookBuy";
+import useShowToast from "../ui/useShowToast";
+import { useRouter } from "next/router";
 function BookDetail({ book }: { book: Book }) {
   const token = Cookies.get("token");
-  const { data, isSuccess, isError, isLoading } = useIsBookBought(book.id);
+  const showToast = useShowToast();
+  const { push } = useRouter();
+  const { data, isSuccess, isError, isLoading, error } = useIsBookBought(
+    book.id
+  );
+  if (isError) {
+    if (error.response?.data.result?.error_message) {
+      showToast(error.response!.data.result?.error_message);
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        token ? Cookies.remove("token") : "";
+        push("/login");
+      }
+    } else {
+      showToast("مشکلی رخ داده است.");
+    }
+  }
   if (!token) {
     return (
       <CustomCardContainer
@@ -68,7 +85,7 @@ function BookDetail({ book }: { book: Book }) {
       </CustomCardContainer>
     );
   }
-  if (isSuccess && !data.data) {
+  if (isSuccess && !data) {
     return (
       <CustomCardContainer
         pt="20px"

@@ -43,6 +43,7 @@ function TablesTableRow(props:Props) {
   const { mutate } = useDelete();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const [clickedRow, setClickedRow] = useState<{bookname:string}|null>(null);
 
@@ -56,6 +57,16 @@ function TablesTableRow(props:Props) {
   const closeModal = () => {
     setIsModalOpen(false);
     setClickedRow(null);
+  };
+
+  const openDeleteModal = () => {
+    setIsDeleteModalOpen(true);
+    // setClickedRow({ bookname:props.bookname });
+  };
+
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+    // setClickedRow(null);
   };
 
   return (
@@ -157,7 +168,9 @@ function TablesTableRow(props:Props) {
             p="0px"
             bg="transparent"
             variant="no-hover"
-            onClick={() => mutate(props.id)}
+            // onClick={() => mutate(props.id)}
+            onClick={openDeleteModal}
+            
           >
             <Text
               fontSize="md"
@@ -168,6 +181,21 @@ function TablesTableRow(props:Props) {
               حذف
             </Text>
           </Button>
+          <Modal isOpen={isDeleteModalOpen} onClose={closeDeleteModal}>
+        <ModalOverlay />
+        <ModalContent mt="270px" width="fit-content" maxWidth="500px">
+          <ModalHeader>آیا از حذف این کتاب مطمئن هستید؟</ModalHeader>
+
+          <ModalFooter>
+          <Button colorScheme="blue" mr={3} onClick={() => mutate(props.id)}>
+              حذف
+            </Button>
+            <Button colorScheme="blue" mr={3} onClick={closeDeleteModal}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
         </Td>
         <Td>
           <Popover>

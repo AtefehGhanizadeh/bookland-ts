@@ -5,13 +5,32 @@ import useAddToBookmark from "@/src/react-query/hooks/useAddToBookmark";
 import useRemoveBookmark from "@/src/react-query/hooks/useRemoveBookmark";
 import useGetIsBookmark from "@/src/react-query/hooks/useGetIsBookmark";
 import { Spinner } from "@chakra-ui/react";
+import useShowToast from "../useShowToast";
+import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 function Like({ book_id }: { book_id: number }) {
   
   const [liked, setLike] = useState<boolean>();
-  const { isSuccess, isLoading, isError } = useGetIsBookmark(book_id, setLike);
+  const { isSuccess, isLoading, isError,error } = useGetIsBookmark(book_id, setLike);
   const { mutate: addToBookmarks } = useAddToBookmark(book_id, setLike);
   const { mutate: removeBookmark } = useRemoveBookmark(book_id,setLike);
+
+  const showToast = useShowToast();
+  const { push } = useRouter();
+  const token=Cookies.get("token")
+
+  if (isError) {
+    if (error.response?.data.result?.error_message) {
+      showToast(error.response!.data.result?.error_message);
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        token ? Cookies.remove("token") : "";
+        push("/login");
+      }
+    } else {
+      showToast("مشکلی رخ داده است.");
+    }
+  }
 
   const likeHandler = () => {
     if (liked) {

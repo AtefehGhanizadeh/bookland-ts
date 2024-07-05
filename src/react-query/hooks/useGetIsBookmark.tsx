@@ -1,5 +1,6 @@
+import { Response } from "@/src/helpers/Interfaces";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
 import { Dispatch, SetStateAction } from "react";
 const useGetIsBookmark = (
@@ -8,16 +9,16 @@ const useGetIsBookmark = (
 ) => {
   const token = Cookies.get("token");
 
-  return useQuery({
+  return useQuery<boolean,AxiosError<Response<boolean>>>({
     queryKey: ["is-bookmark", bookId],
     queryFn: () =>
       axios
-        .get(`http://Localhost:5001/api/user/check-bookmark/${bookId}`, {
+        .get<Response<boolean>>(`http://Localhost:5001/api/user/check-bookmark/${bookId}`, {
           headers: { Authorization: "Bearer " + token },
         })
         .then((res) => {
           setLike(res.data.data);
-          return res.data;
+          return res.data.data;
         })
   });
 };
