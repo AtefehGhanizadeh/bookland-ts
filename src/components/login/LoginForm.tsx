@@ -20,7 +20,7 @@ function LoginForm() {
     <Formik
       initialValues={initialValues}
       validationSchema={Yup.object({
-        emailOrUsername: Yup.string().required("وارد کردن ایمیل اجباری است."),
+        emailOrUsername: Yup.string().required("وارد کردن نام کاربری اجباری است."),
         password: Yup.string().required("وارد کردن رمز عبور اجباری است."),
       })}
       onSubmit={(values, { setSubmitting }) => {
@@ -36,7 +36,7 @@ function LoginForm() {
         <Form className="flex flex-col gap-y-[16px]">
           <div className="flex flex-col gap-y-[8px]">
             <CustomInputLabel htmlFor="emailOrUsername">
-              ایمیل یا نام کاربری
+             نام کاربری
             </CustomInputLabel>
             <CustomInput name="emailOrUsername" type="text" validation={true} error={formik.errors.emailOrUsername} touched={formik.touched.emailOrUsername} />
             <CustomInputLabel htmlFor="password">رمز عبور</CustomInputLabel>

@@ -14,11 +14,10 @@ import Navbar from "@/src/components/navbar/Navbar";
 
 function BookDetails() {
   const router = useRouter();
-  const { data, isLoading, isSuccess, isError } = useGetBookInformation(
+  const { data, isLoading, isSuccess, isError,error } = useGetBookInformation(
     router.query
   );
 
-  if(isError)
 
   if (isLoading || isError) {
     return (
@@ -38,7 +37,9 @@ function BookDetails() {
                       size="xl"
                     />
                   )}
-                  {isError && <Text>مشکلی رخ داده است.</Text>}
+                  {(isError &&  error.response?.status===404 ) && <Text>کتاب موردنظر یافت نشد.</Text>}
+                  {(isError &&  error.response?.status!==404 )&& <Text>مشکلی رخ داده است.</Text>}
+
                 </Center>
               </CustomCardContainer>
             </div>
