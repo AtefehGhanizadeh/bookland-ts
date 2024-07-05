@@ -5,7 +5,7 @@ import { Book, Response } from "@/src/helpers/Interfaces";
 
 const useGetBookInformation = (params: ParsedUrlQuery) => {
 
-  return useQuery<Book, Error,Book, (string | string[] | undefined)[]>({
+  return useQuery<Book, AxiosError<Response<Book>>,Book, (string | string[] | undefined)[]>({
     queryKey: ["book", params.bookId],
     queryFn: () =>
       axios

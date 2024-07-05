@@ -61,6 +61,7 @@ const AddBook = () => {
   function validatePic(file: File) {
     const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png"];
     const FILE_SIZE = 8000000;
+    console.log(file.type)
     return (
       file && file.size <= FILE_SIZE && SUPPORTED_FORMATS.includes(file.type)
     );

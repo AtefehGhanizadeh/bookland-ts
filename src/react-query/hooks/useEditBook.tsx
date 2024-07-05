@@ -6,7 +6,7 @@ const useEditBook = (book_id:number) => {
 	const token = Cookies.get("token");
 	return useMutation({
 		mutationFn: (values:FormData) =>
-			axios.put(
+			axios.post(
 				`http://Localhost:8000/api/publisher/books/${book_id}`,values,
 
 				{

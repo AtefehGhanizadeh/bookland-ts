@@ -118,11 +118,11 @@ const ProfileInformation = ({
 							{phoneNo1}
 						</Text>
 					</Flex>
-					<EditModal
+					{/* <EditModal
 						isOpen={isOpenPhoneNo1}
 						onClose={() => setOpenPhoneNo1(false)}
 						edit="PhoneNo1"
-					/>
+					/> */}
 					<Flex align="center" mb="18px">
 						<Text
 							fontSize="md"

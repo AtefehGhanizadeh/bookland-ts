@@ -32,7 +32,7 @@ const EditModal = ({
   isOpen,
   onClose,
 }: {
-  edit: "Pass" | "Address" | "PhoneNo2" | "PhoneNo1" | "Logo";
+  edit: "Pass" | "Address" | "PhoneNo2" | "Logo";
   isOpen: boolean;
   onClose: () => void;
 }) => {
@@ -153,7 +153,7 @@ const EditModal = ({
                 onSubmit={(values) => {
                   mutate({
                     address:
-                      values.city + values.street + values.moreAddressInfo,
+                      values.city +' '+ values.street +' '+ values.moreAddressInfo,
                   });
                 }}
               >
