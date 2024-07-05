@@ -27,7 +27,7 @@ import { useRouter } from 'next/router';
 function BuyModal({price,bookId}:{price:number,bookId:number}) {
 
   const discountRef=useRef<HTMLInputElement>(null)
-  const {data}=useGetWalletInfo()
+  const {data,isSuccess}=useGetWalletInfo()
   const[newPrice,setNewPrice]=useState(price)
   const[discountId,setDiscountId]=useState<number|null>(null)
   const[percent,setDisountPercent]=useState(0)
@@ -42,7 +42,11 @@ function BuyModal({price,bookId}:{price:number,bookId:number}) {
   }
   const buyHandler=()=>{
     mutate({book_Id:bookId,discount_Id:discountId})
-    // router.reload()
+    router.reload()
+  }
+
+  if(isSuccess){
+    console.log(data)
   }
 
   const handleModalOpen=()=>{
@@ -69,8 +73,8 @@ function BuyModal({price,bookId}:{price:number,bookId:number}) {
          <VStack align="stretch" gap={4}>
           <Heading fontSize="md">دارایی حساب شما :</Heading>
           <HStack justify="space-between">
-           <Text className={data && data.data===0?"#C8C8C8":"text-green-500"}>{data?data.data:0} تومان</Text>
-           <Link href={"/user/wallet"} fontSize="xs" color="blue.500">
+           <Text className={data && data===0?"#C8C8C8":"text-green-500"}>{data?data:0} تومان</Text>
+           <Link href={"/wallet"} fontSize="xs" color="blue.500">
             شارژ حساب
            </Link>
           </HStack>

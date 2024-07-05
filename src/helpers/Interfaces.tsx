@@ -25,7 +25,7 @@ export interface Response<T> {
 
 export interface CommentItem {
   id: number;
-  bookid: number;
+  book_id: number;
   comment: string;
   created_date: string;
   username: string;
@@ -64,4 +64,18 @@ export interface Publisher {
   publications_image: string;
   publications_name: string;
   username: string;
+}
+
+export interface PublisherBook {
+  id: number;
+  name: string;
+  author_name: string;
+  translator_name: null | string;
+  released_date: number;
+  book_cover_image: string;
+  price: number;
+  is_delete: boolean;
+  number_of_pages: number;
+  count_of_sold: number;
+  income: number;
 }

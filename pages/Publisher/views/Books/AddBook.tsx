@@ -4,7 +4,6 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  Center,
   Checkbox,
   Flex,
   Input,
@@ -15,54 +14,36 @@ import {
   NumberInputStepper,
   Radio,
   RadioGroup,
-  Spinner,
   Stack,
   Text,
   Textarea,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import Sidebar from "../../components/Sidebar";
-import React, { useEffect, useState } from "react";
-import useAddBook from "@/src/react-query/hooks/useAddBook";
+import React, {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+  MouseEvent,
+} from "react";
 import { useRouter } from "next/router";
-import useGetCategory from "@/src/react-query/hooks/useGetCategory";
-import useGetLanguage from "@/src/react-query/hooks/useGetLanguage";
-import useShowToast from "@/src/components/ui/useShowToast";
-import Cookies from "js-cookie";
+import useEditBook from "@/src/react-query/hooks/useEditBook";
 
 const AddBook = () => {
-	const token=Cookies.get("token")
-	const showToast=useShowToast()
-	const {push}=useRouter()
-  const { mutate } = useAddBook();
-  const {
-    data: category,
-    isSuccess: categoryIsSuccess,
-    isError,
-    isLoading,
-	error
-  } = useGetCategory();
-  const {
-    data,
-    isSuccess: languageIsSuccess,
-    isError: lanIsError,
-    isLoading: lanIsLoading,
-	error:lanError
-  } = useGetLanguage();
-
+  const router = useRouter();
+  const { id, bookname } = router.query;
+  const { mutate, error } = useEditBook(+id!);
 
   const [coverImg, setCoverImg] = useState("");
-  const [orgFile, setOrgFile] = useState("");
-  const [demFile, setDemFile] = useState("");
-  const [coverImage, setCoverImage] = useState(null);
-  const [orginalFile, setOrginalFile] = useState(null);
-  const [demoFile, setDemoFile] = useState(null);
+  const [coverImageFile, setCoverImageFile] = useState<File>();
+  const [orginalFile, setOrginalFile] = useState<File>();
+  const [demoFile, setDemoFile] = useState<File>();
   const [isValidCoverImage, setIsValidCoverImage] = useState(true);
   const [isValidOrginalFile, setIsValidOrginalFile] = useState(true);
   const [isValidDemoFile, setIsValidDemoFile] = useState(true);
-  const [coverValue, setCoverValue] = useState("");
-  const [orgFileValue, setOrgFileValue] = useState("");
-  const [demoFileValue, setDemoFileValue] = useState("");
+  //
   const [bookName, setBookName] = useState("");
   const [author, setAuthor] = useState("");
   const [releasedDate, setReleasedDate] = useState("1401");
@@ -72,13 +53,12 @@ const AddBook = () => {
   const [language, setLanguage] = useState("");
   const [genre, setGenre] = useState("");
   const [translator, setTranslator] = useState("");
-  
-	const format = (val) => val + ` تومان`;
-	const parse = (val) => val.replace(/^ تومان/, "");
-  
+
+  const format = (val: string) => val + ` تومان`;
+  const parse = (val: string) => val.replace(/^ تومان/, "");
 
   // Cover
-  function validatePic(file) {
+  function validatePic(file: File) {
     const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png"];
     const FILE_SIZE = 8000000;
     return (
@@ -86,24 +66,27 @@ const AddBook = () => {
     );
   }
 
-  const convert2base64 = (file, setFunc) => {
+  const convert2base64 = (
+    file: File,
+    setFunc: Dispatch<SetStateAction<string>>
+  ) => {
     const reader = new FileReader();
 
     reader.onloadend = () => {
-      setFunc(reader.result.toString());
+      setFunc(reader.result!.toString());
     };
 
     reader.readAsDataURL(file);
   };
 
-  const onUploadLogoImage = (e) => {
-    if (e.target.files.length > 0) {
-      convert2base64(e.target.files[0], setCoverImg);
+  const onUploadLogoImage = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files!.length > 0) {
+      convert2base64(e.target.files![0], setCoverImg);
     }
   };
 
   // File
-  function validateFile(file) {
+  function validateFile(file: File) {
     const SUPPORTED_FORMATS = ["pdf"];
     const FILE_SIZE = 40000000;
 
@@ -118,25 +101,16 @@ const AddBook = () => {
     );
   }
 
-  const onUploadFile = (e, setFileFunc) => {
-    if (e.target.files.length > 0) {
-      convert2base64(e.target.files[0], setFileFunc);
-
-      setFileFunc(e.target.files[0]);
-    }
-  };
-
-  const submitHandler = (e) => {
+  const submitHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (
-      coverImage &&
+      coverImageFile &&
       isValidCoverImage &&
       bookName &&
       author &&
       isValidOrginalFile &&
       releasedDate &&
       price &&
-      description &&
       pageNumber &&
       language &&
       genre &&
@@ -147,461 +121,456 @@ const AddBook = () => {
     ) {
       const formData = new FormData();
 
-      formData.append("book_name", bookName);
+      formData.append("name", bookName);
       formData.append("author_name", author);
-      formData.append("translator_name", translator);
+      formData.append("translator", translator);
       formData.append("released_date", releasedDate);
-      formData.append("category_id", genre);
+      formData.append("genre", genre);
       formData.append("price", price);
       formData.append("number_of_pages", pageNumber);
       formData.append("language_id", language);
+      formData.append("category_id", language);
       formData.append("description", description);
-      formData.append("book_cover_image", coverImage);
-      formData.append("book_original_file", demoFile);
-      formData.append("book_demo_file", orginalFile);
 
-      for (const pair of formData.entries()) {
-        console.log(pair[0], pair[1]);
-      }
+      formData.append("book_cover_image", coverImageFile);
+      formData.append("demo_file", demoFile);
+      formData.append("original_file", orginalFile);
 
-      console.log(formData.values);
       mutate(formData);
+      if (!error) {
+        router.push("./");
+      }
     }
   };
 
-  if(isLoading&&lanIsLoading){
-	return (
-		<Center alignItems="center" h="full">
-		  <Spinner
-			thickness="4px"
-			speed="0.65s"
-			emptyColor="gray.200"
-			color="primary"
-			size="xl"
-		  />
-		</Center>
-	  );
-  }
+  return (
+    <>
+      <Sidebar pageName={"Books"}>
+        <div className="flex justify-center">
+          <Flex w="1000px" direction="column" mt="70px">
+            <Flex justifyContent="center" alignItems="center">
+              <Card width="900px" minHeight="430px">
+                <CardHeader>
+                  <Flex mr="20px">
+                    <Link href="./">
+                      <Text _hover={{ color: "blue.500" }}>کتاب‌ها</Text>
+                    </Link>
+                    <Text> ‌ › ‌ </Text>
 
-  if(isError&&lanIsError){
-	if (error.response?.data.result?.error_message||lanError.response?.data.result?.error_message) {
-		showToast(error.response!.data.result?.error_message);
-		if (error.response?.status === 401 || error.response?.status === 403) {
-		  token ? Cookies.remove("token") : "";
-		  push("/login");
-		}
-	  } else {
-		showToast("مشکلی رخ داده است.");
-	  }
-	  return(
-		<Sidebar  pageName={"Books"}>
-			<div></div>
-		</Sidebar>
-	  )
-  }
+                    <Link href="">
+                      <Text _hover={{ color: "blue.500" }}>
+                        ویرایش کتاب {bookname}
+                      </Text>
+                    </Link>
+                  </Flex>
+                </CardHeader>
+                <CardBody>
+                  <Flex flexDir="column" gap="5">
+                    <form className="flex gap-y-[30px] ">
+                      <Flex flexDir="column" gap="10px">
+                        <Flex
+                          mr="28px" //book name
+                        >
+                          <Text width="300px">نام کتاب</Text>
+                          <Input
+                            onChange={(e) => {
+                              setBookName(e.target.value);
+                            }}
+                            id="bookName"
+                            name="bookName"
+                            type="text"
+                            value={bookName}
+                          />
+                        </Flex>
+                        <Flex
+                          mr="28px" //author name
+                        >
+                          <Text width="300px">نام نویسنده</Text>
+                          <Input
+                            onChange={(e) => {
+                              setAuthor(e.target.value);
+                            }}
+                            id="author"
+                            name="author"
+                            type="text"
+                            value={author}
+                          />
+                        </Flex>
+                        <Flex
+                          mr="28px" //book translator
+                        >
+                          <Text width="300px">نام مترجم (در صورت وجود)</Text>
+                          <Input
+                            onChange={(e) => {
+                              setTranslator(e.target.value);
+                            }}
+                            id="translator"
+                            name="translator"
+                            type="text"
+                            value={translator}
+                          />
+                        </Flex>
 
-  if (categoryIsSuccess && languageIsSuccess) {
-    return (
-      <>
-        <Sidebar pageName={"Books"}>
-          <div className="flex justify-center">
-            <Flex w="1000px" direction="column" mt="70px">
-              <Flex justifyContent="center" alignItems="center">
-                <Card width="900px" minHeight="430px">
-                  <CardHeader>
-                    <Flex mr="20px">
-                      <Link href="./">
-                        <Text _hover={{ color: "blue.500" }}>کتاب‌ها</Text>
-                      </Link>
-                      <Text> ‌ › ‌ </Text>
+                        <Flex
+                          mr="28px" // book released date
+                        >
+                          <Text width="220px">تاریخ انتشار</Text>
+                          <NumberInput
+                            step={1}
+                            onChange={(valueString) =>
+                              setReleasedDate(parse(valueString))
+                            }
+                            value={releasedDate}
+                            min={1350}
+                            max={1402}
+                          >
+                            <NumberInputField pr="40px" />
+                            <NumberInputStepper>
+                              <NumberIncrementStepper
+                                bg="green.200"
+                                _active={{
+                                  bg: "green.300",
+                                }}
+                                // children="+"
+                              />
+                              <NumberDecrementStepper
+                                bg="red.400"
+                                _active={{
+                                  bg: "red.800",
+                                }}
+                                // children="-"
+                              />
+                            </NumberInputStepper>
+                          </NumberInput>
+                        </Flex>
 
-                      <Link href="">
-                        <Text _hover={{ color: "blue.500" }}>
-                          افزودن کتاب جدید
-                        </Text>
-                      </Link>
-                    </Flex>
-                  </CardHeader>
-                  <CardBody>
-                    <Flex flexDir="column" gap="5">
-                      <form className="flex gap-y-[30px] ">
-                        <Flex flexDir="column" gap="10px">
-                          <Flex
-                            mr="28px" //book name
+                        <Flex //book genre
+                          mr="28px"
+                        >
+                          <Text width="230px">ژانر کتاب</Text>
+                          <RadioGroup onChange={setGenre} value={genre}>
+                            <Stack direction="row">
+                              <Radio colorScheme="green" value="1">
+                                درسی
+                              </Radio>
+                              <Radio colorScheme="green" value="2">
+                                آشپزی
+                              </Radio>
+                              <Radio colorScheme="green" value="3">
+                                علمی-تخیلی
+                              </Radio>
+                            </Stack>
+                          </RadioGroup>
+                        </Flex>
+                        <Flex
+                          mr="28px" // book price
+                        >
+                          <Text width="220px">قیمت</Text>
+                          <NumberInput
+                            step={1000}
+                            onChange={(valueString) =>
+                              setPrice(parse(valueString))
+                            }
+                            value={format(price)}
+                            min={5000}
+                            max={200000}
                           >
-                            <Text width="300px">نام کتاب</Text>
-                            <Input
-                              onChange={(e) => {
-                                setBookName(e.target.value);
-                              }}
-                              id="bookName"
-                              name="bookName"
-                              type="text"
-                              value={bookName}
-                            />
-                          </Flex>
-                          <Flex
-                            mr="28px" //author name
+                            <NumberInputField pr="40px" />
+                            <NumberInputStepper>
+                              <NumberIncrementStepper
+                                bg="green.200"
+                                _active={{
+                                  bg: "green.300",
+                                }}
+                                // children="+"
+                              />
+                              <NumberDecrementStepper
+                                bg="red.400"
+                                _active={{
+                                  bg: "red.800",
+                                }}
+                                // children="-"
+                              />
+                            </NumberInputStepper>
+                          </NumberInput>
+                        </Flex>
+                        <Flex
+                          mr="28px" // book pages number
+                        >
+                          <Text width="220px">تعداد صفحات</Text>
+                          <NumberInput
+                            step={1}
+                            onChange={(valueString) =>
+                              setPageNumber(parse(valueString))
+                            }
+                            value={pageNumber}
+                            min={10}
+                            max={500}
                           >
-                            <Text width="300px">نام نویسنده</Text>
-                            <Input
-                              onChange={(e) => {
-                                setAuthor(e.target.value);
-                              }}
-                              id="author"
-                              name="author"
-                              type="text"
-                              value={author}
-                            />
-                          </Flex>
-                          <Flex
-                            mr="28px" //book translator
-                          >
-                            <Text width="300px">نام مترجم (در صورت وجود)</Text>
-                            <Input
-                              onChange={(e) => {
-                                setTranslator(e.target.value);
-                              }}
-                              id="translator"
-                              name="translator"
-                              type="text"
-                              value={translator}
-                            />
-                          </Flex>
+                            <NumberInputField pr="40px" />
+                            <NumberInputStepper>
+                              <NumberIncrementStepper
+                                bg="green.200"
+                                _active={{
+                                  bg: "green.300",
+                                }}
+                                // children="+"
+                              />
+                              <NumberDecrementStepper
+                                bg="red.400"
+                                _active={{
+                                  bg: "red.800",
+                                }}
+                                // children="-"
+                              />
+                            </NumberInputStepper>
+                          </NumberInput>
+                        </Flex>
+                        <Flex //   book language
+                          mr="28px"
+                          alignItems="center"
+                        >
+                          <Text width="310px">زبان</Text>
+                          <RadioGroup onChange={setLanguage} value={language}>
+                            <Stack spacing={5} direction="row" wrap="wrap">
+                              <Radio colorScheme="green" value="1">
+                                فارسی
+                              </Radio>
+                              <Radio colorScheme="green" value="2">
+                                انگلیسی
+                              </Radio>
+                              <Radio colorScheme="green" value="3">
+                                عربی
+                              </Radio>
+                              <Radio colorScheme="green" value="4">
+                                اسپانیایی
+                              </Radio>
+                              <Radio colorScheme="green" value="5">
+                                چینی
+                              </Radio>
+                              <Radio colorScheme="green" value="6">
+                                آلمانی
+                              </Radio>
+                              <Radio colorScheme="green" value="7">
+                                فرانسوی
+                              </Radio>
+                              <Radio colorScheme="green" value="8">
+                                ایتالیایی
+                              </Radio>
+                              <Radio colorScheme="green" value="9">
+                                ترکی استانبولی
+                              </Radio>
+                            </Stack>
+                          </RadioGroup>
+                        </Flex>
+                        <Flex mr="28px">
+                          <Text width="300px">درباره کتاب</Text>
+                          <Textarea
+                            onChange={(e) => {
+                              setDescription(e.target.value);
+                            }}
+                            value={description}
+                            placeholder="آنچه باید خواننده کتاب بداند ..."
+                            height="250px"
+                          />
+                        </Flex>
 
-                          <Flex
-                            mr="28px" // book released date
-                          >
-                            <Text width="220px">تاریخ انتشار</Text>
-                            <NumberInput
-                              step={1}
-                              onChange={(valueString) =>
-                                setReleasedDate(parse(valueString))
-                              }
-                              value={releasedDate}
-                              min={1350}
-                              max={1402}
-                            >
-                              <NumberInputField pr="40px" />
-                              <NumberInputStepper>
-                                <NumberIncrementStepper
-                                  bg="green.200"
-                                  _active={{
-                                    bg: "green.300",
-                                  }}
-                                //   children="+"
-                                />
-                                <NumberDecrementStepper
-                                  bg="red.400"
-                                  _active={{
-                                    bg: "red.800",
-                                  }}
-                                //   children="-"
-                                />
-                              </NumberInputStepper>
-                            </NumberInput>
-                          </Flex>
-
-                          <Flex //book genre
-                            mr="28px"
-                          >
-                            <Text width="230px">ژانر کتاب</Text>
-                            <RadioGroup
-                              onChange={setGenre}
-                              value={genre}
-                              mr="125px"
-                            >
-                              <Stack spacing={5} direction="row" wrap="wrap">
-                                {category.map((cat) => (
-                                  <Radio key={cat.id} value={cat.id.toString()}>
-                                    <Text>{cat.name}</Text>
-                                  </Radio>
-                                ))}
-                              </Stack>
-                            </RadioGroup>
-                          </Flex>
-                          <Flex
-                            mr="28px" // book price
-                          >
-                            <Text width="220px">قیمت</Text>
-                            <NumberInput
-                              step={1000}
-                              onChange={(valueString) =>
-                                setPrice(parse(valueString))
-                              }
-                              value={format(price)}
-                              min={5000}
-                              max={200000}
-                            >
-                              <NumberInputField pr="40px" />
-                              <NumberInputStepper>
-                                <NumberIncrementStepper
-                                  bg="green.200"
-                                  _active={{
-                                    bg: "green.300",
-                                  }}
-                                //   children="+"
-                                />
-                                <NumberDecrementStepper
-                                  bg="red.400"
-                                  _active={{
-                                    bg: "red.800",
-                                  }}
-                                //   children="-"
-                                />
-                              </NumberInputStepper>
-                            </NumberInput>
-                          </Flex>
-                          <Flex
-                            mr="28px" // book pages number
-                          >
-                            <Text width="220px">تعداد صفحات</Text>
-                            <NumberInput
-                              step={1}
-                              onChange={(valueString) =>
-                                setPageNumber(parse(valueString))
-                              }
-                              value={pageNumber}
-                              min={10}
-                              max={500}
-                            >
-                              <NumberInputField pr="40px" />
-                              <NumberInputStepper>
-                                <NumberIncrementStepper
-                                  bg="green.200"
-                                  _active={{
-                                    bg: "green.300",
-                                  }}
-                                //   children="+"
-                                />
-                                <NumberDecrementStepper
-                                  bg="red.400"
-                                  _active={{
-                                    bg: "red.800",
-                                  }}
-                                //   children="-"
-                                />
-                              </NumberInputStepper>
-                            </NumberInput>
-                          </Flex>
-                          <Flex //   book language
-                            mr="28px"
-                            alignItems="center"
-                          >
-                            <Text width="310px">زبان</Text>
-                            <RadioGroup value={language} onChange={setLanguage}>
-                              <Stack spacing={5} direction="row" wrap="wrap">
-                                {data.map((language) => (
-                                  <Radio key={language.id} value={language.id.toString()}>
-                                    <Text>{language.name}</Text>
-                                  </Radio>
-                                ))}
-                              </Stack>
-                            </RadioGroup>
-                          </Flex>
-                          <Flex mr="28px">
-                            <Text width="300px">درباره کتاب</Text>
-                            <Textarea
-                              onChange={(e) => {
-                                setDescription(e.target.value);
-                              }}
-                              value={description}
-                              placeholder="آنچه باید خواننده کتاب بداند ..."
-                              height="250px"
-                            />
-                          </Flex>
-
-                          <Flex //book file
-                            flexDir="column"
-                          >
-                            <Flex // book original file
-                              mr="28px"
-                              justifyContent="flex-start"
-                              alignItems="center"
-                            >
-                              <Text width="200px">
-                                فایل اصلی کتاب را آپلود کنید.
-                                <span className="text-[14px] font-medium leading-[24px]">
-                                  (حداکثر 40 مگابایت)
-                                </span>
-                              </Text>
-                              <Flex flexDir="column" rowGap="10px" mr="23px">
-                                <p className="text-[12px] font-light text-error">
-                                  {!isValidOrginalFile
-                                    ? "فرمت یا سایز فایل نادرست است."
-                                    : ""}
-                                </p>
-                                {orgFile && isValidOrginalFile ? (
-                                  <div className="w-[346px] h-[346px]">
-                                    <embed
-                                      src={orgFile}
-                                      type="application/pdf"
-                                      width="100%"
-                                      height="100%"
-                                    />
-                                  </div>
-                                ) : (
-                                  <label
-                                    className="cursor-pointer flex flex-col gap-y-[8px] justify-center items-center w-[342px] h-[342px] bg-[#C8C8C878] outline-[4px] outline-dashed outline-[#C8C8C8]  text-black text-center"
-                                    htmlFor="originalFile"
-                                  >
-                                    <p className="text-[17px] font-semibold leading-[24px]">
-                                      برای آپلود کلیک کنید.
-                                    </p>
-                                  </label>
-                                )}
-                                <input
-                                  onChange={(e) => {
-                                    if (validateFile(e.target.files[0])) {
-                                      onUploadFile(e, setOrgFile);
-                                      setOrginalFile(e.target.files[0]);
-                                      setIsValidOrginalFile(true);
-                                    } else {
-                                      setIsValidOrginalFile(false);
-                                    }
-                                    setOrgFileValue(e.target.value);
-                                  }}
-                                  id="originalFile"
-                                  name="originalFile"
-                                  type="file"
-                                  className="hidden"
-                                  accept="application/pdf"
-                                  value={orgFileValue}
-                                />
-                              </Flex>
-                            </Flex>
-                            <Flex // book demo file
-                              mr="28px"
-                              justifyContent="flex-start"
-                              alignItems="center"
-                            >
-                              <Text width="200px">
-                                فایل دموی کتاب را آپلود کنید.
-                                <span className="text-[14px] font-medium leading-[24px]">
-                                  (حداکثر 40 مگابایت)
-                                </span>
-                              </Text>
-                              <Flex flexDir="column" rowGap="10px" mr="23px">
-                                <p className="text-[12px] font-light text-error">
-                                  {!isValidDemoFile
-                                    ? "فرمت یا سایز فایل نادرست است."
-                                    : ""}
-                                </p>
-                                {demFile && isValidDemoFile ? (
-                                  <div className="w-[346px] h-[346px]">
-                                    <embed
-                                      src={demFile}
-                                      type="application/pdf"
-                                      width="100%"
-                                      height="100%"
-                                    />
-                                  </div>
-                                ) : (
-                                  <label
-                                    className="cursor-pointer flex flex-col gap-y-[8px] justify-center items-center w-[342px] h-[342px] bg-[#C8C8C878] outline-[4px] outline-dashed outline-[#C8C8C8]  text-black text-center"
-                                    htmlFor="demoFile"
-                                  >
-                                    <p className="text-[17px] font-semibold leading-[24px]">
-                                      برای آپلود کلیک کنید.
-                                    </p>
-                                  </label>
-                                )}
-                                <input
-                                  onChange={(e) => {
-                                    if (validateFile(e.target.files[0])) {
-                                      onUploadFile(e, setDemFile);
-                                      setDemoFile(e.target.files[0]);
-                                      setIsValidDemoFile(true);
-                                    } else {
-                                      setIsValidDemoFile(false);
-                                    }
-                                    setDemoFileValue(e.target.value);
-                                  }}
-                                  id="demoFile"
-                                  name="demoFile"
-                                  type="file"
-                                  className="hidden"
-                                  accept="application/pdf"
-                                  value={demoFileValue}
-                                />
-                              </Flex>
-                            </Flex>
-                          </Flex>
-                          <Flex // book cover
+                        <Flex //book file
+                          flexDir="column"
+                        >
+                          <Flex // book original file
                             mr="28px"
                             justifyContent="flex-start"
                             alignItems="center"
                           >
                             <Text width="200px">
-                              عکس روی جلد کتاب را آپلود کنید.
+                              فایل اصلی کتاب را آپلود کنید.
+                              <span className="text-[14px] font-medium leading-[24px]">
+                                (حداکثر 40 مگابایت)
+                              </span>
                             </Text>
                             <Flex flexDir="column" rowGap="10px" mr="23px">
                               <p className="text-[12px] font-light text-error">
-                                {!isValidCoverImage
+                                {!isValidOrginalFile
                                   ? "فرمت یا سایز فایل نادرست است."
                                   : ""}
                               </p>
-                              {coverImg && isValidCoverImage ? (
+                              {orginalFile && isValidOrginalFile ? (
                                 <div className="w-[346px] h-[346px]">
-                                  <img
-                                    className="w-[346px] h-[346px] object-fill"
-                                    src={coverImg}
-                                  />
+                                  File
+                                  {/* <embed
+																		src={
+																			orginalFile
+																		}
+																		type="application/pdf"
+																		width="100%"
+																		height="100%"
+																	/> */}
                                 </div>
                               ) : (
                                 <label
                                   className="cursor-pointer flex flex-col gap-y-[8px] justify-center items-center w-[342px] h-[342px] bg-[#C8C8C878] outline-[4px] outline-dashed outline-[#C8C8C8]  text-black text-center"
-                                  htmlFor="coverImage"
+                                  htmlFor="originalFile"
                                 >
-                                  <p className="text-[20px] font-semibold leading-[24px]">
+                                  <p className="text-[17px] font-semibold leading-[24px]">
                                     برای آپلود کلیک کنید.
-                                  </p>
-                                  <p className="text-[14px] font-medium leading-[24px]">
-                                    (حداکثر 8 مگابایت)
                                   </p>
                                 </label>
                               )}
                               <input
                                 onChange={(e) => {
-                                  if (validatePic(e.target.files[0])) {
-                                    onUploadLogoImage(e);
-                                    setCoverImage(e.target.files[0]);
-                                    setIsValidCoverImage(true);
+                                  if (validateFile(e.target.files![0])) {
+                                    // onUploadFile(
+                                    // 	e,
+                                    // 	setOrgFile
+                                    // );
+                                    setOrginalFile(e.target.files![0]);
+                                    setIsValidOrginalFile(true);
                                   } else {
-                                    setIsValidCoverImage(false);
+                                    setIsValidOrginalFile(false);
                                   }
-                                  setCoverValue(e.target.value);
                                 }}
-                                id="coverImage"
-                                name="coverImage"
+                                id="originalFile"
+                                name="originalFile"
                                 type="file"
                                 className="hidden"
-                                accept=".jpeg,.jpg,.png"
-                                value={coverValue}
+                                accept="application/pdf"
+                              />
+                            </Flex>
+                          </Flex>
+                          <Flex // book demo file
+                            mr="28px"
+                            justifyContent="flex-start"
+                            alignItems="center"
+                          >
+                            <Text width="200px">
+                              فایل دموی کتاب را آپلود کنید.
+                              <span className="text-[14px] font-medium leading-[24px]">
+                                (حداکثر 40 مگابایت)
+                              </span>
+                            </Text>
+                            <Flex flexDir="column" rowGap="10px" mr="23px">
+                              <span className="text-[12px] font-light text-error">
+                                {!isValidDemoFile
+                                  ? "فرمت یا سایز فایل نادرست است."
+                                  : ""}
+                              </span>
+                              {demoFile && isValidDemoFile ? (
+                                <div className="w-[346px] h-[346px]">
+                                  DemoFile
+                                  {/* <embed
+																		src={
+																			demFile
+																		}
+																		type="application/pdf"
+																		width="100%"
+																		height="100%"
+																	/> */}
+                                </div>
+                              ) : (
+                                <label
+                                  className="cursor-pointer flex flex-col gap-y-[8px] justify-center items-center w-[342px] h-[342px] bg-[#C8C8C878] outline-[4px] outline-dashed outline-[#C8C8C8]  text-black text-center"
+                                  htmlFor="demoFile"
+                                >
+                                  <p className="text-[17px] font-semibold leading-[24px]">
+                                    برای آپلود کلیک کنید.
+                                  </p>
+                                </label>
+                              )}
+                              <input
+                                onChange={(e) => {
+                                  if (validateFile(e.target.files![0])) {
+                                    // onUploadFile(
+                                    // 	e,
+                                    // 	setDemFile
+                                    // );
+                                    setDemoFile(e.target.files![0]);
+                                    setIsValidDemoFile(true);
+                                  } else {
+                                    setIsValidDemoFile(false);
+                                  }
+                                }}
+                                id="demoFile"
+                                name="demoFile"
+                                type="file"
+                                className="hidden"
+                                accept="application/pdf"
                               />
                             </Flex>
                           </Flex>
                         </Flex>
-                      </form>
-                    </Flex>
-                  </CardBody>
-                  <CardFooter justifyContent="center">
-                    <Button
-                      onClick={submitHandler}
-                      type="submit"
-                      colorScheme="blue"
-                    >
-                      ثبت کتاب
-                    </Button>
-                  </CardFooter>
-                </Card>
-              </Flex>
+                        <Flex // book cover
+                          mr="28px"
+                          justifyContent="flex-start"
+                          alignItems="center"
+                        >
+                          <Text width="200px">
+                            عکس روی جلد کتاب را آپلود کنید.
+                          </Text>
+                          <Flex flexDir="column" rowGap="10px" mr="23px">
+                            <p className="text-[12px] font-light text-error">
+                              {!isValidCoverImage
+                                ? "فرمت یا سایز فایل نادرست است."
+                                : ""}
+                            </p>
+                            {coverImg && isValidCoverImage ? (
+                              <div className="w-[346px] h-[346px]">
+                                <img
+                                  className="w-[346px] h-[346px] object-fill"
+                                  src={coverImg}
+                                />
+                              </div>
+                            ) : (
+                              <label
+                                className="cursor-pointer flex flex-col gap-y-[8px] justify-center items-center w-[342px] h-[342px] bg-[#C8C8C878] outline-[4px] outline-dashed outline-[#C8C8C8]  text-black text-center"
+                                htmlFor="coverImage"
+                              >
+                                <p className="text-[20px] font-semibold leading-[24px]">
+                                  برای آپلود کلیک کنید.
+                                </p>
+                                <p className="text-[14px] font-medium leading-[24px]">
+                                  (حداکثر 8 مگابایت)
+                                </p>
+                              </label>
+                            )}
+                            <input
+                              onChange={(e) => {
+                                if (validatePic(e.target.files![0])) {
+                                  onUploadLogoImage(e);
+                                  setCoverImageFile(e.target.files![0]);
+                                  setIsValidCoverImage(true);
+                                } else {
+                                  setIsValidCoverImage(false);
+                                }
+                              }}
+                              id="coverImage"
+                              name="coverImage"
+                              type="file"
+                              className="hidden"
+                              accept=".jpeg,.jpg,.png"
+                            />
+                          </Flex>
+                        </Flex>
+                      </Flex>
+                    </form>
+                  </Flex>
+                </CardBody>
+                <CardFooter justifyContent="center">
+                  <Button
+                    onClick={(e) => submitHandler(e)}
+                    type="submit"
+                    colorScheme="blue"
+                  >
+                    ثبت کتاب
+                  </Button>
+                </CardFooter>
+              </Card>
             </Flex>
-          </div>
-        </Sidebar>
-      </>
-    );
-  }
+          </Flex>
+        </div>
+      </Sidebar>
+    </>
+  );
 };
 
 export default AddBook;

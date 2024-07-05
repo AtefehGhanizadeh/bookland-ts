@@ -31,9 +31,8 @@ interface Props {
   logo: string
   bookname: string
   author: string
-  translatorname: string
+  translatorname: string|null
   date: number
-  language: string
   numberofpages: number
 }
 
@@ -49,7 +48,6 @@ function TablesTableRow(props:Props) {
 
   const { data } = useGetReview(props.id);
 
-  const point = data?.data;
   const openModal = () => {
     setIsModalOpen(true);
     setClickedRow({ bookname:props.bookname });
@@ -155,17 +153,6 @@ function TablesTableRow(props:Props) {
           </Text>
         </Td>
         <Td>
-          <Text
-            fontSize="md"
-            color={textColor}
-            fontWeight="bold"
-            pb=".5rem"
-            textAlign="center"
-          >
-            {props.language}
-          </Text>
-        </Td>
-        <Td>
           <Button
             p="0px"
             bg="transparent"
@@ -182,22 +169,6 @@ function TablesTableRow(props:Props) {
             </Text>
           </Button>
         </Td>
-        <Td>
-					<Button p="0px" bg="transparent" variant="no-hover">
-						<Link
-							href={`./Books/EditBook?id=${props.id}&bookname=${props.bookname}`}
-						>
-							<Text
-								fontSize="md"
-								color="gray.400"
-								fontWeight="bold"
-								cursor="pointer"
-							>
-								ویرایش
-							</Text>
-						</Link>
-					</Button>
-				</Td>
         <Td>
           <Popover>
             <PopoverTrigger>
@@ -233,22 +204,14 @@ function TablesTableRow(props:Props) {
               <span className="text-primary"> {clickedRow?.bookname}</span>
               {" : "}
               <Text mt="15px" fontWeight="500" textAlign="center">
-                {point ? (
-                  <>{point}</>
+                {data ? (
+                  <>  {data.review_count} از {data.review_average}نظر </>
                 ) : (
                   <>
                     <Text>امتیازی برای این کتاب ثبت نشده است.</Text>
                   </>
                 )}
-                {data ? (
-									<>{data}</>
-								) : (
-									<>
-										<Text>
-											امتیازی برای این کتاب ثبت نشده است.
-										</Text>
-									</>
-								)}
+                
               </Text>
             </Text>
           </ModalBody>

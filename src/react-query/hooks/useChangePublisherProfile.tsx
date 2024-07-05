@@ -1,20 +1,28 @@
 import { useMutation } from "@tanstack/react-query";
-import APIClientToken from "../services/apiClient-token";
-import { API_ENDPOINTS } from "@/utils/api/endpoints";
-import useShowToast from "@/components/ui/useShowToast";
+import useShowToast from "@/src/components/ui/useShowToast";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
+import axios from "axios";
 
-const apiClient = new APIClientToken(API_ENDPOINTS.PUBLISHER_PROFILE);
+interface Values{
+	address?:string
+	phone_number?:string
+	phone_number2?:string
+}
+
 
 const useChangePublisherProfile = () => {
 	const showToast = useShowToast();
 	const token = Cookies.get("token");
 	const { push } = useRouter();
 	return useMutation({
-		mutationFn: apiClient.put,
+		mutationFn: (value:Values|FormData)=>axios.put('http://Localhost:8000/api/publisher/profile',value,{
+			headers: {
+				Authorization: "Bearer " + token,
+			},
+		}),
 		onSuccess: (data) => {
-			window.location.reload();
+			// window.location.reload();
 		},
 	});
 };

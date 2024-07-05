@@ -1,22 +1,34 @@
 import { useRouter } from "next/router";
 import Sidebar from "../../components/Sidebar";
 import { Box, Flex, Grid, useColorModeValue } from "@chakra-ui/react";
-import avatar4 from "../../assets/img/avatars/avatar4.png";
+
 import React from "react";
 import Header from "./components/Header";
 import ProfileInformation from "./components/ProfileInformation";
 import usePublisherProfile from "@/src/react-query/hooks/usePublisherProfile";
+import useShowToast from "@/src/components/ui/useShowToast";
+import Cookies from "js-cookie";
 
 const Profile = () => {
 	const router = useRouter();
 	const pageName = router.pathname;
+	const showToast=useShowToast()
+	const token=Cookies.get("token")
 
-	const { data, isError, isSuccess, isLoading } = usePublisherProfile();
+	const { data, isError, isSuccess, isLoading ,error} = usePublisherProfile();
 
-	const bgProfile = useColorModeValue(
-		"hsla(0,0%,100%,.8)",
-		"linear-gradient(112.83deg, rgba(255, 255, 255, 0.21) 0%, rgba(255, 255, 255, 0) 110.84%)"
-	);
+	if(isError){
+		if (error.response?.data.result?.error_message) {
+		  showToast(error.response!.data.result?.error_message);
+		  if (error.response?.status === 401 || error.response?.status === 403) {
+			token ? Cookies.remove("token") : "";
+			router.push("/login");
+		  }
+		  } else {
+		  showToast("مشکلی رخ داده است.");
+		  }
+	  }
+
 
 	return (
 		<Sidebar pageName={pageName}>
@@ -33,8 +45,7 @@ const Profile = () => {
 							{isSuccess && (
 								<Header
 									// border="1px solid blue"
-									backgroundProfile={bgProfile}
-									avatarImage={avatar4}
+									avatar={data.publications_image}
 									name={data.username}
 									email={data.email}
 								/>
