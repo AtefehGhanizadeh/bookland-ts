@@ -16,12 +16,28 @@ import useIsBookBought from "@/src/react-query/hooks/useIsBookBought";
 import Cookies from "js-cookie";
 import { Book } from "@/src/helpers/Interfaces";
 import BookBuy from "@/src/components/bookdetail/BookBuy";
+import useShowToast from "../ui/useShowToast";
+import { useRouter } from "next/router";
 
-function BookBuyCard({book}:{book:Book}) {
+function BookBuyCard({ book }: { book: Book }) {
+  const showToast = useShowToast();
+  const { push } = useRouter();
   const token = Cookies.get("token");
-  const { data, isSuccess, isError, isLoading } = useIsBookBought(
+  const { data, isSuccess, isError, isLoading, error } = useIsBookBought(
     book.id
   );
+
+  if (isError) {
+    if (error.response?.data.result?.error_message) {
+      showToast(error.response!.data.result?.error_message);
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        token ? Cookies.remove("token") : "";
+        push("/login");
+      }
+    } else {
+      showToast("مشکلی رخ داده است.");
+    }
+  }
 
   if (!token) {
     return (
@@ -38,7 +54,7 @@ function BookBuyCard({book}:{book:Book}) {
   } else if (isSuccess) {
     return (
       <>
-        {!data.data && (
+        {!data && (
           <CustomCardContainer
             height="315px"
             pt="20px"
@@ -46,10 +62,10 @@ function BookBuyCard({book}:{book:Book}) {
             pr="16px"
             pl="16px"
           >
-           <BookBuy price={book.price} id={book.id}/>
+            <BookBuy price={book.price} id={book.id} />
           </CustomCardContainer>
         )}
-        {data.data && (
+        {data && (
           <CustomCardContainer pt="20px" pb="20px" pr="16px" pl="16px">
             <VStack
               h="full"
@@ -64,8 +80,10 @@ function BookBuyCard({book}:{book:Book}) {
               >
                 این کتاب رو قبلا خریداری کردی!
               </Text>
-              <Link className="w-full h-[49px] bg-primary rounded-xl px-[44px] py-[10px] text-white text-[16px] font-medium text-center"
-              href={`/original-pdf/${book.id}`}>
+              <Link
+                className="w-full h-[49px] bg-primary rounded-xl px-[44px] py-[10px] text-white text-[16px] font-medium text-center"
+                href={`/original-pdf/${book.id}`}
+              >
                 مشاهده فایل
               </Link>
             </VStack>
@@ -73,7 +91,7 @@ function BookBuyCard({book}:{book:Book}) {
         )}
       </>
     );
-  } else if (isError || isLoading) {
+  } else if (isLoading) {
     return (
       <CustomCardContainer
         height="315px"
