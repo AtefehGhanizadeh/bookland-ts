@@ -3,7 +3,7 @@ import { Flex } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useState } from "react";
 import useSendPublisherSignupInfo2 from "@/src/react-query/hooks/useSendPublisherSignupInfo2";
 import { ChangeEvent, MouseEvent } from "react";
-import Image from "next/image";
+
 
 //ToDo:image validation
 
@@ -11,8 +11,8 @@ function PublisherDocumentsForm() {
   const { mutate } = useSendPublisherSignupInfo2();
 
   const [idCardImg, setIdCardImg] = useState("");
+  const [idCardImage, setIdCardImage] = useState<File | null>(null);
   const [logoImg, setLogoImg] = useState("");
-  const [idCardImage, setIdCardImag] = useState<File | null>(null);
   const [logoImage, setLogoImage] = useState<File | null>(null);
   const [isValidIdImage, setIsValidIdImage] = useState(true);
   const [isValidLogoImage, setIsValidLogoImage] = useState(true);
@@ -53,12 +53,11 @@ function PublisherDocumentsForm() {
     e.preventDefault();
     if (idCardImage && isValidIdImage && isValidLogoImage) {
       const formData = new FormData();
-      if(logoImage instanceof File && idCardImage instanceof File){
-        formData.append("publications_image", logoImage);
+      if (idCardImage instanceof File) {
+        formData.append("publications_image", logoImage ? logoImage : "");
         formData.append("identity_image", idCardImage);
       }
-      console.log(formData)
-      mutate({ formData });
+      mutate(formData);
     }
   }
 
@@ -74,8 +73,7 @@ function PublisherDocumentsForm() {
           </Flex>
           {idCardImg && isValidIdImage ? (
             <div className="w-[346px] h-[346px]">
-              <Image
-              alt=""
+              <img
                 className="w-[346px] h-[346px] object-fill"
                 src={idCardImg}
               />
@@ -97,7 +95,7 @@ function PublisherDocumentsForm() {
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               if (validateFile(e.target.files![0])) {
                 onUploadIdCardImage(e);
-                setIdCardImag(e.target.files![0]);
+                setIdCardImage(e.target.files![0]);
                 setIsValidIdImage(true);
               } else {
                 setIsValidIdImage(false);
@@ -120,7 +118,12 @@ function PublisherDocumentsForm() {
           </p>
           {logoImg && isValidLogoImage ? (
             <div className="w-[346px] h-[346px]">
-              <Image alt="" width={346} className="w-[346px] h-[346px] object-fill" src={logoImg} />
+              <img
+                alt=""
+                width={346}
+                className="w-[346px] h-[346px] object-fill"
+                src={logoImg}
+              />
             </div>
           ) : (
             <label

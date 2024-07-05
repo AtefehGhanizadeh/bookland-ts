@@ -11,9 +11,8 @@ function useBuyBook(onClose:()=>void) {
   return useMutation({
     mutationFn: (obj:{book_Id:number,discount_Id:number|null}) => 
       axios
-        .post(
-          `http://Localhost:5001/api/user/purchase-book`,
-          { book_Id: obj.book_Id, discount_Id: obj.discount_Id },
+        .get(
+          `http://Localhost:5001/api/user/purchase-book?bookId=${obj.book_Id}&discount=${obj.discount_Id}`,
           {
             headers: { Authorization: "Bearer " + token },
           }

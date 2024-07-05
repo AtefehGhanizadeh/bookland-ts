@@ -35,7 +35,7 @@ const ProfileInformation = ({
 			</CardHeader>
 			<CardBody px="5px">
 				<Flex direction="column">
-					{/* <Flex align="center" mb="18px">
+					<Flex align="center" mb="18px">
 						<Text
 							fontSize="md"
 							color={textColor}
@@ -55,14 +55,14 @@ const ProfileInformation = ({
 						>
 							<EditIcon />
 						</Button>
-						<Text fontSize="md" color="gray.500" fontWeight="400">
+						{/* <Text fontSize="md" color="gray.500" fontWeight="400">
 							{pass}
-						</Text>
-					</Flex> */}
+						</Text> */}
+					</Flex>
 					<EditModal
 						isOpen={isOpenPass}
 						onClose={() => setOpenPass(false)}
-						edit={"Pass"}
+						edit="Pass"
 					/>
 					<Flex align="center" mb="18px">
 						<Text
@@ -92,7 +92,7 @@ const ProfileInformation = ({
 					<EditModal
 						isOpen={isOpenAddress}
 						onClose={() => setOpenAddress(false)}
-						edit={"Address"}
+						edit="Address"
 					/>
 					<Flex align="center" mb="18px">
 						<Text
@@ -104,7 +104,7 @@ const ProfileInformation = ({
 							شماره تلفن 1 :{" "}
 						</Text>
 
-						{/* <Button
+						<Button
 							bg="fff"
 							width="10px"
 							height="30px"
@@ -113,7 +113,7 @@ const ProfileInformation = ({
 							onClick={() => setOpenPhoneNo1(true)}
 						>
 							<EditIcon />
-						</Button> */}
+						</Button>
 						<Text fontSize="md" color="gray.500" fontWeight="400">
 							{phoneNo1}
 						</Text>
@@ -121,7 +121,7 @@ const ProfileInformation = ({
 					<EditModal
 						isOpen={isOpenPhoneNo1}
 						onClose={() => setOpenPhoneNo1(false)}
-						edit={"PhoneNo1"}
+						edit="PhoneNo1"
 					/>
 					<Flex align="center" mb="18px">
 						<Text
@@ -150,7 +150,7 @@ const ProfileInformation = ({
 					<EditModal
 						isOpen={isOpenPhoneNo2}
 						onClose={() => setOpenPhoneNo2(false)}
-						edit={"PhoneNo2"}
+						edit="PhoneNo2"
 					/>
 					<Flex mb="18px" alignItems="center">
 						<Text
@@ -192,7 +192,7 @@ const ProfileInformation = ({
 					<EditModal
 						isOpen={isOpenLogo}
 						onClose={() => setOpenLogo(false)}
-						edit={"Logo"}
+						edit="Logo"
 					/>
 				</Flex>
 			</CardBody>

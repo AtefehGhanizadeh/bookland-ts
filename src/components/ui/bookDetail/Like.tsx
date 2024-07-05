@@ -6,21 +6,18 @@ import useRemoveBookmark from "@/src/react-query/hooks/useRemoveBookmark";
 import useGetIsBookmark from "@/src/react-query/hooks/useGetIsBookmark";
 import { Spinner } from "@chakra-ui/react";
 
-function Like({book_id}:{book_id:number}) {
-  const { mutate: addToBookmarks } = useAddToBookmark(book_id);
-  const { mutate: removeBookmark } = useRemoveBookmark(book_id);
-
+function Like({ book_id }: { book_id: number }) {
+  
   const [liked, setLike] = useState<boolean>();
-
-  const { isSuccess,isLoading,isError } = useGetIsBookmark(book_id, setLike);
+  const { isSuccess, isLoading, isError } = useGetIsBookmark(book_id, setLike);
+  const { mutate: addToBookmarks } = useAddToBookmark(book_id, setLike);
+  const { mutate: removeBookmark } = useRemoveBookmark(book_id,setLike);
 
   const likeHandler = () => {
     if (liked) {
       removeBookmark();
-      setLike(false);
     } else {
       addToBookmarks();
-      setLike(true);
     }
   };
   return (
@@ -61,15 +58,15 @@ function Like({book_id}:{book_id:number}) {
           />
         </>
       )}
-      {(isLoading ||isError) && (
-          <Spinner
-            thickness="2px"
-            speed="0.65s"
-            emptyColor="gray.200"
-            color="primaryBlue"
-            size="sm"
-          />
-        )}
+      {(isLoading || isError) && (
+        <Spinner
+          thickness="2px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="primaryBlue"
+          size="sm"
+        />
+      )}
     </Center>
   );
 }

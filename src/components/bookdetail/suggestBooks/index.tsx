@@ -16,7 +16,7 @@ function SuggestBooks({bookId}:{bookId:number}) {
           </Heading>
           <Flex>
             <Link
-              href={`/filter/category?category=${data[0]}`}
+              href={data.length>0?`/filter/category?category=${data[0]}`:`/books/${bookId}`}
               className="font-normal whitespace-pre text-[13px] md:text-[16px] leading-[25px] text-primaryBlue text-right "
             >
               مشاهده همه &#8598;
@@ -24,7 +24,7 @@ function SuggestBooks({bookId}:{bookId:number}) {
           </Flex>
         </HStack>
         <Divider borderBottomColor="rgb(226, 232, 240)" />
-        <SuggestedBooksList category={data[0].name} />
+        <SuggestedBooksList category={data.length>0?data[0].name:""} />
       </CustomCardContainer>
     );
   }

@@ -65,7 +65,7 @@ const Wallet = () => {
       showToast("شارژ کیف پول شما با موفقیت انجام شد", "success");
       axios
         .put(
-          `https://Localhost:5000/api/publisher/wallet/UpdatePublisherWallet${localStorage.getItem(
+          `http://Localhost:5000/api/publisher/wallet/UpdatePublisherWallet${localStorage.getItem(
             "id"
           )}`,
           {},

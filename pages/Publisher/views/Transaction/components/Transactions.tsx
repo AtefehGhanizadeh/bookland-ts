@@ -85,7 +85,7 @@ const Transaction = ({ title }: { title: string }) => {
             <SearchBar setSearchValue={setSearchValue} />
 
           </Flex>
-          {isLoading && (
+          {(isLoading || isError) && (
             <Center alignItems="center" h="full">
               <Spinner
                 thickness="4px"

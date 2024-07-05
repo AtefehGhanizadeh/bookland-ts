@@ -45,19 +45,6 @@ const Books = () => {
           <Flex w="1000px" direction="column" mt="70px">
             <Grid templateColumns="repeat(1, 1fr)" gap="22px">
               <BookList
-                title="لیست کتاب ها"
-                captions={[
-                  "",
-                  "کتاب",
-                  "نویسنده/مترجم",
-
-                  "تاریخ انتشار",
-                  "تعداد صفحات",
-                  "زبان",
-                  "",
-                  "",
-                  "",
-                ]}
                 data={data}
               />
             </Grid>

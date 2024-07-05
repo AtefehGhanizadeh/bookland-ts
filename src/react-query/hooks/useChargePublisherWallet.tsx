@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const useChargePublisherWallet = (data) => {
+const useChargePublisherWallet = (data:number) => {
 	const router = useRouter();
 	const token = Cookies.get("token");
 	return useMutation({
@@ -26,11 +26,7 @@ const useChargePublisherWallet = (data) => {
 			const id = parsedUrl.search;
 			localStorage.setItem("id", id);
 			router.push(paymentUrl);
-		},
-		onError: (error) => {
-			console.error("Error charging publisher's wallet:", error);
-			// You can add additional error handling logic or notifications here
-		},
+		}
 	});
 };
 

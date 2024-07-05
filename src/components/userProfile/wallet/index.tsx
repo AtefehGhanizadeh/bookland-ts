@@ -62,7 +62,7 @@ const Wallet = () => {
     if (router.query.Status && router.query.Status === "OK") {
       axios
         .put(
-          `http://Localhost:3000/api/wallet/UpdateUserWallet${localStorage.getItem(
+          `http://Localhost:5000/api/user/wallet/UpdateUserWallet${localStorage.getItem(
             "id"
           )}`,
           {},
@@ -101,13 +101,13 @@ const Wallet = () => {
         <Box display="flex" flexDir="row" marginBottom="32px">
           <Box fontWeight="700" display="flex" alignItems="center" whiteSpace="pre">
             <span className="text-[18px]">دارایی حساب شما:</span>
-            {walletInfoIsLoading && (
-							<Spinner/>
-						)}
+            {/* {walletInfoIsLoading && (
+							<span>در حال جستجو...</span>
+						)} */}
             {isError&&"یافت نشد"}
             {isSuccess && (
               <>
-                <span className="text-[23px]" >&nbsp;{data.data}</span>
+                <span className="text-[23px]" >&nbsp;{data}</span>
                 <span
                   style={{
                     fontSize: "20px",

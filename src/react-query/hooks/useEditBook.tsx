@@ -2,12 +2,12 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const useEditBook = () => {
+const useEditBook = (book_id:number) => {
 	const token = Cookies.get("token");
 	return useMutation({
-		mutationFn: (book_id:number) =>
+		mutationFn: (values:FormData) =>
 			axios.put(
-				`http://Localhost:8000/api/publisher/books/${book_id}`,
+				`http://Localhost:8000/api/publisher/books/${book_id}`,values,
 
 				{
 					headers: { Authorization: "Bearer " + token },
