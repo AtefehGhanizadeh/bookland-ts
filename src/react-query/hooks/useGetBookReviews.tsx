@@ -11,7 +11,7 @@ interface Review{
 const useGetBookReviews = (bookId:number) => {
   const showToast = useShowToast();
   return useQuery<Review, AxiosError>({
-    queryKey: ["book-review"],
+    queryKey: ["book-review",bookId],
     queryFn: () =>
       axios
         .get<Response<Review>>(`http://Localhost:8000/api/books/${bookId}/reviews`)

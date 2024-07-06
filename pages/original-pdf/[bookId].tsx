@@ -1,20 +1,19 @@
 import PDFViewer from "@/src/components/bookdetail/PDFViewer";
-import useShowToast from "@/src/components/ui/useShowToast";
-import useGetBookInformation from "@/src/react-query/hooks/useGetBookInformation";
 import { useParams } from "next/navigation";
-import { useRouter } from "next/router";
+import useGetBookOriginalFile from "@/src/react-query/hooks/useGetBookOriginalFile";
+import useShowToast from "@/src/components/ui/useShowToast";
 import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+import { Center, Spinner } from "@chakra-ui/react";
 
-function DemoPDf() {
+function OriginalPDf() {
   const params = useParams();
-  const router = useRouter();
-  const { data, isSuccess, isError, isLoading, error } =
-    useGetBookInformation(params);
   const showToast = useShowToast();
   const token = Cookies.get("token");
-
+  const router = useRouter();
+  const { data, isSuccess, isError, isLoading, error } =
+    useGetBookOriginalFile(params);
   if (isError) {
-    console.log(error)
     if (error.response?.data.result?.error_message) {
       showToast(error.response!.data.result?.error_message);
       router.back();
@@ -28,9 +27,10 @@ function DemoPDf() {
     }
   }
   if (isLoading) {
-    showToast("در حال جستجوی فایل ...", "loading");
+    showToast("در حال جستجوی فایل ...","loading");
   }
-  return <>{isSuccess && <PDFViewer url={data.demo_file} />}</>;
+
+  return <>{isSuccess && <PDFViewer url={data} />}</>;
 }
 
-export default DemoPDf;
+export default OriginalPDf;

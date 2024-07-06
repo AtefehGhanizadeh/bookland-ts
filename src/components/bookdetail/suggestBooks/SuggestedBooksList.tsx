@@ -6,7 +6,7 @@ import useGetCategoryBooks from "@/src/react-query/hooks/useGetCategoryBooks";
 function SuggestedBooksList({category}:{category:string}) {
   const { data, isSuccess } = useGetCategoryBooks(category);
   if (isSuccess) {
-    const slicedBooks = data.slice(0, 2);
+    const slicedBooks = data?data.slice(0, 2):[];
     return (
       <Grid className=" gap-[20px] auto-rows-fr" width="100%">
         {slicedBooks.map((book) => (

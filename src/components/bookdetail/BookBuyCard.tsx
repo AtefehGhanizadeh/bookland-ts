@@ -75,13 +75,13 @@ function BookBuyCard({ book }: { book: Book }) {
             >
               <Text
                 fontFamily="Vazirmatn"
-                fontSize="24px"
+                fontSize={{base:"15px",lg:"24px"}}
                 fontWeight="extrabold"
               >
                 این کتاب رو قبلا خریداری کردی!
               </Text>
               <Link
-                className="w-full h-[49px] bg-primary rounded-xl px-[44px] py-[10px] text-white text-[16px] font-medium text-center"
+                className="w-full h-[49px] bg-primaryBlue rounded-xl px-[44px] py-[10px] text-white text-[16px] font-medium text-center"
                 href={`/original-pdf/${book.id}`}
               >
                 مشاهده فایل
