@@ -4,51 +4,70 @@ import CustomCardContainer from "@/src/components/ui/bookDetail/CustomCardContai
 import { Divider, HStack, VStack, Button, Center } from "@chakra-ui/react";
 import useShowToast from "../ui/useShowToast";
 import BuyModal from "@/src/components/ui/bookDetail/BuyModal";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 
 function BookBuy({ price, id }: { price: number; id: number }) {
   const [isCopied, setCopied] = useState(false);
+const router=useRouter()
   const offCode = "welcome";
   const showToast = useShowToast();
+  const token = Cookies.get("token");
 
   return (
     <VStack gap="20px">
       <VStack className="w-full">
-
-      <HStack justifyContent="space-between" width="100%">
-        <span className="text-[18px] xl:text-[20px] font-extrabold">قیمت:</span>
-        <HStack gap="5px">
+        <HStack justifyContent="space-between" width="100%">
           <span className="text-[18px] xl:text-[20px] font-extrabold">
-            {price === 0 ? "رایگان" : price}
+            قیمت:
           </span>
-          <span className="text-[12px] font-extrabold text-[#C8C8C8]">
-            {price === 0 ? "" : "تومان"}
-          </span>
+          <HStack gap="5px">
+            <span className="text-[18px] xl:text-[20px] font-extrabold">
+              {price === 0 ? "رایگان" : price}
+            </span>
+            <span className="text-[12px] font-extrabold text-[#C8C8C8]">
+              {price === 0 ? "" : "تومان"}
+            </span>
+          </HStack>
         </HStack>
-      </HStack>
 
-      {price !== 0 && <BuyModal price={price} bookId={id} />}
-      {price !== 0 && (
-        <Link
-          href={`/demo-pdf/${id}`}
-          className="w-full h-[49px] rounded-xl px-[44px] py-[10px] bg-white border-[1px] border-[#C8C8C8] text-[16px] font-medium text-[#000015] text-center"
-        >
-          مشاهده نمونه
-        </Link>
-      )}
-      {price === 0 && (
-        <>
-        <div
-        className="w-full h-[49px] rounded-xl px-[44px] py-[10px] bg-white border-none"
-      >
-      </div>
-        <Link
-          className="w-full h-[49px] bg-primaryBlue rounded-xl px-[44px] py-[10px] text-white text-[16px] font-medium text-center"
-          href={`/original-pdf/${id}`}
-        >
-          مشاهده فایل
-        </Link>
-        </>
-      )}
+        {price !== 0 && <BuyModal price={price} bookId={id} />}
+        {price !== 0 && (
+          <Link
+            href={`/demo-pdf/${id}`}
+            className="w-full h-[49px] rounded-xl px-[44px] py-[10px] bg-white border-[1px] border-[#C8C8C8] text-[16px] font-medium text-[#000015] text-center"
+          >
+            مشاهده نمونه
+          </Link>
+        )}
+        {price === 0 && (
+          <>
+            <div className="w-full h-[49px] rounded-xl px-[44px] py-[10px] bg-white border-none"></div>
+            <Button
+            h="49px"
+            bgColor="primaryBlue"
+            textColor="white"
+            borderRadius="12px"
+            paddingX="44px" 
+            paddingY="10px"
+            fontSize="16px" 
+            fontWeight="medium"
+            textAlign="center"
+            w="full"
+            _hover={{ backgroundColor: "primaryBlue" }}
+              onClick={() => {
+                if (!token) {
+                  showToast("لطفا وارد شوید.", "info");
+                }
+                if(token){
+                  router.push(`/original-pdf/${id}`)
+                }
+              }}
+            >
+                مشاهده فایل
+            </Button>
+          </>
+        )}
       </VStack>
       <Divider />
       <HStack gap="16px" w="full" justifyContent="space-between">
