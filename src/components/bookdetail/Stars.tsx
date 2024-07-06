@@ -22,7 +22,7 @@ function Stars({book_id}:{book_id:number}) {
       <StarIcon color={starArray[1]?"yellow.300":"gray.200"} />
       <StarIcon color={starArray[0]?"yellow.300":"gray.200"} />
       <div>
-        <span className="text-[#C8C8C8] text-[10px] whitespace-pre">{data.review_average} از {data.review_count} نظر</span>
+        <span className="text-[#C8C8C8] text-[10px] whitespace-pre">{data.review_average?data.review_average:0} از {data.review_count} نظر</span>
       </div>
     </HStack>
     )

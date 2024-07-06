@@ -7,6 +7,7 @@ import Like from "@/src/components/ui/bookDetail/Like";
 import Cookies from "js-cookie";
 import { Book } from "@/src/helpers/Interfaces";
 import BookBuy from "./BookBuy";
+import BookBuyCard from "./BookBuyCard";
 
 function BookDetailCard({book}:{book:Book}) {
   const { data } = useGetBookCategory(book.id);
@@ -58,7 +59,7 @@ function BookDetailCard({book}:{book:Book}) {
         </Flex>
         <Divider className="lg:hidden"/>
         <div className="w-full lg:hidden">
-          <BookBuy price={book.price} id={book.id}/>
+          <BookBuyCard book={book}/>
         </div>
         
       </Flex>

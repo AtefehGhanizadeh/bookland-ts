@@ -6,7 +6,7 @@ import useGetAuthorBooks from "@/src/react-query/hooks/useGetAuthorBooks";
 function AuthorBooksList({author}:{author:string}) {
   const { data, isSuccess } = useGetAuthorBooks(author);
   if (isSuccess) {
-    const slicedBooks = data.slice(0, 2);
+    const slicedBooks = data?data.slice(0, 2):[];
     return (
       <Grid className=" gap-[20px] auto-rows-fr" width="100%">
         {slicedBooks.map((book) => (
