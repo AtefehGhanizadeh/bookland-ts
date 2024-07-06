@@ -1,6 +1,7 @@
 import useShowToast from "@/src/components/ui/useShowToast";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { error } from "console";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 
@@ -19,15 +20,20 @@ function useBuyBook(onClose:()=>void) {
         )
         .then((res) => {
           if (res.data.result.http_status_code === 400) {
+            onClose()
             showToast(res.data.result.error_message);
           }
           if (res.data.result.http_status_code === 200) {
             onClose()
             showToast("خرید شما با موفقیت انجام شد.", "success");
-            // router.reload()
+            router.reload()
           }
+          
           return res.data;
-        })
+        }),
+      // onError:(error)=>{
+      //   showToast("not enogh","error")
+      // }
   });
 }
 
