@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import Sidebar from "../../components/Sidebar";
 import { Center, Flex, Grid, Spinner } from "@chakra-ui/react";
-import BookList from "./components/BookList";
+import BookList from "@/src/components/publisher/components/BookList";
 import useGetPublisherBooks from "@/src/react-query/hooks/useGetPublisherBooks";
 import useShowToast from "@/src/components/ui/useShowToast";
 import Cookies from "js-cookie";

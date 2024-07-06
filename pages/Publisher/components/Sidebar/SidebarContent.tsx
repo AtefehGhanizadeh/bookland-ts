@@ -10,9 +10,9 @@ import {
 	Icon,
 	Link,
 } from "@chakra-ui/react";
-import { ProfileIcon } from "../Icons/Icons.js";
-import IconBox from "../Icons/IconBox.js";
-import routes from "../../routes.js";
+import { ProfileIcon } from "../../../../src/helpers/Icons/Icons.js";
+import IconBox from "../../../../src/helpers/Icons/IconBox.js";
+import routes from "@/src/helpers/routes.js";
 import usePublisherProfile from "@/src/react-query/hooks/usePublisherProfile";
 
 function isPersian(text:string) {
@@ -30,31 +30,31 @@ function isEnglish(text:string) {
 const SidebarContent = ({ pageName }:{pageName:string}) => {
 	const { data, isLoading, isSuccess } = usePublisherProfile();
 	// const name = "نام انتشارات";
-	const adjustedPageName = pageName.substring(1);
+	// const adjustedPageName = pageName.substring(1);
 
 	// Chakra Color Mode
 	const navbarIcon = useColorModeValue("gray.500", "gray.200");
 
 	let location = useRouter();
 
-	const activeRoute = (routeName) => {
+	const activeRoute = (routeName:any) => {
 		return location.pathname === routeName ? "active" : "";
 	};
 
-	const createLink = (routes) => {
+	const createLink = (routes:any) => {
 		// Chakra Color Mode
 		// const activeBg = useColorModeValue("white", "gray.700");
 		// const inactiveBg = useColorModeValue("white", "gray.700");
 		// const activeColor = useColorModeValue("gray.700", "white");
 		// const inactiveColor = useColorModeValue("gray.400", "gray.400");
 
-		return routes.map((prop, key) => {
+		return routes.map((prop:any) => {
 			if (prop.redirect) {
 				return null;
 			}
 			if (prop.category) {
 				var st = {};
-				st[prop["state"]] = !state[prop.state];
+				// st[prop["state"]] = !state[prop.state];
 				return (
 					<div key={prop.name}>
 						<Text
@@ -65,7 +65,7 @@ const SidebarContent = ({ pageName }:{pageName:string}) => {
 							ps="16px"
 							py="12px"
 						>
-							{name}
+							{prop.name}
 						</Text>
 						{createLink(prop.views)}
 					</div>

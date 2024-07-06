@@ -6,7 +6,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
-export function SearchBar({
+ function SearchBar({
   setSearchValue,
 }: {
   setSearchValue: Dispatch<SetStateAction<string>>;
@@ -41,3 +41,5 @@ export function SearchBar({
     </InputGroup>
   );
 }
+
+export default SearchBar
