@@ -10,6 +10,7 @@ export interface Book {
   number_of_pages: number;
   language: string;
   description: string;
+  demo_file:string
 }
 
 export interface Result {

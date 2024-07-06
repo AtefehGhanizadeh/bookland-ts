@@ -6,14 +6,14 @@ import { Book, Response } from "@/src/helpers/Interfaces";
 const useGetBookInformation = (params: ParsedUrlQuery) => {
 
   return useQuery<Book, AxiosError<Response<Book>>,Book, (string | string[] | undefined)[]>({
-    queryKey: ["book", params.bookId],
+    queryKey: ["book"],
     queryFn: () =>
       axios
         .get<Response<Book>>(`http://Localhost:8000/api/books/${params.bookId}`)
         .then((res) => res.data.data)
 
         ,
-    enabled: !!params.bookId,
+    enabled: !!params,
   });
 };
 

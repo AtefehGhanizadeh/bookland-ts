@@ -6,11 +6,11 @@ import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/toolbar/lib/styles/index.css";
 
 
-const PDFViewer = (props) => {
+const PDFViewer = ({url}:{url:string}) => {
   const [toolbarPluginInstance] = useState(toolbarPlugin());
   const { Toolbar } = toolbarPluginInstance;
 
-  const transformToolbarSlot = (slot) => ({
+  const transformToolbarSlot = (slot:any) => ({
     ...slot,
     Download: () => <></>,
     Open:() => <></>,
@@ -60,7 +60,7 @@ const PDFViewer = (props) => {
       >
         <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
           <Viewer
-            fileUrl={props.url}
+            fileUrl={url}
             // theme="dark"
             plugins={[toolbarPluginInstance]}
             theme={{
