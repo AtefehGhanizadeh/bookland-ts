@@ -104,7 +104,7 @@ const ProfileInformation = ({
 							شماره تلفن 1 :{" "}
 						</Text>
 
-						<Button
+						{/* <Button
 							bg="fff"
 							width="10px"
 							height="30px"
@@ -113,7 +113,7 @@ const ProfileInformation = ({
 							onClick={() => setOpenPhoneNo1(true)}
 						>
 							<EditIcon />
-						</Button>
+						</Button> */}
 						<Text fontSize="md" color="gray.500" fontWeight="400">
 							{phoneNo1}
 						</Text>
