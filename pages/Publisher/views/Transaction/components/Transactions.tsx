@@ -16,12 +16,12 @@ import Card from "../../../components/Card/Card.js";
 import CardBody from "../../../components/Card/CardBody.js";
 import CardHeader from "../../../components/Card/CardHeader.js";
 import DoughnutChart from "@/pages/Publisher/views/Transaction/components/DoughnutChart";
-import { Seperator } from "../../../components/Seperator/Seperator.js";
+import Seperator from "@/pages/Publisher/components/Seperator/Seperator.js";
 import usePublisherWalletHistory from "@/src/react-query/hooks/usePublisherWalletHistory";
 import useShowToast from "@/src/components/ui/useShowToast";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
-import { SearchBar } from "./SearchBar";
+import SearchBar from "@/pages/Publisher/views/Transaction/components/SearchBar";
 const tableHeadStyle = {
   fontSize: "16px",
   fontWeight: "600",

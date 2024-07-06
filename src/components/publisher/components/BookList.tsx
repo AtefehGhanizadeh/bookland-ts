@@ -12,12 +12,12 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
-import Card from "../../../components/Card/Card.js";
-import CardBody from "../../../components/Card/CardBody.js";
-import CardHeader from "../../../components/Card/CardHeader.js";
-import TablesTableRow from "@/pages/Publisher/views/Books/components/TablesTableRow";
+import Card from "../../../../pages/Publisher/components/Card/Card.js";
+import CardBody from "../../../../pages/Publisher/components/Card/CardBody.js";
+import CardHeader from "../../../../pages/Publisher/components/Card/CardHeader.js";
+import TablesTableRow from "@/src/components/publisher/components/TablesTableRow";
 import { FaPlus } from "react-icons/fa";
-import { Seperator } from "@/pages/Publisher/components/Seperator/Seperator.js";
+import Seperator from "@/pages/Publisher/components/Seperator/Seperator.js";
 import { useRouter } from "next/router.js";
 import { PublisherBook } from "@/src/helpers/Interfaces.jsx";
 

@@ -1,7 +1,7 @@
 // import other components
-import { CreditIcon, PersonIcon, BookIcon } from "./components/Icons/Icons";
-import ChargeWallet from "./views/ChargeWallet";
-import Books from "./views/Books";
+import { CreditIcon, PersonIcon, BookIcon } from "@/src/helpers/Icons/Icons";
+import ChargeWallet from "../../pages/Publisher/views/ChargeWallet";
+import Books from "../../pages/Publisher/views/Books";
 import Profile from "@/pages/Publisher/views/Profile";
 
 // Import Transaction after its definition

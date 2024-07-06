@@ -6,9 +6,6 @@ import Footer from "../Footer/Footer.js";
 import MainPanel from "../Layout/MainPanel.js";
 import PanelContainer from "../Layout/PanelContainer.js";
 import PanelContent from "../Layout/PanelContent.js";
-import theme from "../../theme/theme.js";
-import { useRouter } from "next/router"; // Import Next.js useRouter hook
-import Link from "next/link";
 
 const Sidebar = ({
   pageName,

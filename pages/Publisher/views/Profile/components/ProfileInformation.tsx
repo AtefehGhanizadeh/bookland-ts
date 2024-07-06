@@ -5,7 +5,7 @@ import Card from "../../../components/Card/Card";
 import CardBody from "../../../components/Card/CardBody";
 import CardHeader from "../../../components/Card/CardHeader";
 import React, { useState } from "react";
-import { EditIcon } from "@/pages/Publisher/components/Icons/Icons";
+import { EditIcon } from "@/src/helpers/Icons/Icons";
 import EditModal from "./EditModal";
 // import Image from "next/image";
 
