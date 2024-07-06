@@ -28,7 +28,7 @@ function GetUserEmail(props:Props){
             {" "}
             ثبت نام در بوکلند به معنی موافقت با{" "}
             <Link
-              href="/rules"
+              href="/contact-us"
               className="text-primaryBlue underline underline-offset-4"
             >
               شرایط استفاده از بوکلند{" "}
