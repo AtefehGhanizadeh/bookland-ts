@@ -7,6 +7,7 @@
 ![image info](./screenshots/user/home%20page/5.PNG)
 ![image info](./screenshots/user/home%20page/6.PNG)
 ![image info](./screenshots/user/home%20page/responsive1.PNG)
+<br/>
 ![image info](./screenshots/user/home%20page/responsive2.PNG)
 ![image info](./screenshots/user/home%20page/searchbar.PNG)
 
