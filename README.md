@@ -1,4 +1,56 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# BookLand Online Book Reading Platform
+
+Welcome to BookLand, your premier destination for accessing a vast library of books and enjoying a seamless reading experience online. Our platform is designed to cater to book enthusiasts, providing a diverse collection of titles across various genres, authors, and languages.
+
+## Screenshots
+For a visual overview of our platform's interface and features, please refer to the [Screenshots](./screenshots.md) section. Screenshots showcase different aspects of our online book reading platform, including the user interface, book browsing, and interactive features.
+
+You can view the presentation of BookLand
+[View Presentation Videos](https://drive.google.com/drive/folders/1bVlU7VSHs-VOw86EOUY-fn-qoUjUzUFh)
+
+## Usage & Deployment
+
+To deploy our system locally using Docker, follow these steps:
+
+1. **Clone Repositories**: Clone all the service repositories from GitHub to your local machine. Ensure that you have Git installed and configured.
+
+- **Django (User & Books Service):** Handles user management, authentication, and book-related functionalities.  
+  GitHub Link: [Django Service](https://github.com/ElyarSadig/BookLand_Microservice)
+  
+- **ASP.NET (Wallet Service):** Manages user wallet functionality, including transactions and balances.  
+  GitHub Link: [ASP.NET Wallet Service](https://github.com/alitaami/Bookland)
+  
+- **Go (File Server):** Responsible for storing and serving book files securely.  
+  GitHub Link: [Go File Server](https://github.com/ElyarSadig/BookLand-Go-Fileserver)
+  
+- **Go (Search Service):** Facilitates book search functionality, enabling users to discover relevant content.  
+  GitHub Link: [Go Search Service](https://github.com/ElyarSadig/BookLand-Go-Search-Filter-Service)
+  
+- **ASP.NET (Order & Discount Service):** Handles order processing and applies discounts for users.  
+  GitHub Link: [ASP.NET Order & Discount Service](https://github.com/alitaami/Bookland)
+  
+- **Node.js (Comment & Review Service):** Manages user comments and reviews for books.  
+  GitHub Link: [Node.js Comment & Review Service](https://github.com/sanaishere/comment_review)
+   
+2. **Install Docker**: If you haven't already, install Docker on your system. You can download and install Docker Desktop from the official [Docker website](https://www.docker.com/products/docker-desktop).
+
+3. **Create Docker Network**: Create a Docker network to enable communication between the services. Run the following command in your terminal:
+
+    ```bash
+    docker network create my_network
+    ```
+
+    This command will create a Docker network named `my_network`.
+
+4. **Compose Services**: Navigate to each service directory and use Docker Compose to bring up the services. Run the following command in each service directory:
+
+    ```bash
+    docker-compose up -d
+    ```
+
+    This command will start the service containers in detached mode, allowing them to run in the background.
+
+5. **Verify Deployment**: Once all services are up and running, you can verify the deployment by accessing the respective endpoints or by interacting with the system through the provided interfaces.
 
 ## Getting Started
 
@@ -14,27 +66,3 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
