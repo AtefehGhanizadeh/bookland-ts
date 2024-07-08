@@ -52,7 +52,7 @@ To deploy our system locally using Docker, follow these steps:
 
 5. **Verify Deployment**: Once all services are up and running, you can verify the deployment by accessing the respective endpoints or by interacting with the system through the provided interfaces.
 
-## Getting Started
+<!-- ## Getting Started
 
 First, run the development server:
 
@@ -64,5 +64,5 @@ yarn dev
 pnpm dev
 # or
 bun dev
-```
+``` -->
 
