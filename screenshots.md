@@ -19,6 +19,7 @@
 ![image info](./screenshots/user/book%20detail/4.PNG)
 ![image info](./screenshots/user/book%20detail/5.PNG)
 ![image info](./screenshots/user/book%20detail/res1.PNG)
+<br/>
 ![image info](./screenshots/user/book%20detail/res2.PNG)
 ![image info](./screenshots/user/book%20detail/pdf.PNG)
 
